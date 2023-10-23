@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from 'react'
-import { GridColDef, GridSelectionModel, } from '@mui/x-data-grid'
-import { porcentage } from '../../CustomToolbar'
-import { CatalogosServices } from '../../../../../services/catalogosServices'
-import Swal from 'sweetalert2'
-import { Toast } from '../../../../../helpers/Toast'
+import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
+import React, { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import { AlertS } from "../../../../../helpers/AlertS";
-import Slider from "../../../Slider";
-import { fanios } from "../../../../../share/loadAnios";
+import { Toast } from "../../../../../helpers/Toast";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo'
-import { getPermisos, getUser } from '../../../../../services/localStorage'
-import MunPobrezaExtremaModal from './MunPobrezaExtremaModal'
-import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio'
-import BotonesAcciones from '../../../componentes/BotonesAcciones'
-import MUIXDataGridMun from '../../../MUIXDataGridMun'
+import {
+  PERMISO,
+  USUARIORESPONSE,
+} from "../../../../../interfaces/user/UserInfo";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
+import { fanios } from "../../../../../share/loadAnios";
+import MUIXDataGridMun from "../../../MUIXDataGridMun";
+import Slider from "../../../Slider";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
+import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
+import MunPobrezaExtremaModal from "./MunPobrezaExtremaModal";
 
-import NombreCatalogo from '../../../componentes/NombreCatalogo'
+import NombreCatalogo from "../../../componentes/NombreCatalogo";
 
 export const MunPobrezaExtrema = () => {
-
-
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
@@ -27,15 +27,15 @@ export const MunPobrezaExtrema = () => {
   const [PobrezaExtrema, setPobrezaExtrema] = useState([]);
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [nombreMenu, setNombreMenu] = useState("");
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
-  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
+  const [selectionModel, setSelectionModel] =
+    React.useState<GridSelectionModel>([]);
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
-
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", hide: true },
@@ -46,30 +46,57 @@ export const MunPobrezaExtrema = () => {
       width: 150,
     },
     {
-      field: "acciones", disableExport: true,
+      field: "acciones",
+      disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
       width: 100,
       renderCell: (v) => {
         return (
-          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
-
+          <BotonesAcciones
+            handleAccion={handleAccion}
+            row={v}
+            editar={editar}
+            eliminar={eliminar}
+          ></BotonesAcciones>
         );
       },
     },
-    { field: "FechaCreacion",   headerName: "Fecha Creación",   description: "Fecha Creación",    width: 180 },
-    { field: "ClaveEstado",     headerName: "Clave Estado",     description: "Clave Estado",      width: 100 },
-    { field: "Nombre",          headerName: "Municipio",        description: "Municipio",         width: 150 },
-    { field: "Anio",            headerName: "Año",              description: "Año",               width: 150 },
-    { field: "Personas",        headerName: "Total",            description: "Total",             width: 150 },
-    { field: "CarenciaProm",    headerName: "Carencia Promedio",description: "Carencia Promedio", width: 180, ...porcentage }
-
-
+    {
+      field: "FechaCreacion",
+      headerName: "Fecha Creación",
+      description: "Fecha Creación",
+      width: 180,
+    },
+    {
+      field: "ClaveEstado",
+      headerName: "Clave Estado",
+      description: "Clave Estado",
+      width: 100,
+    },
+    {
+      field: "Nombre",
+      headerName: "Municipio",
+      description: "Municipio",
+      width: 150,
+    },
+    { field: "Anio", headerName: "Año", description: "Año", width: 150 },
+    {
+      field: "Personas",
+      headerName: "Total",
+      description: "Total",
+      width: 150,
+    },
+    {
+      field: "CarenciaProm",
+      headerName: "Carencia Promedio",
+      description: "Carencia Promedio",
+      width: 400,
+    },
   ];
 
   const handleClose = (v: string) => {
-
     setOpen(false);
     setOpen(false);
     let data = {
@@ -77,9 +104,7 @@ export const MunPobrezaExtrema = () => {
       ANIO: filterAnio,
     };
     consulta(data);
-
-
-  }
+  };
 
   const handleOpen = () => {
     setTipoOperacion(1);
@@ -89,21 +114,20 @@ export const MunPobrezaExtrema = () => {
   };
 
   const handleAccion = (v: any) => {
-    if (v.tipo === 1) {
+    if (v.tipo == 1) {
       setTipoOperacion(2);
       setModo("Editar ");
       setOpen(true);
       setData(v.data);
-    } else if (v.tipo === 2) {
+    } else if (v.tipo == 2) {
       handleDelete(v.data);
     }
-  }
+  };
   const handleBorrar = (v: any) => {
     setSelectionModel(v);
   };
 
   const handleDelete = (v: any) => {
-
     Swal.fire({
       icon: "info",
       title: "¿Solicita la eliminación?",
@@ -113,13 +137,11 @@ export const MunPobrezaExtrema = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: user.id
+          CHUSER: user.Id,
         };
-
 
         CatalogosServices.munpobrezaext(data).then((res) => {
           if (res.SUCCESS) {
@@ -141,22 +163,16 @@ export const MunPobrezaExtrema = () => {
             });
           }
         });
-
       } else if (result.isDenied) {
         Swal.fire("No se realizaron cambios", "", "info");
       }
-
-
     });
   };
 
-  const handleAgregar = (event: React.ChangeEvent<HTMLInputElement>) => {
-
-  };
+  const handleAgregar = (event: React.ChangeEvent<HTMLInputElement>) => {};
 
   const handleUpload = (data: any) => {
-
-    if (data.tipo === 1) {
+    if (data.tipo == 1) {
       setslideropen(true);
       let file = data.data?.target?.files?.[0] || "";
       const formData = new FormData();
@@ -165,12 +181,7 @@ export const MunPobrezaExtrema = () => {
       CatalogosServices.migraData(formData).then((res) => {
         setslideropen(false);
       });
-
-    }
-    else if (data.tipo === 2) {
-      //console.log("borrado de toda la tabla")
-      //console.log(selectionModel)
-
+    } else if (data.tipo == 2) {
       if (selectionModel.length !== 0) {
         Swal.fire({
           icon: "question",
@@ -181,11 +192,10 @@ export const MunPobrezaExtrema = () => {
           denyButtonText: `Cancelar`,
         }).then((result) => {
           if (result.isConfirmed) {
-
             let data = {
               NUMOPERACION: 5,
               OBJS: selectionModel,
-              CHUSER: user.id
+              CHUSER: user.Id,
             };
 
             CatalogosServices.munpobrezaext(data).then((res) => {
@@ -197,11 +207,9 @@ export const MunPobrezaExtrema = () => {
 
                 consulta({
                   NUMOPERACION: 4,
-                  CHUSER: user.id,
+                  CHUSER: user.Id,
                   ANIO: filterAnio,
-
                 });
-
               } else {
                 AlertS.fire({
                   title: "¡Error!",
@@ -210,7 +218,6 @@ export const MunPobrezaExtrema = () => {
                 });
               }
             });
-
           } else if (result.isDenied) {
             Swal.fire("No se realizaron cambios", "", "info");
           }
@@ -222,21 +229,17 @@ export const MunPobrezaExtrema = () => {
           confirmButtonText: "Aceptar",
         });
       }
-
-
     }
-
   };
 
   const consulta = (data: any) => {
     CatalogosServices.munpobrezaext(data).then((res) => {
       setPobrezaExtrema(res.RESPONSE);
-
     });
   };
 
   const handleFilterChange = (v: string) => {
-    setFilterAnio(v)
+    setFilterAnio(v);
     let data = {
       NUMOPERACION: 4,
       ANIO: v,
@@ -245,26 +248,19 @@ export const MunPobrezaExtrema = () => {
       setFilterAnio(v);
       consulta(data);
     } else {
-      consulta({ NUMOPERACION: 4,ANIO: "",});
+      consulta({ NUMOPERACION: 4, ANIO: "" });
       setFilterAnio("");
-
     }
   };
 
-
-
-
   useEffect(() => {
-
-
-
     permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === "MUNPOEX") {
-        setNombreMenu(item.Menu);
-        if (String(item.Referencia) === "ELIM") {
+      if (String(item.menu) == "MUNPOEX") {
+        setNombreMenu(item.menu);
+        if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) === "EDIT") {
+        if (String(item.ControlInterno) == "EDIT") {
           setEditar(true);
         }
       }
@@ -275,34 +271,37 @@ export const MunPobrezaExtrema = () => {
     let data = {
       NUMOPERACION: 4,
       ANIO: "",
-
     };
 
     consulta(data);
-
   }, []);
 
-
-
   return (
-
-
     <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
 
       <NombreCatalogo controlInterno={"MUNPOEX"} />
 
-
       <ButtonsMunicipio
         url={"MUNICIPIO_POBREZA_EXTREMA.xlsx"}
-        handleUpload={handleUpload} controlInterno={"MUNPOEX"}
-
+        handleUpload={handleUpload}
+        controlInterno={"MUNPOEX"}
         value={filterAnio}
         options={anios}
         onInputChange={handleFilterChange}
-        placeholder={"Seleccione Año"} label={""} disabled={false} handleOpen={()=>handleOpen()}  />
+        placeholder={"Seleccione Año"}
+        label={""}
+        disabled={false}
+        handleOpen={() => handleOpen()}
+      />
 
-      <MUIXDataGridMun columns={columns} rows={PobrezaExtrema} handleBorrar={handleBorrar} modulo={nombreMenu.toUpperCase().replace(' ', '_')} controlInterno={"MUNPOEX"} />
+      <MUIXDataGridMun
+        columns={columns}
+        rows={PobrezaExtrema}
+        handleBorrar={handleBorrar}
+        modulo={nombreMenu.toUpperCase().replace(" ", "_")}
+        controlInterno={"MUNPOEX"}
+      />
       {open ? (
         <MunPobrezaExtremaModal
           open={open}
@@ -315,8 +314,5 @@ export const MunPobrezaExtrema = () => {
         ""
       )}
     </div>
-
-
-
-  )
-}
+  );
+};

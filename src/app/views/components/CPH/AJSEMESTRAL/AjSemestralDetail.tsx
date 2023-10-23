@@ -1,45 +1,38 @@
-import {
-  createTheme,
-  Grid,
-  Typography
-} from "@mui/material";
+import { createTheme, Grid } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
-import {
-  esES as gridEsES, GridSelectionModel
-} from "@mui/x-data-grid";
-import React, { useEffect, useState } from "react";
+import { esES as gridEsES } from "@mui/x-data-grid";
+import { useEffect, useState } from "react";
 import { AlertS } from "../../../../helpers/AlertS";
 import { Toast } from "../../../../helpers/Toast";
-import { PERMISO, RESPONSE } from "../../../../interfaces/user/UserInfo";
 import { calculosServices } from "../../../../services/calculosServices";
-import { getPermisos, getUser } from "../../../../services/localStorage";
+import ModalForm from "../../componentes/ModalForm";
 import { Moneda } from "../../menu/CustomToolbar";
 import MUIXDataGrid from "../../MUIXDataGrid";
 import Slider from "../../Slider";
-import ModalForm from "../../componentes/ModalForm";
 
 export const AjSemestralDetail = ({
   handleClose,
-  row
+  row,
 }: {
   handleClose: Function;
-  row :any;
+  row: any;
 }) => {
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(false);
-  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
-  //MODAL
-  //Constantes para las columnas
-  
   const [data, setData] = useState([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
-  /// Permisos
-  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
 
   const columnsParticipaciones = [
     { field: "id", hide: true },
     {
-      field: "anio", headerName: "Año", width: 100,
+      field: "anio",
+      headerName: "Año",
+      width: 100,
+    },
+    {
+      field: "nombre",
+      headerName: "Municipio",
+      description: "Municipio",
+      width: 200,
     },
     {
       field: "Descripcion",
@@ -68,20 +61,21 @@ export const AjSemestralDetail = ({
       description: "Diferencia",
       ...Moneda,
     },
-    
+    {
+      field: "mes",
+      headerName: "Diferencia a descontar por Mes",
+      width: 200,
+      description: "Diferencia a descontar por Mes",
+      ...Moneda,
+    },
   ];
 
-  
-
- 
   const handleClick = () => {
-    console.log(row)
     setslideropen(true);
     let data = {
       NUMOPERACION: 3,
-      P_IDANIO:row.row.anio,
-      P_FONDO:row.row.id
-
+      P_IDANIO: row.row.anio,
+      P_FONDO: row.row.id,
     };
     calculosServices.AjusteSemestralIndex(data).then((res) => {
       if (res.SUCCESS) {
@@ -101,39 +95,21 @@ export const AjSemestralDetail = ({
       }
     });
   };
-  
 
   useEffect(() => {
     handleClick();
-
-    permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === "AJUSTESEMESTRAL") {
-        if (String(item.Referencia) === "TRAZASPEIDAF") {
-        }
-        if (String(item.Referencia) === "POLIZASPEIDAF") {
-        }
-      }
-    });
   }, [row]);
 
   return (
     <>
-
-<ModalForm title={"Ajuste Semestral Detalle"} handleClose={handleClose}>
-<Slider open={slideropen}></Slider>
-<div>
+      <ModalForm title={"Ajuste Semestral Detalle"} handleClose={handleClose}>
+        <Slider open={slideropen}></Slider>
+        <div>
           <Grid item xs={12} sm={12} md={12} lg={12}>
-             <MUIXDataGrid columns={columnsParticipaciones} rows={data} />
+            <MUIXDataGrid columns={columnsParticipaciones} rows={data} />
           </Grid>
-      </div>
-</ModalForm>
-     
-
- 
-
-    
-     
+        </div>
+      </ModalForm>
     </>
   );
 };
-

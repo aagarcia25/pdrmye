@@ -4,7 +4,10 @@ import Swal from "sweetalert2";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import {
+  PERMISO,
+  USUARIORESPONSE,
+} from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { fanios } from "../../../../../share/loadAnios";
@@ -17,28 +20,23 @@ import { porcentage } from "../../CustomToolbar";
 import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
 import InflacionMesModal from "./InflacionMesModal";
 
-
-
-
 const InflacionMes = () => {
-
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [vrows, setVrows] = useState({});
   const [dataInflacionMes, setDataInflacionMes] = useState([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [nombreMenu, setNombreMenu] = useState("");
-  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
+  const [selectionModel, setSelectionModel] =
+    React.useState<GridSelectionModel>([]);
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const [filterAnio, setFilterAnio] = useState("");
-
-
 
   const columns: GridColDef[] = [
     {
@@ -49,44 +47,57 @@ const InflacionMes = () => {
       description: messages.dataTableColum.id,
     },
     {
-      field: "acciones", disableExport: true,
+      field: "acciones",
+      disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
       width: 100,
       renderCell: (v) => {
         return (
-          <BotonesAcciones handleAccion={handleAccion} row={v} editar={editar} eliminar={eliminar}></BotonesAcciones>
-
+          <BotonesAcciones
+            handleAccion={handleAccion}
+            row={v}
+            editar={editar}
+            eliminar={eliminar}
+          ></BotonesAcciones>
         );
       },
     },
     { field: "Anio", headerName: "Año", description: "Año", width: 150 },
-    { field: "Mes", headerName: "Mes", description: "Mes", width: 150, hide: true, },
+    {
+      field: "Mes",
+      headerName: "Mes",
+      description: "Mes",
+      width: 150,
+      hide: true,
+    },
     { field: "Descripcion", headerName: "Mes", description: "Mes", width: 150 },
-    { field: "Inflacion", headerName: "Inflación", description: "Inflación", width: 150, ...porcentage },
+    {
+      field: "Inflacion",
+      headerName: "Inflación",
+      description: "Inflación",
+      width: 150,
+      ...porcentage,
+    },
   ];
 
   const handleAccion = (v: any) => {
-    if (v.tipo === 1) {
+    if (v.tipo == 1) {
       setTipoOperacion(2);
       setModo("Editar");
       setOpen(true);
       setVrows(v.data);
-    } else if (v.tipo === 2) {
+    } else if (v.tipo == 2) {
       handleDelete(v.data);
     }
-  }
-
+  };
 
   const handleClose = () => {
     setOpen(false);
-    consulta({ NUMOPERACION: 4 },"")
-
+    consulta({ NUMOPERACION: 4 }, "");
   };
-  const handleBorrar = () => {
-
-  };
+  const handleBorrar = () => {};
 
   const handleOpen = (v: any) => {
     setTipoOperacion(1);
@@ -95,19 +106,13 @@ const InflacionMes = () => {
     setVrows("");
   };
   const handleUpload = (data: any) => {
-
-    if (data.tipo === 1) {
+    if (data.tipo == 1) {
       Swal.fire({
         icon: "warning",
         title: "Opción aun no Disponible",
         confirmButtonText: "Aceptar",
       });
-      
-
-    }
-    else if (data.tipo === 2) {
-     
-
+    } else if (data.tipo == 2) {
       if (selectionModel.length !== 0) {
         Swal.fire({
           icon: "question",
@@ -118,14 +123,11 @@ const InflacionMes = () => {
           denyButtonText: `Cancelar`,
         }).then((result) => {
           if (result.isConfirmed) {
-
             let data = {
               NUMOPERACION: 5,
               OBJS: selectionModel,
-              CHUSER: user.id
+              CHUSER: user.Id,
             };
-           
-
           } else if (result.isDenied) {
             Swal.fire("No se realizaron cambios", "", "info");
           }
@@ -137,17 +139,12 @@ const InflacionMes = () => {
           confirmButtonText: "Aceptar",
         });
       }
-
-
     }
-
   };
-
-
 
   const handleDelete = (v: any) => {
     Swal.fire({
-      icon: "info",
+      icon: "question",
       title: "¿Estás seguro de eliminar este registro?",
       showDenyButton: true,
       showCancelButton: false,
@@ -155,11 +152,10 @@ const InflacionMes = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: user.id
+          CHUSER: user.Id,
         };
 
         CatalogosServices.inflacionMes(data).then((res) => {
@@ -169,8 +165,7 @@ const InflacionMes = () => {
               title: "¡Registro Eliminado!",
             });
 
-            consulta({ NUMOPERACION: 4 },"");
-
+            consulta({ NUMOPERACION: 4 }, "");
           } else {
             AlertS.fire({
               title: "¡Error!",
@@ -179,7 +174,6 @@ const InflacionMes = () => {
             });
           }
         });
-
       } else if (result.isDenied) {
         Swal.fire("No se realizaron cambios", "", "info");
       }
@@ -195,11 +189,10 @@ const InflacionMes = () => {
     };
     if (v !== "false") {
       setFilterAnio(v);
-      consulta(data,"");
+      consulta(data, "");
     } else {
-      consulta({ NUMOPERACION: 4, ANIO: "", }, "");
+      consulta({ NUMOPERACION: 4, ANIO: "" }, "");
       setFilterAnio("");
-
     }
   };
 
@@ -210,7 +203,7 @@ const InflacionMes = () => {
           icon: "success",
           title: "¡Consulta Exitosa!",
         });
-  
+
         setDataInflacionMes(res.RESPONSE);
       } else {
         AlertS.fire({
@@ -223,29 +216,23 @@ const InflacionMes = () => {
   };
 
   useEffect(() => {
-
     permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === "INFMES") {
-        //console.log(item)
-        setNombreMenu(item.Menu);
-        if (String(item.Referencia) === "AGREG") {
+      if (String(item.menu) == "INFMES") {
+        setNombreMenu(item.menu);
+        if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) === "ELIM") {
+        if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) === "EDIT") {
+        if (String(item.ControlInterno) == "EDIT") {
           setEditar(true);
         }
       }
     });
-    consulta({ NUMOPERACION: 4 },"")
+    consulta({ NUMOPERACION: 4 }, "");
     setAnios(fanios());
-
-
   }, []);
-
-
 
   return (
     <div style={{ height: 600, width: "100%" }}>
@@ -264,21 +251,26 @@ const InflacionMes = () => {
       <NombreCatalogo controlInterno={"INFMES"} />
       <ButtonsMunicipio
         url={""}
-        handleUpload={handleUpload} controlInterno={"INFMES"}
+        handleUpload={handleUpload}
+        controlInterno={"INFMES"}
         options={anios}
         onInputChange={handleFilterChange}
-        placeholder={"Seleccione Año"} label={''} disabled={false}
-        value={filterAnio} handleOpen={handleOpen} />
+        placeholder={"Seleccione Año"}
+        label={""}
+        disabled={false}
+        value={filterAnio}
+        handleOpen={handleOpen}
+      />
 
-      <MUIXDataGridMun columns={columns} rows={dataInflacionMes} modulo={nombreMenu.toUpperCase().replace(' ', '_')} handleBorrar={handleBorrar} controlInterno={"INFMES"} />
-
+      <MUIXDataGridMun
+        columns={columns}
+        rows={dataInflacionMes}
+        modulo={nombreMenu.toUpperCase().replace(" ", "_")}
+        handleBorrar={handleBorrar}
+        controlInterno={"INFMES"}
+      />
     </div>
-  )
+  );
+};
 
-
-
-
-
-}
-
-export default InflacionMes
+export default InflacionMes;

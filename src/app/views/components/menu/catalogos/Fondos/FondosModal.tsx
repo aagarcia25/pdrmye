@@ -17,7 +17,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
 import ModalForm from "../../../componentes/ModalForm";
@@ -68,8 +68,7 @@ const FondosModal = ({
   const [clasificador10, setClasificador10] = React.useState<string>();
   const [clasificador11, setClasificador11] = React.useState<string>();
 
-
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
   const [slideropen, setslideropen] = useState(false);
 
   const handleChangeVigencia = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,7 +82,7 @@ const FondosModal = ({
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue((event.target as HTMLInputElement).value);
     setSubTipo(true);
-    if ((event.target as HTMLInputElement).value === "Estatal") {
+    if ((event.target as HTMLInputElement).value == "Estatal") {
       setEstatal(true);
       setFederal(false);
     } else {
@@ -93,11 +92,10 @@ const FondosModal = ({
   };
   const handleGarantia = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValueGarantia((event.target as HTMLInputElement).value);
-    if ((event.target as HTMLInputElement).value === "si") {
+    if ((event.target as HTMLInputElement).value == "si") {
       setGarantia(true);
     } else {
       setGarantia(false);
-
     }
   };
 
@@ -105,7 +103,6 @@ const FondosModal = ({
     let data = { NUMOPERACION: 4 };
     CatalogosServices.tipofondo(data).then((res) => {
       setTipoFondoSelect(res.RESPONSE || "");
-
     });
   };
 
@@ -146,12 +143,10 @@ const FondosModal = ({
   };
 
   const handleRequest = (data: any) => {
-    //console.log(data);
-    if (tipo === 1) {
+    if (tipo == 1) {
       //AGREGAR
       agregar(data);
-
-    } else if (tipo === 2) {
+    } else if (tipo == 2) {
       //EDITAR
       editar(data);
     }
@@ -159,15 +154,16 @@ const FondosModal = ({
 
   const handleSend = () => {
     if (
-      clave === null
-      || descripcion === null
-      || aplicaCalculo === null
-      || vigente === null
-      //|| subTipo === false
-      || estatal === null
-      || federal === null
-      || porDis === null
-      || tipofondo === null) {
+      clave == null ||
+      descripcion == null ||
+      aplicaCalculo == null ||
+      vigente == null ||
+      //|| subTipo == false
+      estatal == null ||
+      federal == null ||
+      porDis == null ||
+      tipofondo == null
+    ) {
       AlertS.fire({
         title: "",
         text: "Favor de Completar los Campos",
@@ -177,7 +173,7 @@ const FondosModal = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: user.id,
+        CHUSER: user.Id,
         CLAVE: clave,
         DESCRIPCION: descripcion,
         APLICACALCULO: aplicaCalculo,
@@ -204,21 +200,17 @@ const FondosModal = ({
         CLASIFICADOR11: clasificador11,
         CLASIFICACIONOP: clasificacionOP,
         ORDEN: orden,
-
       };
       handleRequest(data);
     }
   };
 
   useEffect(() => {
-
     tipos();
     setslideropen(true);
 
     setTimeout(() => {
-
-      if (dt === "") {
-        //console.log(dt);
+      if (dt == "") {
       } else {
         setId(dt?.row?.id);
         setClave(dt?.row?.Clave);
@@ -244,51 +236,42 @@ const FondosModal = ({
         setClasificacionOP(dt?.row?.ClasificacionOP);
         setOrden(dt?.row?.Orden);
 
-        if (dt?.row?.AplicaCalculo === 1) {
+        if (dt?.row?.AplicaCalculo == 1) {
           setAplicaCalculo(true);
         } else {
           setAplicaCalculo(false);
         }
 
-        if (dt?.row?.Vigente === 1) {
+        if (dt?.row?.Vigente == 1) {
           setVigente(true);
         } else {
           setVigente(false);
         }
 
-
-        if (dt?.row?.Estatal === 1) {
+        if (dt?.row?.Estatal == 1) {
           setValue("Estatal");
           setEstatal(true);
           setFederal(false);
         }
-        if (dt?.row?.Federal === 1) {
+        if (dt?.row?.Federal == 1) {
           setValue("Federal");
           setEstatal(false);
           setFederal(true);
         }
-        if (dt?.row?.Federal === 0 && dt?.row?.Estatal === 0) {
+        if (dt?.row?.Federal == 0 && dt?.row?.Estatal == 0) {
           setValue("");
           setEstatal(false);
           setFederal(false);
         }
-        if (dt?.row?.Garantia === 1) {
+        if (dt?.row?.Garantia == 1) {
           setGarantia(true);
-
         } else {
           setGarantia(false);
         }
-
       }
 
-      setslideropen(false)
-    }, 2000)
-
-
-
-
-
-
+      setslideropen(false);
+    }, 2000);
   }, [dt]);
 
   return (
@@ -296,16 +279,25 @@ const FondosModal = ({
       <Slider open={slideropen}></Slider>
       <ModalForm title={modo} handleClose={handleClose}>
         <DialogContent>
-          <Grid container spacing={6}>
-          </Grid>
+          <Grid container spacing={6}></Grid>
         </DialogContent>
 
-        <Grid item xs={11} sm={11} md={11} lg={11} >
-          <Box display="flex" flexWrap="wrap" boxShadow={2} sx={{ padding: "2%" }}>
-            <Grid container sx={{ paddingRight: "2%", paddingLeft: "2%" }}  >
-
-              <Grid item xs={12} sm={12} md={6} lg={6} sx={{ paddingRight: "2%", paddingLeft: "2%" }}  >
-
+        <Grid item xs={11} sm={11} md={11} lg={11}>
+          <Box
+            display="flex"
+            flexWrap="wrap"
+            boxShadow={2}
+            sx={{ padding: "2%" }}
+          >
+            <Grid container sx={{ paddingRight: "2%", paddingLeft: "2%" }}>
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                md={6}
+                lg={6}
+                sx={{ paddingRight: "2%", paddingLeft: "2%" }}
+              >
                 <Grid item xs={12}>
                   <TextField
                     InputLabelProps={{ shrink: true }}
@@ -354,7 +346,8 @@ const FondosModal = ({
                     control={
                       <Checkbox
                         checked={vigente}
-                        onChange={handleChangeVigencia} />
+                        onChange={handleChangeVigencia}
+                      />
                     }
                     label="Vigente"
                   />
@@ -363,7 +356,9 @@ const FondosModal = ({
                 <Grid item xs={12}>
                   <br />
                   <FormControl variant="standard" fullWidth>
-                    <InputLabel>{tipofondo ? "Tipo Fondo" : tipofondoLabel}</InputLabel>
+                    <InputLabel>
+                      {tipofondo ? "Tipo Fondo" : tipofondoLabel}
+                    </InputLabel>
                     <Select
                       required
                       onChange={(v) => setTipoFondo(v.target.value)}
@@ -382,18 +377,22 @@ const FondosModal = ({
                 </Grid>
                 <Grid item xs={12}>
                   <br />
-                  <FormControl component="fieldset" error={!value} >
+                  <FormControl component="fieldset" error={!value}>
                     <FormLabel component="legend">Sub Tipo</FormLabel>
                     <RadioGroup
                       row
                       aria-label="gender"
                       name="gender1"
                       onChange={handleChange}
-                      defaultValue={tipo === 2 ?
-                        dt?.row?.Estatal === 1 ? "Estatal" :
-                          dt?.row?.Federal === 1 ? "Federal" : ""
-                        :
-                        ""}
+                      defaultValue={
+                        tipo == 2
+                          ? dt?.row?.Estatal == 1
+                            ? "Estatal"
+                            : dt?.row?.Federal == 1
+                            ? "Federal"
+                            : ""
+                          : ""
+                      }
                     >
                       <FormControlLabel
                         value="Estatal"
@@ -423,8 +422,7 @@ const FondosModal = ({
                   {/* ////////////////////////// */}
                   <br />
                   <br />
-                  <FormControl component="fieldset" >
-
+                  <FormControl component="fieldset">
                     <FormLabel component="legend">Garantía</FormLabel>
                     <RadioGroup
                       row
@@ -432,7 +430,9 @@ const FondosModal = ({
                       name="gender1"
                       value={valueGarantia}
                       onChange={handleGarantia}
-                      defaultValue={(tipo === 2) ? dt?.row?.Garantia === 1 ? "si" : "no" : ""}
+                      defaultValue={
+                        tipo == 2 ? (dt?.row?.Garantia == 1 ? "si" : "no") : ""
+                      }
                     >
                       <FormControlLabel
                         value="si"
@@ -473,7 +473,6 @@ const FondosModal = ({
                     fullWidth
                     variant="standard"
                     onChange={(v) => setNumProyecto(v.target.value)}
-
                   />
                   <TextField
                     InputLabelProps={{ shrink: true }}
@@ -500,11 +499,16 @@ const FondosModal = ({
                     onChange={(v) => setComentarios(v.target.value)}
                   />
                 </Grid>
-
               </Grid>
 
-              <Grid item xs={12} sm={12} md={6} lg={6} sx={{ paddingRight: "2%", paddingLeft: "2%" }}   >
-
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                md={6}
+                lg={6}
+                sx={{ paddingRight: "2%", paddingLeft: "2%" }}
+              >
                 <TextField
                   InputLabelProps={{ shrink: true }}
                   margin="dense"
@@ -638,8 +642,6 @@ const FondosModal = ({
                   fullWidth
                   variant="standard"
                   onChange={(v) => setClasificacionOP(v.target.value)}
-
-
                 />
                 <TextField
                   InputLabelProps={{ shrink: true }}
@@ -651,23 +653,14 @@ const FondosModal = ({
                   fullWidth
                   variant="standard"
                   onChange={(v) => setOrden(v.target.value)}
-
-
                 />
-
-
               </Grid>
-
-
-
             </Grid>
-
-
           </Box>
         </Grid>
 
-
-        <Grid container
+        <Grid
+          container
           sx={{
             mt: "2vh",
             width: "100%",
@@ -677,13 +670,15 @@ const FondosModal = ({
             flexDirection: "row",
           }}
         >
-          <Grid item xs={4} sm={3} md={2} lg={1}
-          >
-            <Button className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
+          <Grid item xs={4} sm={3} md={2} lg={1}>
+            <Button
+              className={tipo == 1 ? "guardar" : "actualizar"}
+              onClick={() => handleSend()}
+            >
+              {tipo == 1 ? "Guardar" : "Actualizar"}
+            </Button>
           </Grid>
         </Grid>
-
-
       </ModalForm>
     </div>
   );

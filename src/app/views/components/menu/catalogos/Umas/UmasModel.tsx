@@ -1,14 +1,10 @@
+import { Button, Grid, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
-import {
-  TextField,
-  Grid,
-  Button,
-} from "@mui/material";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
+import { USUARIORESPONSE } from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getUser } from "../../../../../services/localStorage";
-import { RESPONSE } from "../../../../../interfaces/user/UserInfo";
 import ModalForm from "../../../componentes/ModalForm";
 
 const UmasModel = ({
@@ -28,8 +24,7 @@ const UmasModel = ({
   const [diario, setDiario] = useState("");
   const [mensual, setMensual] = useState("");
   const [anual, setAnual] = useState("");
-  const user: RESPONSE = JSON.parse(String(getUser()));
-
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
 
   const handleSend = () => {
     if (!diario || !anio || !mensual || !anual) {
@@ -42,11 +37,11 @@ const UmasModel = ({
       let data = {
         NUMOPERACION: tipo,
         CHID: id,
-        CHUSER: user.id,
+        CHUSER: user.Id,
         ANIO: anio,
         DIARIO: diario,
         MENSUAL: mensual,
-        ANUAL: anual
+        ANUAL: anual,
       };
 
       handleRequest(data);
@@ -54,11 +49,10 @@ const UmasModel = ({
   };
 
   const handleRequest = (data: any) => {
-    //console.log(data);
-    if (tipo === 1) {
+    if (tipo == 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo === 2) {
+    } else if (tipo == 2) {
       //EDITAR
 
       editar(data);
@@ -101,8 +95,7 @@ const UmasModel = ({
   };
 
   useEffect(() => {
-    if (dt === "") {
-      //console.log(dt);
+    if (dt == "") {
     } else {
       setId(dt?.row?.id);
       setAnio(dt?.row?.Anio);
@@ -113,14 +106,26 @@ const UmasModel = ({
   }, [dt]);
 
   return (
-
-
-
-
-    <ModalForm title={tipo === 1 ? "Agregar Registro" : "Editar Registro"} handleClose={handleClose}>
-
-      <Grid container sx={{ justifyContent: "center", alignItems: "center", flexDirection: "row", }}>
-        <Grid item xs={12} sm={12} md={6} lg={6} sx={{ paddingRight: "2%", paddingLeft: "2%" }}   >
+    <ModalForm
+      title={tipo == 1 ? "Agregar Registro" : "Editar Registro"}
+      handleClose={handleClose}
+    >
+      <Grid
+        container
+        sx={{
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "row",
+        }}
+      >
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={6}
+          lg={6}
+          sx={{ paddingRight: "2%", paddingLeft: "2%" }}
+        >
           <TextField
             required
             margin="dense"
@@ -131,9 +136,9 @@ const UmasModel = ({
             fullWidth
             variant="standard"
             onChange={(v) => setAnio(v.target.value)}
-            error={anio === "" ? true : false}
+            error={anio == "" ? true : false}
             InputProps={{
-              readOnly: tipo === 1 ? false : true,
+              readOnly: tipo == 1 ? false : true,
               inputMode: "numeric",
             }}
           />
@@ -148,7 +153,7 @@ const UmasModel = ({
             fullWidth
             variant="standard"
             onChange={(v) => setDiario(v.target.value)}
-            error={diario === "" ? true : false}
+            error={diario == "" ? true : false}
             InputProps={{
               inputMode: "decimal",
             }}
@@ -164,7 +169,7 @@ const UmasModel = ({
             fullWidth
             variant="standard"
             onChange={(v) => setMensual(v.target.value)}
-            error={mensual === "" ? true : false}
+            error={mensual == "" ? true : false}
             InputProps={{
               inputMode: "numeric",
             }}
@@ -180,7 +185,7 @@ const UmasModel = ({
             fullWidth
             variant="standard"
             onChange={(v) => setAnual(v.target.value)}
-            error={anual === "" ? true : false}
+            error={anual == "" ? true : false}
             InputProps={{
               inputMode: "numeric",
             }}
@@ -188,15 +193,27 @@ const UmasModel = ({
         </Grid>
       </Grid>
 
-      <Grid container
-        sx={{ mt: "2vh", width: "100%", height: "100%", justifyContent: "center", alignItems: "center", flexDirection: "row", }}>
+      <Grid
+        container
+        sx={{
+          mt: "2vh",
+          width: "100%",
+          height: "100%",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "row",
+        }}
+      >
         <Grid item xs={4} sm={3} md={2} lg={1}>
-          <Button className={tipo === 1 ? "guardar" : "actualizar"} onClick={() => handleSend()}>{tipo === 1 ? "Guardar" : "Actualizar"}</Button>
+          <Button
+            className={tipo == 1 ? "guardar" : "actualizar"}
+            onClick={() => handleSend()}
+          >
+            {tipo == 1 ? "Guardar" : "Actualizar"}
+          </Button>
         </Grid>
       </Grid>
     </ModalForm>
-
-
   );
 };
 

@@ -3,17 +3,15 @@ import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Box, Button, IconButton, Tooltip } from "@mui/material";
 import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { RESPONSE } from "../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../services/catalogosServices";
 import { getUser } from "../../services/localStorage";
 import ListNotificationsModal from "./ListNotificationsModal";
 import MUIXDataGridMun from "./MUIXDataGridMun";
 
-
 export const ListNotification = () => {
-  
   const [slideropen, setslideropen] = useState(false);
   const [notificacion, setNotificacion] = useState([]);
   const [data, setData] = useState({});
@@ -24,8 +22,9 @@ export const ListNotification = () => {
   const navigate = useNavigate();
   const [remitente, setRemitente] = useState("");
   const [tipoOperacion, setTipoOperacion] = useState<number>(8);
-  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const [selectionModel, setSelectionModel] =
+    React.useState<GridSelectionModel>([]);
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
   const [open, setOpen] = useState(false);
   const [nombreMenu, setNombreMenu] = useState("");
 
@@ -33,12 +32,16 @@ export const ListNotification = () => {
     setSelectionModel(v);
   };
 
-
   const columns: GridColDef[] = [
-    { field: "id", hide: true ,hideable: false },
-    { field: "deleted", hide: true ,hideable: false  },
-    { field: "ModificadoPor", hide: true  , hideable: false },
-    { field: "FechaCreacion", headerName: "Fecha Creación",      description: "Fecha Creación",      width: 160,    },
+    { field: "id", hide: true, hideable: false },
+    { field: "deleted", hide: true, hideable: false },
+    { field: "ModificadoPor", hide: true, hideable: false },
+    {
+      field: "FechaCreacion",
+      headerName: "Fecha Creación",
+      description: "Fecha Creación",
+      width: 160,
+    },
     {
       field: "acciones",
       disableExport: true,
@@ -51,42 +54,59 @@ export const ListNotification = () => {
           <Box>
             <Tooltip title={"Ver Mensaje"}>
               <IconButton onClick={() => viewMessageModal(v)}>
-                <VisibilityIcon  />
+                <VisibilityIcon />
               </IconButton>
             </Tooltip>
 
-             {modo === "ViewMessage"  || modo === "viewMessageReading" ? ( 
+            {modo == "ViewMessage" || modo == "viewMessageReading" ? (
               <Tooltip title={"Ir A"}>
                 <IconButton onClick={() => goa(v)}>
                   <DoubleArrowIcon />
                 </IconButton>
               </Tooltip>
-             ) : (
+            ) : (
               ""
-            )} 
+            )}
           </Box>
         );
       },
     },
-    { field: "CreadoPor", headerName: "CreadoPor", width: 300, hide: true  , hideable: false },
+    {
+      field: "CreadoPor",
+      headerName: "CreadoPor",
+      width: 300,
+      hide: true,
+      hideable: false,
+    },
     {
       field: "origen",
       headerName: "Remitente",
       description: "Remitente",
       width: 300,
-      hide: modo === "MessageSend",
+      hide: modo == "MessageSend",
     },
     {
       field: "destinatario",
       headerName: "Destinatario",
       description: "Destinatario",
       width: 300,
-      hide: modo === "viewMessageReading" || modo === "ViewMessage",
+      hide: modo == "viewMessageReading" || modo == "ViewMessage",
     },
-    { field: "Encabezado",      headerName: "Encabezado",      description: "Encabezado",      width: 550,    },
+    {
+      field: "Encabezado",
+      headerName: "Encabezado",
+      description: "Encabezado",
+      width: 550,
+    },
     { field: "Descripcion", headerName: "Mensaje", width: 550 },
     { field: "Visto", headerName: "Visto", width: 300, hide: true },
-    { field: "Destinatario",headerName: "destinatario", width: 300,     hide: true  , hideable: false    },
+    {
+      field: "Destinatario",
+      headerName: "destinatario",
+      width: 300,
+      hide: true,
+      hideable: false,
+    },
   ];
 
   const handleNuevoMensaje = () => {
@@ -97,7 +117,7 @@ export const ListNotification = () => {
 
   const viewMessageModal = (v: any) => {
     setTipoOperacion(6);
-    if (v.row.Visto === "0") {
+    if (v.row.Visto == "0") {
       setDestinatario(v.row.destinatario);
       setRemitente(v.row.origen);
     }
@@ -107,36 +127,27 @@ export const ListNotification = () => {
     setData(v);
   };
 
-  
-
   const goa = (v: any) => {
-
-      CatalogosServices.Notificaciones({
-        NUMOPERACION: 6,
-        CHUSER: user.id,
-        CHID:v.row.id
-      }).then((res) => {
-       
-      });
-
+    CatalogosServices.Notificaciones({
+      NUMOPERACION: 6,
+      CHUSER: user.Id,
+      CHID: v.row.id,
+    }).then((res) => {});
 
     let dat = {
       P_ID: v.row.idCalculo,
     };
     CatalogosServices.getliga(dat).then((res) => {
-     // console.log(res.RESPONSE[0].route);
-       navigate(res.RESPONSE[0].route +"?id=" +v.row.idCalculo );
-       
+      navigate(res.RESPONSE[0].route + "?id=" + v.row.idCalculo);
     });
   };
-
 
   const viewMessageReading = (v: number) => {
     setModo("viewMessageReading");
     setTipoOperacion(v);
     let dat = {
       NUMOPERACION: v,
-      CHUSER: user.id,
+      CHUSER: user.Id,
     };
     CatalogosServices.Notificaciones(dat).then((res) => {
       setNotificacion(res.RESPONSE);
@@ -148,7 +159,7 @@ export const ListNotification = () => {
     setModo("MessageSend");
     let data = {
       NUMOPERACION: v,
-      CHUSER: user.id,
+      CHUSER: user.Id,
     };
     CatalogosServices.Notificaciones(data).then((res) => {
       setNotificacion(res.RESPONSE);
@@ -160,7 +171,7 @@ export const ListNotification = () => {
     setModo("ViewMessage");
     let dat = {
       NUMOPERACION: v,
-      CHUSER: user.id,
+      CHUSER: user.Id,
     };
     CatalogosServices.Notificaciones(dat).then((res) => {
       setNotificacion(res.RESPONSE);
@@ -168,36 +179,36 @@ export const ListNotification = () => {
   };
 
   const handleClose = (v: string) => {
-    if (v === "9") {
+    if (v == "9") {
       setModo("MessageSend");
       setOpen(false);
       viewMessageSend(9);
     }
-    
-    if (v === "8") {
+
+    if (v == "8") {
       setModo("ViewMessage");
       let dat = {
         NUMOPERACION: Number(v),
-        CHUSER: user.id,
+        CHUSER: user.Id,
       };
       CatalogosServices.Notificaciones(dat).then((res) => {
         setNotificacion(res.RESPONSE);
       });
       setOpen(false);
     }
-    if (v === "cerrar") {
+    if (v == "cerrar") {
       setOpen(false);
     }
-    if (v === "7") {
+    if (v == "7") {
       setOpen(false);
     }
   };
 
   useEffect(() => {
-    setPerfil(user.PERFILES[0].Referencia);
+    //  setPerfil(PER[0].Referencia);
     let dat = {
       NUMOPERACION: 8,
-      CHUSER: user.id,
+      CHUSER: user.Id,
     };
 
     CatalogosServices.Notificaciones(dat).then((res) => {
@@ -274,16 +285,25 @@ export const ListNotification = () => {
             }}
           >
             <Button
-              className=  {modo === "ViewMessage"?"notificacionesSelected":"notificaciones"}
-              onClick={() => viewMessage(8)}>
+              className={
+                modo == "ViewMessage"
+                  ? "notificacionesSelected"
+                  : "notificaciones"
+              }
+              onClick={() => viewMessage(8)}
+            >
               Recibidos
-          
             </Button>
 
             {perfil != "MUN" ? (
               <Button
-              className=  {modo === "MessageSend"?"notificacionesSelected":"notificaciones"}
-                onClick={() => viewMessageSend(9)} >
+                className={
+                  modo == "MessageSend"
+                    ? "notificacionesSelected"
+                    : "notificaciones"
+                }
+                onClick={() => viewMessageSend(9)}
+              >
                 Enviados
                 {/* <SendIcon /> */}
               </Button>
@@ -292,19 +312,29 @@ export const ListNotification = () => {
             )}
 
             <Button
-             className=  {modo === "viewMessageReading"?"notificacionesSelected":"notificaciones"}
-              onClick={() => viewMessageReading(7)} >
+              className={
+                modo == "viewMessageReading"
+                  ? "notificacionesSelected"
+                  : "notificaciones"
+              }
+              onClick={() => viewMessageReading(7)}
+            >
               Leídos
               {/* <AutoStoriesIcon /> */}
             </Button>
           </Box>
         </Box>
 
-
-        <MUIXDataGridMun columns={columns} rows={notificacion} handleBorrar={handleBorrar} modulo={'Notificacion'} controlInterno={""} />
+        <MUIXDataGridMun
+          columns={columns}
+          rows={notificacion}
+          handleBorrar={handleBorrar}
+          modulo={"Notificacion"}
+          controlInterno={""}
+        />
       </Box>
     </div>
-  )
-}
+  );
+};
 
 export default ListNotification;

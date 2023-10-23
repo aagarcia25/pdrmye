@@ -2,7 +2,6 @@ import UploadFileIcon from "@mui/icons-material/UploadFile";
 import {
   Box,
   Container,
-  Dialog,
   Grid,
   IconButton,
   TextField,
@@ -15,22 +14,22 @@ import docxLogo from "../../../../../../app/assets/img/docx_Logo.png";
 import PptxLogo from "../../../../../../app/assets/img/pptx_Logo.png";
 import xlsxLogo from "../../../../../../app/assets/img/xlsx_Logo.png";
 import { AlertS } from "../../../../../helpers/AlertS";
+import { base64ToArrayBuffer } from "../../../../../helpers/Files";
 import { Toast } from "../../../../../helpers/Toast";
 import { Imunicipio } from "../../../../../interfaces/municipios/FilterMunicipios";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import {
+  PERMISO,
+  USUARIORESPONSE,
+} from "../../../../../interfaces/user/UserInfo";
+import { ValidaSesion } from "../../../../../services/UserServices";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import {
-  getMunicipios,
   getPermisos,
   getToken,
   getUser,
-  setMunicipios,
-  validaLocalStorage,
 } from "../../../../../services/localStorage";
-import ModalForm from "../../../componentes/ModalForm";
-import { ValidaSesion } from "../../../../../services/UserServices";
-import { base64ToArrayBuffer } from "../../../../../helpers/Files";
 import SliderProgress from "../../../SliderProgress";
+import ModalForm from "../../../componentes/ModalForm";
 
 const AvisosModal = ({
   open,
@@ -81,7 +80,7 @@ const AvisosModal = ({
   const [Avisos, setAvisos] = useState("");
   const [IdMunicipio, setIdMunicipio] = useState("");
   const [values, setValues] = useState<Imunicipio[]>();
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [editar, setEditar] = useState<boolean>(false);
 
@@ -99,17 +98,6 @@ const AvisosModal = ({
     { extencion: ".PNG", imagen: previewDoc },
   ];
 
-  const municipiosc = () => {
-    let data = {};
-    if (!validaLocalStorage("FiltroMunicipios")) {
-      CatalogosServices.Filtromunicipios(data).then((res) => {
-        setMunicipios(res.RESPONSE);
-      });
-    }
-    let m: Imunicipio[] = JSON.parse(String(getMunicipios()));
-    setValues(m);
-  };
-
   const handleUpload = () => {
     setslideropen(true);
     const formData = new FormData();
@@ -123,16 +111,16 @@ const AvisosModal = ({
     formData.append("DESCRIPCION", String(descripcion));
     formData.append("FECHAINICIO", String(inicioEvento));
     formData.append("FECHAFIN", String(finEvento));
-    formData.append("CHUSER", String(user.id));
+    formData.append("CHUSER", String(user.Id));
 
     if (
-      inicioEvento === null ||
-      finEvento === null ||
-      nameAviso === null ||
-      descripcion === null ||
-      nameAviso === null ||
+      inicioEvento == null ||
+      finEvento == null ||
+      nameAviso == null ||
+      descripcion == null ||
+      nameAviso == null ||
       editDoc
-        ? newDoc === null
+        ? newDoc == null
         : newDoc == !null
     ) {
       AlertS.fire({
@@ -173,13 +161,13 @@ const AvisosModal = ({
   const handleNewFile = (event: any) => {
     let file = event.target!.files[0]!;
     ///// SE VALIDA SI NO SE CARGO ARCHIVO EN EL INPUT PARA PODER EXTRAER EL NOMBRE
-    if (event.target.files.length === 0) {
+    if (event.target.files.length == 0) {
     } else {
       setNameNewDoc(event.target!.files[0]!.name);
       setEditDoc(true);
     }
     /////////////////////////////
-    if (file && file.type.substr(0, 5) === "image") {
+    if (file && file.type.substr(0, 5) == "image") {
       setNewDocPreviw(file);
       setCleanUp(true);
       setEditDoc(true);
@@ -220,15 +208,14 @@ const AvisosModal = ({
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === "AVISOS") {
-        if (String(item.Referencia) === "EDIT") {
+      if (String(item.menu) == "AVISOS") {
+        if (String(item.ControlInterno) == "EDIT") {
           setEditar(true);
         }
       }
     });
 
-    municipiosc();
-    if (dt === "") {
+    if (dt == "") {
     } else {
       setId(dt?.row?.id);
       setIdMunicipio(dt?.row?.idmunicipio);
@@ -243,8 +230,8 @@ const AvisosModal = ({
 
   return (
     <ModalForm title={modoModal} handleClose={handleClose}>
-       <SliderProgress open={slideropen}/>
-      {modoModal === "Agregar Aviso" ? (
+      <SliderProgress open={slideropen} />
+      {modoModal == "Agregar Aviso" ? (
         <Box component={Grid} container boxShadow={3} xs={12} md={12}>
           <Box component={Grid} xs={12} md={3}></Box>
           <Box component={Grid} xs={12} md={6} container sx={{ padding: "3%" }}>
@@ -262,7 +249,7 @@ const AvisosModal = ({
                     />
                     {Imagenes.find(
                       ({ extencion }) =>
-                        extencion === String(nameNewDoc).slice(-4).toUpperCase()
+                        extencion == String(nameNewDoc).slice(-4).toUpperCase()
                     ) ? (
                       <img
                         style={{
@@ -273,7 +260,7 @@ const AvisosModal = ({
                         src={String(
                           Imagenes.find(
                             ({ extencion }) =>
-                              extencion ===
+                              extencion ==
                               String(nameNewDoc).slice(-4).toUpperCase()
                           )?.imagen
                         )}
@@ -294,7 +281,7 @@ const AvisosModal = ({
             </Grid>
             <Grid item xs={12}>
               <label className="nombre-archivo">
-                {nameNewDoc === "INIC" ? "" : nameNewDoc}
+                {nameNewDoc == "INIC" ? "" : nameNewDoc}
               </label>
             </Grid>
 
@@ -349,7 +336,7 @@ const AvisosModal = ({
                 fullWidth
                 variant="standard"
                 onChange={(v) => setNameAviso(v.target.value)}
-                error={nameAviso === "" ? true : false}
+                error={nameAviso == "" ? true : false}
               />
               <label>Descripcion</label>
               <TextField
@@ -384,7 +371,7 @@ const AvisosModal = ({
         ""
       )}
 
-      {modoModal === "Aviso" ? (
+      {modoModal == "Aviso" ? (
         <Container maxWidth="lg">
           <Box>
             <Box sx={{ bgcolor: "rgb(222, 225, 225)", borderRadius: "5px" }}>
@@ -423,10 +410,10 @@ const AvisosModal = ({
               />
             </Box>
             <Box>
-              {urlDoc.slice(-4).toUpperCase() === ".PDF" ||
-              urlDoc.slice(-4).toUpperCase() === ".BPM" ||
-              urlDoc.slice(-4).toUpperCase() === ".JPG" ||
-              urlDoc.slice(-4).toUpperCase() === ".PNG" ? (
+              {urlDoc.slice(-4).toUpperCase() == ".PDF" ||
+              urlDoc.slice(-4).toUpperCase() == ".BPM" ||
+              urlDoc.slice(-4).toUpperCase() == ".JPG" ||
+              urlDoc.slice(-4).toUpperCase() == ".PNG" ? (
                 <Box>
                   <button>
                     <a href={urlDoc} target="_blank" download={nameDocDownload}>
@@ -483,7 +470,7 @@ const AvisosModal = ({
         ""
       )}
 
-      {modoModal === "Editar" ? (
+      {modoModal == "Editar" ? (
         ///// editar evento hora inicio fin y foto
 
         Date.parse(inicioEventoMin) >= Date.parse(inicioEvento) ? (
@@ -569,7 +556,7 @@ const AvisosModal = ({
                 fullWidth
                 variant="standard"
                 onChange={(v) => setNameAviso(v.target.value)}
-                error={nameAviso === "" ? true : false}
+                error={nameAviso == "" ? true : false}
               />
 
               <Box sx={{ bgcolor: "rgb(222, 225, 225)" }}>
@@ -585,7 +572,7 @@ const AvisosModal = ({
                 fullWidth
                 variant="standard"
                 onChange={(v) => setDescripcion(v.target.value)}
-                error={descripcion === "" ? true : false}
+                error={descripcion == "" ? true : false}
               />
             </Box>
 

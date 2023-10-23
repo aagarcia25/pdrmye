@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
+import SendIcon from "@mui/icons-material/Send";
 import {
   Button,
   Checkbox,
@@ -14,37 +16,30 @@ import {
   Typography,
   createTheme,
 } from "@mui/material";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
-import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
-import SendIcon from "@mui/icons-material/Send";
 import { esES as coreEsES } from "@mui/material/locale";
-import {
-  GridSelectionModel,
-  esES as gridEsES,
-} from "@mui/x-data-grid";
+import { GridSelectionModel, esES as gridEsES } from "@mui/x-data-grid";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AlertS } from "../../../helpers/AlertS";
 import { Toast } from "../../../helpers/Toast";
 import SelectValues from "../../../interfaces/Select/SelectValues";
-import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
+import { PERMISO, USUARIORESPONSE } from "../../../interfaces/user/UserInfo";
 import { DPCPServices } from "../../../services/DPCPServices";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import { getPermisos, getUser } from "../../../services/localStorage";
+import { fanios } from "../../../share/loadAnios";
+import { fmeses } from "../../../share/loadMeses";
 import SelectFrag from "../Fragmentos/SelectFrag";
 import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
 import Slider from "../Slider";
 import { Moneda, currencyFormatter } from "../menu/CustomToolbar";
-import { fmeses } from "../../../share/loadMeses";
-import { fanios } from "../../../share/loadAnios";
-
-
 
 const AuthSolicitudes = () => {
   const theme = createTheme(coreEsES, gridEsES);
   const [slideropen, setslideropen] = useState(true);
   const [numOrdenPago, setNumOrdenPago] = useState("");
-  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
+  const [selectionModel, setSelectionModel] =
+    React.useState<GridSelectionModel>([]);
   const [fondos, setFondos] = useState<SelectValues[]>([]);
   const [municipio, setMunicipios] = useState<SelectValues[]>([]);
   const [tipo, setTipo] = useState<SelectValues[]>([]);
@@ -57,7 +52,7 @@ const AuthSolicitudes = () => {
   const [tipomunicipio, settipomunicipio] = useState("");
   const [idMunicipio, setidMunicipio] = useState("");
   const [data, setData] = useState([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
   const [sumaTotal, setSumaTotal] = useState<Number>();
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [authSol, setAuthSol] = useState(false);
@@ -68,51 +63,111 @@ const AuthSolicitudes = () => {
   const [anio, setAnio] = useState<string>("");
   const [clasificacion, setclasificacion] = useState<string>("");
 
-
-
   const columnsParticipaciones = [
     { field: "id", hide: true, hideable: false },
-    { field: "UltimaActualizacion", headerName: "Fecha", width: 150,description: "Fecha de ultima Modificación"   },
-    { field: "a2", headerName: "Estatus", width: 150,description: "Estatus"   },
-    { field: "clasificacion", headerName: "Clasificación", width: 150,description: "Clasificación"   },
-    { field: "a3", headerName: "Nº De Solicitud De Pago", width: 200, description: "Nº De Solicitud De Pago"   },
-    { field: "usuario_creador", headerName: "Usuario Creador", width: 200, description: "Usuario Creador"   },
-    { field: "usuario", headerName: "Usuario Modifico", width: 200, description: "Usuario Modifico"   },
-    { field: "a6", headerName: "Año", width: 100,      description: "Año"    },
-    { field: "a7", headerName: "Mes",      width: 100,      description: "Mes"    },
-    { field: "a18",headerName: "U. Resp",      width: 100,      description: "Unidad Responsable"    },
-    { field: "a8", headerName: "Proveedor",      width: 150,      description: "Proveedor"    },
-    { field: "a9", headerName: "Descripción",      width: 250,      description: "Descripción"   },
-    { field: "a10",
+    {
+      field: "UltimaActualizacion",
+      headerName: "Fecha",
+      width: 150,
+      description: "Fecha de ultima Modificación",
+    },
+    { field: "a2", headerName: "Estatus", width: 150, description: "Estatus" },
+    {
+      field: "clasificacion",
+      headerName: "Clasificación",
+      width: 150,
+      description: "Clasificación",
+    },
+    {
+      field: "a3",
+      headerName: "Nº De Solicitud De Pago",
+      width: 200,
+      description: "Nº De Solicitud De Pago",
+    },
+    {
+      field: "usuario_creador",
+      headerName: "Usuario Creador",
+      width: 200,
+      description: "Usuario Creador",
+    },
+    {
+      field: "usuario",
+      headerName: "Usuario Modifico",
+      width: 200,
+      description: "Usuario Modifico",
+    },
+    { field: "a6", headerName: "Año", width: 100, description: "Año" },
+    { field: "a7", headerName: "Mes", width: 100, description: "Mes" },
+    {
+      field: "a18",
+      headerName: "U. Resp",
+      width: 100,
+      description: "Unidad Responsable",
+    },
+    {
+      field: "a8",
+      headerName: "Proveedor",
+      width: 150,
+      description: "Proveedor",
+    },
+    {
+      field: "a9",
+      headerName: "Descripción",
+      width: 250,
+      description: "Descripción",
+    },
+    {
+      field: "a10",
+      headerName: "Total",
+      width: 250,
+      description: "Total",
+      ...Moneda,
+    },
+    {
+      field: "a11",
+      headerName: "Retenciones",
+      width: 250,
+      description: "Retenciones",
+      ...Moneda,
+    },
+    {
+      field: "a12",
+      headerName: "Descuentos",
+      width: 250,
+      description: "Descuentos",
+      ...Moneda,
+    },
+    {
+      field: "a5",
       headerName: "Total Neto",
       width: 280,
       description: "Total Neto = (Total Bruto - (Retenciones + Descuentos))",
       ...Moneda,
       renderHeader: () => (
-          <Tooltip title={"Total Neto = (Total Bruto - (Retenciones + Descuentos))"}>
-            <Typography >
-              {"Total Neto: " + currencyFormatter.format(Number(sumaTotal))}
-            </Typography>
-          </Tooltip>
+        <Tooltip
+          title={"Total Neto = (Total Bruto - (Retenciones + Descuentos))"}
+        >
+          <Typography>
+            {"Total Neto: " + currencyFormatter.format(Number(sumaTotal))}
+          </Typography>
+        </Tooltip>
       ),
-
     },
-
   ];
 
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion };
     CatalogosServices.SelectIndex(data).then((res) => {
-      if (operacion === 12) {
+      if (operacion == 12) {
         setFondos(res.RESPONSE);
-      } else if (operacion === 32) {
+      } else if (operacion == 32) {
         setMunicipios(res.RESPONSE);
-      } else if (operacion === 17) {
+      } else if (operacion == 17) {
         setTipo(res.RESPONSE);
-      }else if (operacion === 46){
+      } else if (operacion == 46) {
         setTipos(res.RESPONSE);
-      }else if (operacion === 47){
-        setClasificaciones(res.RESPONSE)
+      } else if (operacion == 47) {
+        setClasificaciones(res.RESPONSE);
         setslideropen(false);
       }
     });
@@ -132,7 +187,6 @@ const AuthSolicitudes = () => {
     settipomunicipio(v);
   };
 
-  
   const handleSelectAnio = (data: any) => {
     setAnio(data);
   };
@@ -141,13 +195,12 @@ const AuthSolicitudes = () => {
     setMes(data);
   };
 
-  const handleSelectClasificacion= (data: any) => {
+  const handleSelectClasificacion = (data: any) => {
     setclasificacion(data);
   };
 
-
   const SolicitudOrdenPago = () => {
-    if (selectionModel.length === 0) {
+    if (selectionModel.length == 0) {
       AlertS.fire({
         title: "¡Error!",
         text: "Favor de Seleccionar Registros",
@@ -163,12 +216,11 @@ const AuthSolicitudes = () => {
         confirmButtonText: "Aceptar",
         cancelButtonText: "Cancelar",
       }).then(async (result) => {
-
         if (result.isConfirmed) {
           let data = {
             NUMOPERACION: 1,
             OBJS: selectionModel,
-            CHUSER: user.id,
+            CHUSER: user.Id,
           };
 
           DPCPServices.AuthSolicitudPago(data).then((res) => {
@@ -190,31 +242,22 @@ const AuthSolicitudes = () => {
             }
           });
         }
-
-
       });
-
-
     }
   };
 
-
-
-
   const handleClick = () => {
-
     let data = {
       TIPO: 3,
-      P_FONDO: idFondo === "false" ? "" : idFondo,
-      P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
-      P_IDTIPO: idtipo === "false" ? "" : idtipo,
+      P_FONDO: idFondo == "false" ? "" : idFondo,
+      P_IDMUNICIPIO: idMunicipio == "false" ? "" : idMunicipio,
+      P_IDTIPO: idtipo == "false" ? "" : idtipo,
       P_SOLICITUDPAGO: numOrdenPago ? numOrdenPago : "",
       P_MOSTRARTODOS: checked,
-      P_MUNICIPIO:tipomunicipio === "false" ? "" : tipomunicipio,
-      P_IDMES: mes === "false" ? "" : mes,
-      P_ANIO: anio === "false" ? "" : anio, 
-      P_IDCLASIFICACION: clasificacion === "false" ? "" : clasificacion, 
-
+      P_MUNICIPIO: tipomunicipio == "false" ? "" : tipomunicipio,
+      P_IDMES: mes == "false" ? "" : mes,
+      P_ANIO: anio == "false" ? "" : anio,
+      P_IDCLASIFICACION: clasificacion == "false" ? "" : clasificacion,
     };
     DPCPServices.GetParticipaciones(data).then((res) => {
       if (res.SUCCESS) {
@@ -226,11 +269,9 @@ const AuthSolicitudes = () => {
 
         var sumatotal = 0;
         res.RESPONSE.map((item: any) => {
-          sumatotal = sumatotal + Number(item.a10)
-          setSumaTotal(sumatotal)
+          sumatotal = sumatotal + Number(item.a5);
+          setSumaTotal(sumatotal);
         });
-
-
       } else {
         AlertS.fire({
           title: "¡Error!",
@@ -241,8 +282,6 @@ const AuthSolicitudes = () => {
     });
   };
 
-
-  
   const handleBorrar = (v: GridSelectionModel) => {
     setSelectionModel(v);
   };
@@ -257,14 +296,13 @@ const AuthSolicitudes = () => {
     loadFilter(47);
     handleClick();
 
-      permisos.map((item: PERMISO) => {
-        if (String(item.ControlInterno) === "DPCPAUTHSOL") {
-          if (String(item.Referencia) === "AUTHSOL") {
-            setAuthSol(true);
-          }
-          
+    permisos.map((item: PERMISO) => {
+      if (String(item.menu) == "DPCPAUTHSOL") {
+        if (String(item.ControlInterno) == "AUTHSOL") {
+          setAuthSol(true);
         }
-      });
+      }
+    });
   }, []);
 
   return (
@@ -273,7 +311,6 @@ const AuthSolicitudes = () => {
       <Grid container spacing={1} padding={2}>
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid container sx={{ justifyContent: "center" }}>
-     
             <Grid item xs={12} sx={{ textAlign: "center" }}>
               <Typography variant="h4" paddingBottom={2}>
                 Módulo de Autorización de Solicitudes de Pago
@@ -300,10 +337,10 @@ const AuthSolicitudes = () => {
             <Typography sx={{ fontFamily: "MontserratMedium" }}>
               Solicitud de Pago:
             </Typography>
-            <FormControl sx={{ width: "100%" }}  >
+            <FormControl sx={{ width: "100%" }}>
               <OutlinedInput
                 id="outlined-adornment-password"
-                type={'text'}
+                type={"text"}
                 size="small"
                 fullWidth
                 placeholder="Solicitud de Pago"
@@ -312,7 +349,7 @@ const AuthSolicitudes = () => {
                 inputProps={{ maxLength: 10 }}
                 endAdornment={
                   <InputAdornment position="end">
-                    <Tooltip title={"Limpiar campo"} >
+                    <Tooltip title={"Limpiar campo"}>
                       <IconButton
                         aria-label="toggle password visibility"
                         onClick={() => setNumOrdenPago("")}
@@ -324,7 +361,7 @@ const AuthSolicitudes = () => {
                     </Tooltip>
                   </InputAdornment>
                 }
-                error={String(Number(numOrdenPago)) === "NaN"}
+                error={String(Number(numOrdenPago)) == "NaN"}
               />
             </FormControl>
           </Grid>
@@ -343,57 +380,59 @@ const AuthSolicitudes = () => {
           </Grid>
 
           <Grid item xs={12} sm={6} md={3} lg={2}>
-          <Typography sx={{ fontFamily: "sans-serif" }}>Año :</Typography>
-              <SelectFrag
-                value={anio}
-                options={anios}
-                onInputChange={handleSelectAnio}
-                placeholder={"Seleccione Año"}
-                label={""}
-                disabled={false}
-              />
-           </Grid>
+            <Typography sx={{ fontFamily: "sans-serif" }}>Año :</Typography>
+            <SelectFrag
+              value={anio}
+              options={anios}
+              onInputChange={handleSelectAnio}
+              placeholder={"Seleccione Año"}
+              label={""}
+              disabled={false}
+            />
+          </Grid>
 
           <Grid item xs={12} sm={6} md={3} lg={2}>
-          <Typography sx={{ fontFamily: "sans-serif" }}>Mes :</Typography>
-              <SelectFrag
-                value={mes}
-                options={meses}
-                onInputChange={handleSelectMes}
-                placeholder={"Seleccione Mes"}
-                label={""}
-                disabled={false}
-              />
-           </Grid>
-           
+            <Typography sx={{ fontFamily: "sans-serif" }}>Mes :</Typography>
+            <SelectFrag
+              value={mes}
+              options={meses}
+              onInputChange={handleSelectMes}
+              placeholder={"Seleccione Mes"}
+              label={""}
+              disabled={false}
+            />
+          </Grid>
+
           <Grid item xs={12} sm={6} md={3} lg={2}>
-          <Typography sx={{ fontFamily: "sans-serif" }}>Clasificación :</Typography>
-              <SelectFrag
-                value={clasificacion}
-                options={clasificaciones}
-                onInputChange={handleSelectClasificacion}
-                placeholder={"Seleccione Clasificación"}
-                label={""}
-                disabled={false}
-              />
-           </Grid>
+            <Typography sx={{ fontFamily: "sans-serif" }}>
+              Clasificación :
+            </Typography>
+            <SelectFrag
+              value={clasificacion}
+              options={clasificaciones}
+              onInputChange={handleSelectClasificacion}
+              placeholder={"Seleccione Clasificación"}
+              label={""}
+              disabled={false}
+            />
+          </Grid>
         </Grid>
 
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
-            <Grid item xs={2} sm={2} md={2} lg={2}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={checked}
-                    onChange={handleChangeMostrarTodo}
-                    inputProps={{ "aria-label": "controlled" }}
-                  />
-                }
-                label="Mostrar Todo"
-              />
-            </Grid>
+          <Grid item xs={2} sm={2} md={2} lg={2}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={checked}
+                  onChange={handleChangeMostrarTodo}
+                  inputProps={{ "aria-label": "controlled" }}
+                />
+              }
+              label="Mostrar Todo"
+            />
           </Grid>
-          
+        </Grid>
+
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={2}>
           <Button
             onClick={handleClick}
@@ -405,21 +444,23 @@ const AuthSolicitudes = () => {
           </Button>
         </Grid>
 
-        {authSol ?
-        <Grid item xs={12} sm={12} md={1.8} lg={1.8} paddingBottom={1}>
-          <ToggleButtonGroup>
-            <Tooltip title={"Autorizar Solicitudes"}>
-              <ToggleButton
-                value="check"
-                onClick={() => SolicitudOrdenPago()}>
-                <CheckCircleIcon />
-              </ToggleButton>
-            </Tooltip>
-          </ToggleButtonGroup>
-        </Grid>
-        :""
-      }
-{/* 
+        {authSol ? (
+          <Grid item xs={12} sm={12} md={1.8} lg={1.8} paddingBottom={1}>
+            <ToggleButtonGroup>
+              <Tooltip title={"Autorizar Solicitudes"}>
+                <ToggleButton
+                  value="check"
+                  onClick={() => SolicitudOrdenPago()}
+                >
+                  <CheckCircleIcon />
+                </ToggleButton>
+              </Tooltip>
+            </ToggleButtonGroup>
+          </Grid>
+        ) : (
+          ""
+        )}
+        {/* 
 se comenta hasta nuevo aviso de los servicios de siregob para la deshautorizacion
  {authSol ?
         <Grid item xs={12} sm={12} md={1.8} lg={1.8} paddingBottom={1}>
@@ -436,18 +477,15 @@ se comenta hasta nuevo aviso de los servicios de siregob para la deshautorizacio
         :""
       } */}
 
-
-
-
         <Grid item xs={12} sm={12} md={12} lg={12}>
-            <MUIXDataGridGeneral
-              modulo={'Autorizacion de Solicitudes'}
-              handleBorrar={handleBorrar}
-              columns={columnsParticipaciones}
-              rows={data}
-              controlInterno={""}
-              multiselect={true} />
-
+          <MUIXDataGridGeneral
+            modulo={"Autorizacion de Solicitudes"}
+            handleBorrar={handleBorrar}
+            columns={columnsParticipaciones}
+            rows={data}
+            controlInterno={""}
+            multiselect={true}
+          />
         </Grid>
       </Grid>
     </div>

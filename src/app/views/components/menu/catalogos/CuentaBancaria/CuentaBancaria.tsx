@@ -6,9 +6,19 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
-import { MUNICIPIO, PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import {
+  MUNICIPIO,
+  PERMISO,
+  ResponseDataAdicional,
+  USUARIORESPONSE,
+} from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
-import { getMunicipio, getPermisos, getUser } from "../../../../../services/localStorage";
+import {
+  getDatosAdicionales,
+  getPermisos,
+  getUser,
+  getcontrolInternoEntidad,
+} from "../../../../../services/localStorage";
 import MUIXDataGrid from "../../../MUIXDataGrid";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import ModalAlert from "../../../componentes/ModalAlert";
@@ -24,14 +34,13 @@ export const CuentaBancaria = ({
 }: {
   fullScrean: boolean;
   handleCloseModal: Function;
-  idmunicipio: string,
-  municipio: string
-
+  idmunicipio: string;
+  municipio: string;
 }) => {
-
-
   const [slideropen, setslideropen] = useState(true);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
+
+  const DA: ResponseDataAdicional = JSON.parse(String(getDatosAdicionales()));
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
   const [editar, setEditar] = useState<boolean>(false);
@@ -44,17 +53,15 @@ export const CuentaBancaria = ({
   const [vrows, setVrows] = useState({});
   const [cuentaBancaria, setCuentaBancaria] = useState([]);
   const [nombreMun, setnombreMun] = useState("");
-  const mun: MUNICIPIO[] = JSON.parse(String(getMunicipio()));
-
 
   const handleAccion = (v: any, est: string) => {
-    if (v.tipo === 1) {
+    if (v.tipo == 1) {
       setTipoOperacion(2);
       setOpen(true);
       setVrows(v.data);
-    } else if (v.tipo === 2) {
+    } else if (v.tipo == 2) {
       Swal.fire({
-        icon: "info",
+        icon: "question",
         title: "¿Estás seguro de eliminar este registro?",
         showDenyButton: true,
         showCancelButton: false,
@@ -65,7 +72,7 @@ export const CuentaBancaria = ({
           let data = {
             NUMOPERACION: 3,
             CHID: v.data.row.id,
-            CHUSER: user.id,
+            CHUSER: user.Id,
           };
 
           CatalogosServices.CuentaBancaria(data).then((res) => {
@@ -88,16 +95,14 @@ export const CuentaBancaria = ({
           Swal.fire("No se realizaron cambios", "", "info");
         }
       });
-    } else if (v.tipo === 3) {
-
+    } else if (v.tipo == 3) {
       let data = {
         NUMOPERACION: 5,
         CHID: v.data.row.id,
-        CHUSER: user.id,
+        CHUSER: user.Id,
         IDESTATUS: est,
-        COMENTARIOS: v.texto
+        COMENTARIOS: v.texto,
       };
-      //console.log(v);
 
       CatalogosServices.CuentaBancaria(data).then((res) => {
         if (res.SUCCESS) {
@@ -116,9 +121,6 @@ export const CuentaBancaria = ({
           });
         }
       });
-
-
-
     }
   };
 
@@ -137,15 +139,16 @@ export const CuentaBancaria = ({
     {
       field: "id",
       hideable: false,
-      hide: true
+      hide: true,
     },
     {
       field: "idMunicipio",
       hideable: false,
-      hide: true
+      hide: true,
     },
     {
-      field: "acciones", disableExport: true,
+      field: "acciones",
+      disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -159,53 +162,53 @@ export const CuentaBancaria = ({
               </IconButton>
             </Tooltip>
 
-            {
-              (v.row.ControlInterno === "DAMOP_AUTORIZADO"  ? (
-                <>
-                  <BotonesAcciones
-                    handleAccion={handleAccion}
-                    row={v}
-                    editar={editar}
-                    eliminar={false}
-                  />
-                </>
-              ) :
-                "")
-            }
-            
-            {
-              ((v.row.EstatusDescripcion === "INICIO" || v.row.ControlInterno === "DAMOP_REGRESADO") && (user.DEPARTAMENTOS[0]?.NombreCorto === "MUN" && user.PERFILES[0]?.Referencia === "MUN") ? (
-                <>
-                  <Tooltip title="Enviar a Validación">
-                    <IconButton color="info" onClick={() => handlevalidar(v)}>
-                      <SendIcon />
-                    </IconButton>
-                  </Tooltip>
+            {v.row.ControlInterno == "DAMOP_AUTORIZADO" ? (
+              <>
+                <BotonesAcciones
+                  handleAccion={handleAccion}
+                  row={v}
+                  editar={editar}
+                  eliminar={false}
+                />
+              </>
+            ) : (
+              ""
+            )}
 
-                  <BotonesAcciones
-                    handleAccion={handleAccion}
-                    row={v}
-                    editar={editar}
-                    eliminar={eliminar}
-                  />
-                </>
-              ) :
-                "")
-            }
-            {
-              ((v.row.ControlInterno === "DAMOP_REVISION") && (user.DEPARTAMENTOS[0]?.NombreCorto === "DAMOP" && user.PERFILES[0]?.Referencia === "ANA") ? (
+            {(v.row.EstatusDescripcion == "INICIO" ||
+              v.row.ControlInterno == "DAMOP_REGRESADO") &&
+            JSON.parse(String(getcontrolInternoEntidad())) == "MUN" ? (
+              //PER[0]?.Referencia == "MUN"
+              <>
+                <Tooltip title="Enviar a Validación">
+                  <IconButton color="info" onClick={() => handlevalidar(v)}>
+                    <SendIcon />
+                  </IconButton>
+                </Tooltip>
 
-                <>
-                  <Tooltip title="Revisar">
-                    <IconButton color="info" onClick={() => handlevalidar(v)}>
-                      <SendIcon />
-                    </IconButton>
-                  </Tooltip>
-                </>) : (""
-
-              ))}
-
-
+                <BotonesAcciones
+                  handleAccion={handleAccion}
+                  row={v}
+                  editar={editar}
+                  eliminar={eliminar}
+                />
+              </>
+            ) : (
+              ""
+            )}
+            {v.row.ControlInterno == "DAMOP_REVISION" &&
+            JSON.parse(String(getcontrolInternoEntidad())) == "DAMOP" ? (
+              //PER[0]?.Referencia == "ANA"
+              <>
+                <Tooltip title="Revisar">
+                  <IconButton color="info" onClick={() => handlevalidar(v)}>
+                    <SendIcon />
+                  </IconButton>
+                </Tooltip>
+              </>
+            ) : (
+              ""
+            )}
           </>
         );
       },
@@ -227,33 +230,33 @@ export const CuentaBancaria = ({
       field: "NombreCuenta",
       headerName: "Nombre de la Cuenta",
       description: "Nombre de la Cuenta",
-      width: 250
+      width: 250,
     },
     {
       field: "NombreBanco",
       headerName: "Banco",
       description: "Banco",
-      width: 150
+      width: 150,
     },
 
     {
       field: "NumeroCuenta",
       headerName: "Cuenta",
       description: "Cuenta",
-      width: 250
+      width: 250,
     },
     {
       field: "ClabeBancaria",
       headerName: "Clabe",
       description: "Clabe",
-      width: 250
+      width: 250,
     },
 
     {
       field: "EstatusDescripcion",
       headerName: "Estatus",
       description: "Estatus",
-      width: 250
+      width: 250,
     },
   ];
 
@@ -271,11 +274,9 @@ export const CuentaBancaria = ({
   };
 
   const consulta = () => {
-
     let data = {
-      CHUSER: idmunicipio !== "" ? idmunicipio : user.MUNICIPIO[0]?.id,
+      CHUSER: idmunicipio !== "" ? idmunicipio : DA.MUNICIPIO[0]?.id,
       NUMOPERACION: idmunicipio !== "" ? 6 : 4,
-
     };
     CatalogosServices.CuentaBancaria(data).then((res) => {
       if (res.SUCCESS) {
@@ -284,7 +285,6 @@ export const CuentaBancaria = ({
           title: "¡Consulta Exitosa!",
         });
         setCuentaBancaria(res.RESPONSE);
-
       } else {
         AlertS.fire({
           title: "¡Error!",
@@ -294,55 +294,33 @@ export const CuentaBancaria = ({
       }
     });
   };
-  const handleBorrar = () => {
-  };
   /////////////////////////////////////////////////////
 
-
-
-  const text = '123456';
-
   async function digestMessage(message: string) {
-    const msgUint8 = new TextEncoder().encode(message);                           // encode as (utf-8) Uint8Array
-    const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);           // hash the message
-    const hashArray = Array.from(new Uint8Array(hashBuffer));                     // convert buffer to byte array
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
+    const msgUint8 = new TextEncoder().encode(message); // encode as (utf-8) Uint8Array
+    const hashBuffer = await crypto.subtle.digest("SHA-256", msgUint8); // hash the message
+    const hashArray = Array.from(new Uint8Array(hashBuffer)); // convert buffer to byte array
+    const hashHex = hashArray
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join(""); // convert bytes to hex string
     return hashHex;
   }
 
-
-
   ///////////////////////////////////////////////
   useEffect(() => {
-
-
-    ////////////////////////
-    const digestHex = digestMessage(text);
-
-    ////////////////
-
-
-    if (!mun[0]) {
-      setnombreMun(municipio)
-    }
-    else {
-      mun.map((item: MUNICIPIO) => {
-        setnombreMun(item.Nombre);
-      });
-    }
     permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === "CUENTABANCARIA") {
-        //console.log(item);
-        if (String(item.Referencia) === "AGREG") {
+      if (String(item.menu) == "CUENTABANCARIA") {
+        setnombreMun(item.menu);
+        if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) === "EDIT") {
+        if (String(item.ControlInterno) == "EDIT") {
           setEditar(true);
         }
-        if (String(item.Referencia) === "ELIM") {
+        if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) === "CONSCUENTAS") {
+        if (String(item.ControlInterno) == "CONSCUENTAS") {
           setConsCuentas(true);
         }
       }
@@ -351,17 +329,18 @@ export const CuentaBancaria = ({
   }, []);
 
   return (
-    <>  {open ? (
-      <CuentaBancariaModal
-        open={open}
-        tipo={tipoOperacion}
-        handleClose={handleClose}
-        dt={vrows}
-      />
-    ) : (
-      ""
-    )}
-
+    <>
+      {" "}
+      {open ? (
+        <CuentaBancariaModal
+          open={open}
+          tipo={tipoOperacion}
+          handleClose={handleClose}
+          dt={vrows}
+        />
+      ) : (
+        ""
+      )}
       {openModal ? (
         <ModalAlert
           open={openModal}
@@ -369,18 +348,28 @@ export const CuentaBancaria = ({
           handleClose={handleClose}
           vrows={vrows}
           handleAccion={handleAccion}
-          accion={3} />
+          accion={3}
+        />
       ) : (
         ""
       )}
-
-      {fullScrean ?
+      {fullScrean ? (
         <ModalForm title={"Cuentas Bancarias"} handleClose={handleCloseModal}>
           <div style={{ height: 600, width: "100%" }}>
-            <Grid container >
-              <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+            <Grid container>
+              <Grid
+                item
+                sm={12}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
                 <Typography variant="h4">
-                  {idmunicipio !== "" ? "Municipio: " + nombreMun : "Cuentas Bancarias: " + nombreMun}
+                  {DA.MUNICIPIO.length == 1
+                    ? "Municipio: " + DA.MUNICIPIO[0].Nombre
+                    : "Cuentas Bancarias: " + nombreMun}
                 </Typography>
               </Grid>
             </Grid>
@@ -389,12 +378,23 @@ export const CuentaBancaria = ({
 
             <MUIXDataGrid columns={columns} rows={cuentaBancaria} />
           </div>
-        </ModalForm> :
+        </ModalForm>
+      ) : (
         <div style={{ height: 600, width: "100%" }}>
-          <Grid container >
-            <Grid item sm={12} sx={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+          <Grid container>
+            <Grid
+              item
+              sm={12}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <Typography variant="h4">
-                {idmunicipio !== "" ? "Municipio: " + nombreMun : "Cuentas Bancarias: " + nombreMun}
+                {DA.MUNICIPIO.length == 1
+                  ? "Municipio: " + DA.MUNICIPIO[0].Nombre
+                  : "Cuentas Bancarias: " + nombreMun}
               </Typography>
             </Grid>
           </Grid>
@@ -403,11 +403,7 @@ export const CuentaBancaria = ({
 
           <MUIXDataGrid columns={columns} rows={cuentaBancaria} />
         </div>
-
-
-      }
-
-
+      )}
     </>
   );
 };

@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from 'react'
-import { Box, Grid, Typography } from '@mui/material'
-import { GridColDef, GridSelectionModel } from '@mui/x-data-grid'
-import { getMenus, getPermisos, getUser } from '../../../../../services/localStorage'
-import { CatalogosServices } from '../../../../../services/catalogosServices'
-import { messages } from '../../../../styles'
-import Swal from 'sweetalert2'
-import { Toast } from '../../../../../helpers/Toast'
+import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
+import React, { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import { AlertS } from "../../../../../helpers/AlertS";
-import Slider from "../../../Slider";
-import MunPoblacionModal from './MunPoblacionModal'
-import { PERMISO, RESPONSE } from '../../../../../interfaces/user/UserInfo'
-import SelectFrag from '../../../Fragmentos/SelectFrag'
-import { fanios } from "../../../../../share/loadAnios";
+import { Toast } from "../../../../../helpers/Toast";
 import SelectValues from "../../../../../interfaces/Select/SelectValues";
-import ButtonsMunicipio from '../Utilerias/ButtonsMunicipio'
-import BotonesAcciones from '../../../componentes/BotonesAcciones'
-import MUIXDataGridMun from '../../../MUIXDataGridMun'
-import { ITEMS, MENU } from '../../../../../interfaces/user/UserInfo';
-
+import {
+  PERMISO,
+  USUARIORESPONSE,
+} from "../../../../../interfaces/user/UserInfo";
+import { CatalogosServices } from "../../../../../services/catalogosServices";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
+import { fanios } from "../../../../../share/loadAnios";
+import { messages } from "../../../../styles";
+import MUIXDataGridMun from "../../../MUIXDataGridMun";
+import Slider from "../../../Slider";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
+import NombreCatalogo from "../../../componentes/NombreCatalogo";
+import ButtonsMunicipio from "../Utilerias/ButtonsMunicipio";
+import MunPoblacionModal from "./MunPoblacionModal";
 
 export const MunPoblacion = () => {
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
   const [update, setUpdate] = useState(false);
   const [open, setOpen] = useState(false);
   const [tipoOperacion, setTipoOperacion] = useState(0);
@@ -32,17 +32,21 @@ export const MunPoblacion = () => {
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const [eliminar, setEliminar] = useState<boolean>(false);
   const [modo, setModo] = useState("");
-  const [nombreMenu, setNombreMenu] = useState("");
-  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
-  const menu: MENU[] = JSON.parse(String(getMenus()));
+  const [selectionModel, setSelectionModel] =
+    React.useState<GridSelectionModel>([]);
 
   // VARIABLES PARA LOS FILTROS
   const [filterAnio, setFilterAnio] = useState("");
   //funciones
 
-
   const columns: GridColDef[] = [
-    { field: "id", headerName: "Identificador", width: 150, hide: true, description: messages.dataTableColum.id },
+    {
+      field: "id",
+      headerName: "Identificador",
+      width: 150,
+      hide: true,
+      description: messages.dataTableColum.id,
+    },
     {
       field: "idmunicipio",
       headerName: "idmunicipio",
@@ -50,36 +54,60 @@ export const MunPoblacion = () => {
       width: 150,
     },
     {
-      field: "acciones", disableExport: true,
+      field: "acciones",
+      disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
       width: 100,
       renderCell: (v) => {
         return (
-          <BotonesAcciones handleAccion={handleAccion} row={v} editar={update} eliminar={eliminar}></BotonesAcciones>
-
+          <BotonesAcciones
+            handleAccion={handleAccion}
+            row={v}
+            editar={update}
+            eliminar={eliminar}
+          ></BotonesAcciones>
         );
       },
     },
-    { field: "FechaCreacion", headerName: "Fecha Creación", description: "Fecha Creación", width: 150 },
-    { field: "ClaveEstado", headerName: "Clave Estado", description: "Clave Estado", width: 100 },
-    { field: "Nombre", headerName: "Municipio", description: "Municipio", width: 150 },
+    {
+      field: "FechaCreacion",
+      headerName: "Fecha Creación",
+      description: "Fecha Creación",
+      width: 150,
+    },
+    {
+      field: "ClaveEstado",
+      headerName: "Clave Estado",
+      description: "Clave Estado",
+      width: 100,
+    },
+    {
+      field: "Nombre",
+      headerName: "Municipio",
+      description: "Municipio",
+      width: 150,
+    },
     { field: "Anio", headerName: "Año", description: "Año", width: 150 },
-    { field: "totalPob", headerName: "Total Población", description: "Total Población", width: 150 },
-
+    {
+      field: "totalPob",
+      headerName: "Total Población",
+      description: "Total Población",
+      width: 150,
+    },
   ];
 
   const handleAccion = (v: any) => {
-    if (v.tipo === 1) {
+    if (v.tipo == 1) {
       setTipoOperacion(2);
       setModo("Editar");
       setOpen(true);
       setData(v.data);
-    } else if (v.tipo === 2) {
+    } else if (v.tipo == 2) {
       handleDelete(v.data);
     }
-  }
+  };
   const handleClose = (v: string) => {
     setOpen(false);
     let data = {
@@ -87,7 +115,6 @@ export const MunPoblacion = () => {
       ANIO: filterAnio,
     };
     consulta(data);
-
   };
   const handleBorrar = (v: any) => {
     setSelectionModel(v);
@@ -108,14 +135,11 @@ export const MunPoblacion = () => {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-
         let data = {
           NUMOPERACION: 3,
           CHID: v.row.id,
-          CHUSER: user.id
+          CHUSER: user.Id,
         };
-        //console.log(data);
-
 
         CatalogosServices.munpoblacion(data).then((res) => {
           if (res.SUCCESS) {
@@ -123,8 +147,6 @@ export const MunPoblacion = () => {
               icon: "success",
               title: "Solicitud Enviada!",
             });
-
-
           } else {
             AlertS.fire({
               title: "¡Error!",
@@ -139,19 +161,14 @@ export const MunPoblacion = () => {
           ANIO: filterAnio,
         };
         consulta(dat);
-
       } else if (result.isDenied) {
         Swal.fire("No se realizaron cambios", "", "info");
       }
-
-
     });
-
   };
 
   const handleUpload = (data: any) => {
-
-    if (data.tipo === 1) {
+    if (data.tipo == 1) {
       setslideropen(true);
       let file = data.data?.target?.files?.[0] || "";
       const formData = new FormData();
@@ -160,12 +177,7 @@ export const MunPoblacion = () => {
       CatalogosServices.migraData(formData).then((res) => {
         setslideropen(false);
       });
-
-    }
-    else if (data.tipo === 2) {
-      //console.log("borrado de toda la tabla")
-      //console.log(selectionModel)
-
+    } else if (data.tipo == 2) {
       if (selectionModel.length !== 0) {
         Swal.fire({
           icon: "question",
@@ -176,13 +188,11 @@ export const MunPoblacion = () => {
           denyButtonText: `Cancelar`,
         }).then((result) => {
           if (result.isConfirmed) {
-
             let data = {
               NUMOPERACION: 5,
               OBJS: selectionModel,
-              CHUSER: user.id
+              CHUSER: user.Id,
             };
-            //console.log(data);
 
             CatalogosServices.munpoblacion(data).then((res) => {
               if (res.SUCCESS) {
@@ -193,10 +203,9 @@ export const MunPoblacion = () => {
 
                 consulta({
                   NUMOPERACION: 4,
-                  CHUSER: user.id,
+                  CHUSER: user.Id,
                   ANIO: filterAnio,
                 });
-
               } else {
                 AlertS.fire({
                   title: "¡Error!",
@@ -205,7 +214,6 @@ export const MunPoblacion = () => {
                 });
               }
             });
-
           } else if (result.isDenied) {
             Swal.fire("No se realizaron cambios", "", "info");
           }
@@ -217,27 +225,19 @@ export const MunPoblacion = () => {
           confirmButtonText: "Aceptar",
         });
       }
-
-
     }
-
   };
-
 
   const handleAgregar = (event: React.ChangeEvent<HTMLInputElement>) => {
     setslideropen(true);
     let file = event?.target?.files?.[0] || "";
-
   };
-
 
   const consulta = (data: any) => {
     CatalogosServices.munpoblacion(data).then((res) => {
       setPoblacion(res.RESPONSE);
     });
   };
-
-
 
   const handleFilterChange = (v: string) => {
     setFilterAnio(v);
@@ -250,9 +250,8 @@ export const MunPoblacion = () => {
       setFilterAnio(v);
       consulta(data);
     } else {
-      consulta({ NUMOPERACION: 4, ANIO: "", });
+      consulta({ NUMOPERACION: 4, ANIO: "" });
       setFilterAnio("");
-
     }
   };
 
@@ -270,62 +269,49 @@ export const MunPoblacion = () => {
     downloadplantilla();
     setAnios(fanios());
 
-    menu.map((item: MENU) => {
-      item.items.map((itemsMenu: ITEMS) => {
-        if (String(itemsMenu.ControlInterno) === "MUNPO") {
-          setNombreMenu(itemsMenu.Menu);
-        }
-      });
-    });
-
     permisos.map((item: PERMISO) => {
-
-      if (item.ControlInterno === "MUNPO") {
-        if (String(item.Referencia) === 'EDIT') {
+      if (item.ControlInterno == "MUNPO") {
+        if (String(item.ControlInterno) == "EDIT") {
           setUpdate(true);
         }
-        if (String(item.Referencia) === 'ELIM') {
+        if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }
-
       }
     });
 
     let data = {
       NUMOPERACION: 4,
       ANIO: "",
-
     };
     consulta(data);
-
   }, []);
 
-
-
-
   return (
-
-    <div style={{ height: 600, width: "100%", }}>
+    <div style={{ height: 600, width: "100%" }}>
       <Slider open={slideropen}></Slider>
 
-      <Grid container
-        sx={{ justifyContent: "center" }}>
-        <Grid item xs={10} sx={{ textAlign: "center" }}>
-          <Typography variant='h3'>
-            {nombreMenu}
-          </Typography>
-        </Grid>
-      </Grid>
+      <NombreCatalogo controlInterno={"MUNPO"} />
 
       <ButtonsMunicipio
         url={plantilla}
-        handleUpload={handleUpload} controlInterno={"MUNPO"}
+        handleUpload={handleUpload}
+        controlInterno={"MUNPO"}
         options={anios}
         onInputChange={handleFilterChange}
-        placeholder={"Seleccione Año"} label={''} disabled={false}
-        value={filterAnio} handleOpen={handleOpen} />
-      < MUIXDataGridMun columns={columns} rows={Poblacion} handleBorrar={handleBorrar} modulo={'POBLACION'} controlInterno={'MUNPO'} />
-
+        placeholder={"Seleccione Año"}
+        label={""}
+        disabled={false}
+        value={filterAnio}
+        handleOpen={handleOpen}
+      />
+      <MUIXDataGridMun
+        columns={columns}
+        rows={Poblacion}
+        handleBorrar={handleBorrar}
+        modulo={"POBLACION"}
+        controlInterno={"MUNPO"}
+      />
 
       {open ? (
         <MunPoblacionModal
@@ -339,8 +325,5 @@ export const MunPoblacion = () => {
         ""
       )}
     </div>
-
-
-  )
-}
-
+  );
+};

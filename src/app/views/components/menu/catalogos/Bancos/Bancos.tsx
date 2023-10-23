@@ -1,15 +1,18 @@
-import { Grid, IconButton,  Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
-import { PERMISO, RESPONSE } from "../../../../../interfaces/user/UserInfo";
+import {
+  PERMISO,
+  USUARIORESPONSE,
+} from "../../../../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
 import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { messages } from "../../../../styles";
-import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import MUIXDataGrid from "../../../MUIXDataGrid";
+import BotonesAcciones from "../../../componentes/BotonesAcciones";
 import ButtonsAdd from "../Utilerias/ButtonsAdd";
 import { BancosModal } from "./BancosModal";
 
@@ -19,8 +22,7 @@ export const Bancos = () => {
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [vrows, setVrows] = useState({});
   const [bancos, setBancos] = useState([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
-
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
 
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
@@ -33,9 +35,9 @@ export const Bancos = () => {
       setModo("Editar Registro");
       setOpen(true);
       setVrows(v.data);
-    } else if (v.tipo === 2) {
+    } else if (v.tipo == 2) {
       Swal.fire({
-        icon: "info",
+        icon: "question",
         title: "¿Estás seguro de eliminar este registro?",
         showDenyButton: true,
         showCancelButton: false,
@@ -46,7 +48,7 @@ export const Bancos = () => {
           let data = {
             NUMOPERACION: 3,
             CHID: v.data.row.id,
-            CHUSER: user.id,
+            CHUSER: user.Id,
           };
 
           CatalogosServices.Bancos(data).then((res) => {
@@ -81,7 +83,8 @@ export const Bancos = () => {
       description: messages.dataTableColum.id,
     },
     {
-      field: "acciones",  disableExport: true,
+      field: "acciones",
+      disableExport: true,
       headerName: "Acciones",
       description: "Campo de Acciones",
       sortable: false,
@@ -99,8 +102,6 @@ export const Bancos = () => {
     },
     { field: "Nombre", headerName: "Nombre", width: 400 },
     { field: "Descripcion", headerName: "Descripción", width: 400 },
-
- 
   ];
 
   const handleClose = () => {
@@ -135,15 +136,14 @@ export const Bancos = () => {
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === "BANCOS") {
-        //console.log(item);
-        if (String(item.Referencia) === "AGREG") {
+      if (String(item.menu) == "BANCOS") {
+        if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }
-        if (String(item.Referencia) === "ELIM") {
+        if (String(item.ControlInterno) == "ELIM") {
           setEliminar(true);
         }
-        if (String(item.Referencia) === "EDIT") {
+        if (String(item.ControlInterno) == "EDIT") {
           setEditar(true);
         }
       }
@@ -152,7 +152,7 @@ export const Bancos = () => {
   }, []);
 
   return (
-    <div style={{ height: 600, width: "100%" , padding:"1%"}}>
+    <div style={{ height: 600, width: "100%", padding: "1%" }}>
       {open ? (
         <BancosModal
           open={open}
@@ -160,13 +160,13 @@ export const Bancos = () => {
           handleClose={handleClose}
           dt={vrows}
         />
-      ) : ""}
+      ) : (
+        ""
+      )}
 
       <Grid container justifyContent="space-between">
-        <Grid item md={12} textAlign="center" >
-          <Typography variant="h3" >
-            {"Bancos"}
-          </Typography>
+        <Grid item md={12} textAlign="center">
+          <Typography variant="h3">{"Bancos"}</Typography>
         </Grid>
       </Grid>
       <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />

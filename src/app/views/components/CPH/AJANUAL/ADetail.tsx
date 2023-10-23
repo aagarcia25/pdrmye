@@ -4,14 +4,13 @@ import {
 import { useEffect, useState } from "react";
 import { AlertS } from "../../../../helpers/AlertS";
 import { Toast } from "../../../../helpers/Toast";
-import { PERMISO } from "../../../../interfaces/user/UserInfo";
 import { calculosServices } from "../../../../services/calculosServices";
-import { getPermisos } from "../../../../services/localStorage";
 import ModalForm from "../../componentes/ModalForm";
 import { Moneda } from "../../menu/CustomToolbar";
 import MUIXDataGrid from "../../MUIXDataGrid";
 import Slider from "../../Slider";
-export const AjAnualDetail = ({
+
+export const ADetail = ({
   handleClose,
   row
 }: {
@@ -19,11 +18,7 @@ export const AjAnualDetail = ({
   row :any;
 }) => {
   const [slideropen, setslideropen] = useState(false);
-  //MODAL
-  //Constantes para las columnas
   const [data, setData] = useState([]);
-  /// Permisos
-  const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
 
   const columnsParticipaciones = [
     { field: "id", hide: true },
@@ -57,8 +52,17 @@ export const AjAnualDetail = ({
       description: "Diferencia",
       ...Moneda,
     },
+    {
+      field: "mes",
+      headerName: "Diferencia a descontar por Mes",
+      width: 200,
+      description: "Diferencia a descontar por Mes",
+      ...Moneda,
+    },
     
   ];
+
+  
 
  
   const handleClick = () => {
@@ -92,14 +96,6 @@ export const AjAnualDetail = ({
   useEffect(() => {
     handleClick();
 
-    permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === "AJUSTESEMESTRAL") {
-        if (String(item.Referencia) === "TRAZASPEIDAF") {
-        }
-        if (String(item.Referencia) === "POLIZASPEIDAF") {
-        }
-      }
-    });
   }, [row]);
 
   return (

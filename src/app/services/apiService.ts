@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-import { getFormDataHeader, getHeaderInfo, getHeaderInfoReporte, getHeaderInitial } from './tokenCreator';
 import { AlertS } from '../helpers/AlertS';
+import { getFormDataHeader, getHeaderInfo, getHeaderInfoReporte, getHeaderInitial } from './tokenCreator';
 
 /**
  * MANEJO AUTOMATICO DE PETICIONES
@@ -55,7 +55,6 @@ export const post = async function (url: string, body: any) {
 };
 
 export const postReporte = async function (url: string, body: any , name:string) {
-    let header = await getHeaderInfoReporte();
     try {
       axios.post(process.env.REACT_APP_APPLICATION_BASE_URL + url, body, { responseType: 'blob' })
      .then((response) => {

@@ -16,12 +16,12 @@ import { Toast } from "../../helpers/Toast";
 import { AlertS } from "../../helpers/AlertS";
 import CalendarCModal from "./CalendarCModal";
 import Swal from "sweetalert2";
-import { RESPONSE } from "../../interfaces/user/UserInfo";
+import { USUARIORESPONSE } from "../../interfaces/user/UserInfo";
 
 
 const CalendarC = () => {
 
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE= JSON.parse(String(getUser()));
   const [eventos, setEventos] = useState<eventoc[]>();
   const [modo, setModo] = useState("");
   const [open, setOpen] = useState(false);
@@ -68,12 +68,12 @@ const CalendarC = () => {
 
   const handleClose = () => {
     setOpen(false);
-    consulta({ NUMOPERACION: 4, CHUSER: user.id });
+    consulta({ NUMOPERACION: 4, CHUSER: user.Id });
   };
 
   const handleDelete = () => {
     Swal.fire({
-      icon: "info",
+      icon: "question",
       title: "¿Estás seguro de eliminar éste evento?",
       showDenyButton: true,
       showCancelButton: false,
@@ -84,7 +84,7 @@ const CalendarC = () => {
         let data = {
           NUMOPERACION: 3,
           CHID: id,
-          CHUSER: user.id
+          CHUSER: user.Id
         };
 
         CalendarioService.calendarios(data).then((res) => {
@@ -138,7 +138,7 @@ const CalendarC = () => {
 
 
   useEffect(() => {
-    consulta({ NUMOPERACION: 4, CHUSER: user.id });
+    consulta({ NUMOPERACION: 4, CHUSER: user.Id });
   }, []);
 
   return (

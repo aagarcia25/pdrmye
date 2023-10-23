@@ -1,11 +1,11 @@
-import * as React from "react";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import Navigator from "./Navigator";
-import Header from "./Header";
-import { ReactNode } from "react";
-import { RESPONSE } from "../../interfaces/user/UserInfo";
 import { Grid } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import * as React from "react";
+import { ReactNode } from "react";
+import { USUARIORESPONSE } from "../../interfaces/user/UserInfo";
+import Header from "./Header";
+import Navigator from "./Navigator";
 
 let theme = createTheme({
   palette: {
@@ -170,7 +170,7 @@ theme = {
 
 interface Props {
   children?: ReactNode;
-  user: RESPONSE;
+  user: USUARIORESPONSE;
   imgData: string;
   imgTipo: string;
 

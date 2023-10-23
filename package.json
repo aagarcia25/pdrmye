@@ -2,11 +2,12 @@
   "name": "pdrmye",
   "version": "0.1.0",
   "private": true,
+   "homepage": "/pdrmye",
   "dependencies": {
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@fontsource/poppins": "^4.5.10",
-    "@jbcecapmex/pakfirma": "^1.4.5-3",
+    "@jbcecapmex/pakfirma": "^1.7.0",
     "@mui/icons-material": "^5.10.3",
     "@mui/lab": "^5.0.0-alpha.100",
     "@mui/material": "^5.10.8",

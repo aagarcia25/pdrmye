@@ -1,11 +1,9 @@
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import SendIcon from "@mui/icons-material/Send";
 import {
   Button,
   Grid,
-  IconButton,
   ToggleButton,
   ToggleButtonGroup,
   Tooltip,
@@ -15,10 +13,12 @@ import { GridSelectionModel } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AlertS } from "../../../helpers/AlertS";
+import { base64ToArrayBuffer } from "../../../helpers/Files";
 import { Toast } from "../../../helpers/Toast";
 import SelectValues from "../../../interfaces/Select/SelectValues";
-import { PERMISO, RESPONSE } from "../../../interfaces/user/UserInfo";
+import { PERMISO, USUARIORESPONSE } from "../../../interfaces/user/UserInfo";
 import { DPCPServices } from "../../../services/DPCPServices";
+import { ReportesServices } from "../../../services/ReportesServices";
 import { SireService } from "../../../services/SireService";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import { getPermisos, getUser } from "../../../services/localStorage";
@@ -29,8 +29,6 @@ import MUIXDataGridGeneral from "../MUIXDataGridGeneral";
 import Slider from "../Slider";
 import NombreCatalogo from "../componentes/NombreCatalogo";
 import { Moneda } from "../menu/CustomToolbar";
-import { ReportesServices } from '../../../services/ReportesServices';
-import { base64ToArrayBuffer } from '../../../helpers/Files';
 const AsigPresupuestal = () => {
   const [slideropen, setslideropen] = useState(false);
   //MODAL
@@ -47,11 +45,12 @@ const AsigPresupuestal = () => {
   const [idMunicipio, setidMunicipio] = useState("");
   //Constantes para las columnas
   const [data, setData] = useState([]);
-  const user: RESPONSE = JSON.parse(String(getUser()));
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
   /// Permisos
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [cargarPlant, setCargarPlant] = useState<boolean>(false);
-  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
+  const [selectionModel, setSelectionModel] =
+    React.useState<GridSelectionModel>([]);
 
   const handleSeleccion = (v: GridSelectionModel) => {
     setSelectionModel(v);
@@ -101,7 +100,6 @@ const AsigPresupuestal = () => {
       description: "Presupuesto SIREGOB",
       sortable: false,
       width: 150,
-
     },
 
     {
@@ -177,55 +175,49 @@ const AsigPresupuestal = () => {
       width: 100,
       description: "Descripción PROYECTO/PROGRAMA",
     },
-
-
   ];
-
 
   const descargaPlantilla = () => {
     setslideropen(true);
 
-     if( idFondo === null || idFondo === '' || idFondo ==='false'){
+    if (idFondo == null || idFondo == "" || idFondo == "false") {
       AlertS.fire({
         title: "¡Error!",
-        text: 'Es Necesario el Filtro de Fondo',
+        text: "Es Necesario el Filtro de Fondo",
         icon: "error",
       });
-     }
+    }
 
-     if( mes === null  || mes ===  '' || mes ==='false'){
+    if (mes == null || mes == "" || mes == "false") {
       AlertS.fire({
         title: "¡Error!",
-        text: 'Es Necesario el Filtro de Mes',
+        text: "Es Necesario el Filtro de Mes",
         icon: "error",
       });
-     }
+    }
 
-     if( anio === null  || anio === '' || anio ==='false'){
+    if (anio == null || anio == "" || anio == "false") {
       AlertS.fire({
         title: "¡Error!",
-        text: 'Es Necesario el Filtro de Año',
+        text: "Es Necesario el Filtro de Año",
         icon: "error",
       });
-     }
-
+    }
 
     let data = {
-      P_FONDO: idFondo === "false" ? "" : idFondo,
-      P_MES: mes === "false" ? "" : mes,
-      P_ANIO: anio === "false" ? "" : anio,
+      P_FONDO: idFondo == "false" ? "" : idFondo,
+      P_MES: mes == "false" ? "" : mes,
+      P_ANIO: anio == "false" ? "" : anio,
     };
 
-    console.log(data);
-
-
-     ReportesServices.requerimientoPresupuestal(data).then((res) => {
+    ReportesServices.requerimientoPresupuestal(data).then((res) => {
       if (res.SUCCESS) {
-      
-        var bufferArray = base64ToArrayBuffer( String(res.RESPONSE) );
-        var blobStore = new Blob([bufferArray], { type: "application/vnd.ms-excel" });
+        var bufferArray = base64ToArrayBuffer(String(res.RESPONSE));
+        var blobStore = new Blob([bufferArray], {
+          type: "application/vnd.ms-excel",
+        });
         var data = window.URL.createObjectURL(blobStore);
-        var link = document.createElement('a');
+        var link = document.createElement("a");
         document.body.appendChild(link);
         link.href = data;
         link.download = "Requerimiento Prespuestal.xlsx";
@@ -233,7 +225,6 @@ const AsigPresupuestal = () => {
         window.URL.revokeObjectURL(data);
         link.remove();
         setslideropen(false);
-        
       } else {
         setslideropen(false);
         AlertS.fire({
@@ -243,11 +234,9 @@ const AsigPresupuestal = () => {
         });
       }
     });
-
-
-  }
+  };
   const verificaPresupuesto = () => {
-    if (selectionModel.length === 0) {
+    if (selectionModel.length == 0) {
       AlertS.fire({
         title: "¡Error!",
         text: "Favor de Seleccionar Registros",
@@ -263,21 +252,19 @@ const AsigPresupuestal = () => {
         confirmButtonText: "Aceptar",
         cancelButtonText: "Cancelar",
       }).then(async (result) => {
-
         if (result.isConfirmed) {
           setslideropen(true);
           let data = {
             NUMOPERACION: 1,
             OBJS: selectionModel,
-            CHUSER: user.id,
+            CHUSER: user.Id,
           };
-          // console.log(data);
 
           SireService.ConsultaPresupuesto(data).then((res) => {
             if (res.SUCCESS) {
               AlertS.fire({
                 icon: "success",
-                title: 'Se Verifico la Suficiencia',
+                title: "Se Verifico la Suficiencia",
               }).then(async (result) => {
                 if (result.isConfirmed) {
                   handleClick();
@@ -298,22 +285,19 @@ const AsigPresupuestal = () => {
     }
   };
 
-
   const loadFilter = (operacion: number) => {
     let data = { NUMOPERACION: operacion };
     CatalogosServices.SelectIndex(data).then((res) => {
-      if (operacion === 31) {
+      if (operacion == 31) {
         setFondos(res.RESPONSE);
-      } else if (operacion === 32) {
+      } else if (operacion == 32) {
         setMunicipios(res.RESPONSE);
-      } else if (operacion === 17) {
+      } else if (operacion == 17) {
         setTipos(res.RESPONSE);
         setslideropen(false);
       }
     });
   };
-
-
 
   const handleFilterChange1 = (v: string) => {
     setIdTipo(v);
@@ -331,15 +315,13 @@ const AsigPresupuestal = () => {
     setMes(data);
   };
   const handleClick = () => {
-    //console.log("EJECUTANDO LA CONSULTA CON LOS SIGUIENTES FILTROS");
-
     let data = {
       TIPO: 5,
-      P_FONDO: idFondo === "false" ? "" : idFondo,
-      P_IDMUNICIPIO: idMunicipio === "false" ? "" : idMunicipio,
-      P_IDTIPO: idtipo === "false" ? "" : idtipo,
-      P_IDMES: mes === "false" ? "" : mes,
-      P_IDANIO: mes === "false" ? "" : anio,
+      P_FONDO: idFondo == "false" ? "" : idFondo,
+      P_IDMUNICIPIO: idMunicipio == "false" ? "" : idMunicipio,
+      P_IDTIPO: idtipo == "false" ? "" : idtipo,
+      P_IDMES: mes == "false" ? "" : mes,
+      P_IDANIO: mes == "false" ? "" : anio,
     };
     DPCPServices.GetParticipaciones(data).then((res) => {
       if (res.SUCCESS) {
@@ -356,39 +338,10 @@ const AsigPresupuestal = () => {
         });
       }
     });
-
-
   };
-
-
-
 
   const handleFilterChangeAnio = (v: string) => {
     setAnio(v);
-  };
-  const handleUploadPA = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (mes !== "" && mes !== "false") {
-      setslideropen(true);
-      let file = event?.target?.files?.[0] || "";
-      const formData = new FormData();
-      formData.append("inputfile", file, "inputfile.xlxs");
-      formData.append("CHUSER", user.id);
-      formData.append("tipo", "asignapresupuesto");
-      formData.append("CHMES", mes);
-      CatalogosServices.migraData(formData).then((res) => {
-        setslideropen(false);
-        handleClick();
-      });
-
-    } else {
-      AlertS.fire({
-        title: "Información!",
-        text: 'Es necesario el Filtro por Mes',
-        icon: "error",
-      });
-
-    }
-
   };
 
   useEffect(() => {
@@ -399,31 +352,23 @@ const AsigPresupuestal = () => {
     loadFilter(17);
     // handleClick();
     permisos.map((item: PERMISO) => {
-      if (String(item.ControlInterno) === "DPCPPRES") {
-        if (String(item.Referencia) === "CPRESUPUESTO") {
+      if (String(item.menu) == "DPCPPRES") {
+        if (String(item.ControlInterno) == "CPRESUPUESTO") {
           setCargarPlant(true);
         }
-
       }
-
     });
   }, []);
-
-
-
 
   return (
     <div>
       <Slider open={slideropen}></Slider>
       <Grid container spacing={1} padding={2}>
-
         <Grid container spacing={1} item xs={12} sm={12} md={12} lg={12}>
           <Grid container sx={{ justifyContent: "center" }}>
-
             <Grid item xs={12} sm={10} sx={{ textAlign: "center" }}>
               <NombreCatalogo controlInterno={"DPCPPRES"} />
             </Grid>
-
           </Grid>
         </Grid>
 
@@ -492,7 +437,6 @@ const AsigPresupuestal = () => {
               disabled={false}
             />
           </Grid>
-
         </Grid>
 
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={2}>
@@ -507,35 +451,7 @@ const AsigPresupuestal = () => {
         </Grid>
 
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={-1}>
-
           <ToggleButtonGroup>
-
-            {cargarPlant ? (
-              <Tooltip title={"Cargar Plantilla"}>
-                <ToggleButton value="check">
-                  <IconButton
-                    color="primary"
-                    aria-label="upload documento"
-                    component="label"
-                    size="large"
-                  >
-                    <input
-                      hidden
-                      accept=".xlsx"
-                      type="file"
-                      value=""
-                      onChange={(v) => handleUploadPA(v)}
-                    />
-                    <DriveFileMoveIcon />
-                  </IconButton>
-                </ToggleButton>
-              </Tooltip>
-            ) : (
-              ""
-            )}
-
-
-
             <ToggleButton value="check" onClick={() => verificaPresupuesto()}>
               <Tooltip title={"Verificar Presupuesto"}>
                 <AttachMoneyIcon color="primary" />
@@ -547,22 +463,18 @@ const AsigPresupuestal = () => {
                 <FileDownloadIcon color="primary" />
               </Tooltip>
             </ToggleButton>
-
           </ToggleButtonGroup>
-
-       
-          
         </Grid>
-
 
         <Grid item xs={12} sm={12} md={12} lg={12}>
           <MUIXDataGridGeneral
-            modulo={'Asignación Presupuestal'}
+            modulo={"Asignación Presupuestal"}
             handleBorrar={handleSeleccion}
             columns={columnsParticipaciones}
             rows={data}
             controlInterno={""}
-            multiselect={true} />
+            multiselect={true}
+          />
         </Grid>
       </Grid>
     </div>
@@ -570,4 +482,3 @@ const AsigPresupuestal = () => {
 };
 
 export default AsigPresupuestal;
-

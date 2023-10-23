@@ -1,20 +1,47 @@
+export interface menus {
+    id: string;
+    deleted: string;
+    UltimaActualizacion: string;
+    FechaCreacion: string;
+    ModificadoPor: string;
+    CreadoPor: string;
+    Menu: string;
+    Descripcion: string;
+    MenuPadre: string;
+    Icon: string;
+    Path: string;
+    Nivel: number;
+    Orden: number;
+    item?: Item[];
+}
+
+export interface Item {
+    id: string;
+    deleted: string;
+    UltimaActualizacion: string;
+    FechaCreacion: string;
+    ModificadoPor: string;
+    CreadoPor: string;
+    Menu: string;
+    Descripcion: string;
+    MenuPadre: string;
+    Icon: string;
+    Path: string;
+    Nivel: number;
+    Orden: number;
+   
+}
 
 export interface ROLE {
     Nombre: string;
     Descripcion: string;
 }
 
-export interface MENU {
-    Menu: string;
-    Descripcion: string;
-    ControlInterno: string;
-    items: any;
-}
+
 
 export interface PERMISO {
     ControlInterno: string;
-    Referencia: string;
-    Menu: string;
+    menu: string;
 
 }
 
@@ -108,7 +135,7 @@ export interface FPGDetalle {
 }
 
 export interface ITEMS {
-    id: string;
+    Id: string;
     deleted: string;
     UltimaActualizacion: string;
     FechaCreacion: string;
@@ -125,10 +152,7 @@ export interface ITEMS {
     subitems: any[];
 }
 
-export interface PERFILES {
-    Descripcion: string;
-    Referencia: string;
-}
+
 
 export interface MUNICIPIO {
     id: string;
@@ -140,10 +164,6 @@ export interface ORG {
     Descripcion: string;
 }
 
-export interface DEPARTAMENTOS {
-    NombreCorto: string;
-    Descripcion: string;
-}
 
 
 export interface RESPONSESTORAGE {
@@ -173,51 +193,49 @@ export interface RESPONSEGUIARAPIDA {
     RutaGuia: string;
 }
 
-export interface RESPONSE {
-    NOMBRE?: string;
-    TIPO?: string;
-    SIZE?: number;
-    FILE?: string;
-    id: string;
-    deleted: string;
-    UltimaActualizacion: string;
-    FechaCreacion: string;
-    ModificadoPor: string;
-    CreadoPor: string;
-    Nombre: string;
-    ApellidoPaterno: string;
-    ApellidoMaterno: string;
-    NombreUsuario: string;
-    CorreoElectronico: string;
-    RutaFoto?: any;
-    Puesto?: any;
-    EstaActivo?: number;
-    Ubicacion?: any;
-    Ext?: any;
-    Telefono?: any;
-    idDepartamento?: any;
-    ROLES: ROLE[];
-    MENUS: MENU[];
-    PERMISOS: PERMISO[];
-    PERFILES: PERFILES[];
-    DEPARTAMENTOS: DEPARTAMENTOS[];
-    MUNICIPIO: MUNICIPIO[];
-    ORG: ORG[];
-    tipo?: any;
-    Celular?: any;
-    Curp?: string;
-    idPerfil?: string;
-    idUsuarioCentral?: string;
-    numFideicomisos?: number;
-    idUResp?: string;
-}
+export interface ResponseDataAdicional {
+    MUNICIPIO: any[]
+    ORG: any[]
+  }
 
+export interface USUARIORESPONSE {
+     Id: string
+  Nombre: string
+  ApellidoPaterno: string
+  ApellidoMaterno: string
+  NombreUsuario: string
+  CorreoElectronico: string
+  Puesto: string
+  CURP: string
+  RFC: string
+  Telefono: string
+  Ext: string
+  Celular: string
+  IdTipoUsuario: string
+  TipoUsuario: string
+  EstaActivo: number
+  PuedeFirmar: number
+  UltimoInicioDeSesion: string
+  Deleted: number
+  IdApp: string
+  Aplicacion: string
+  IdEntidad: string
+  Entidad: string
+  ControlInternoEntidad: any
+  IdEntidadPerteneceA: any
+  EntidadPerteneceA: any
+  IdTipoEntidad: string
+  TipoEntidad: string
+  RutaFoto: string
+}
 export interface UserInfo {
     NUMCODE: number;
     STRMESSAGE: string;
-    RESPONSE: RESPONSE;
+    RESPONSE: USUARIORESPONSE;
     SUCCESS: boolean;
 }
+
+
 
 export interface MunicipioCambios {
     id: number;

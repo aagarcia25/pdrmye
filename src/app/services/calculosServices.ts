@@ -42,9 +42,7 @@ export class calculosServices {
         return await post('trazabilidadSolicitud', data);
     }
 
-    public static async calcula(data: any) {
-        return await post('calcula', data);
-    }
+   
 
     public static async CalculoGarantia(data: any) {
         return await post('CalculoGarantia', data);
@@ -57,13 +55,8 @@ export class calculosServices {
     public static async getEstatusCalculo(data: any) {
         return await post('getEstatusCalculo', data);
     }
-    public static async getPerfilCalculo(data: any) {
-        return await post('getPerfilCalculo', data);
-    }
-    public static async getAreaCalculo(data: any) {
-        return await post('getAreaCalculo', data);
-    }
-    
+
+
 
     public static async spcalculo(data: any) {
         return await post('spcalculo', data);
