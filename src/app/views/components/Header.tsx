@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import HelpIcon from "@mui/icons-material/Help";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -116,7 +117,6 @@ export default function Header(props: HeaderProps) {
         <>
           <Tooltip title=" Configuración de perfil">
             <IconButton
-              // className="ButtonColorGenerico"
               ref={anchorRef}
               id="composition-button"
               aria-controls={open ? "composition-menu" : undefined}
@@ -229,17 +229,17 @@ export default function Header(props: HeaderProps) {
   };
 
   function handleListKeyDown(event: React.KeyboardEvent) {
-    if (event.key == "Tab") {
+    if (event.key === "Tab") {
       event.preventDefault();
       setOpen(false);
-    } else if (event.key == "Escape") {
+    } else if (event.key === "Escape") {
       setOpen(false);
     }
   }
 
   const prevOpen = React.useRef(open);
   React.useEffect(() => {
-    if (prevOpen.current == true && open == false) {
+    if (prevOpen.current === true && open === false) {
       anchorRef.current!.focus();
     }
 
@@ -450,13 +450,13 @@ export default function Header(props: HeaderProps) {
                                 src={
                                   "data:" +
                                   String(
-                                    props.imgData == "undefined"
+                                    props.imgData === "undefined"
                                       ? Blanco.Tipo
                                       : props.imgTipo
                                   ) +
                                   ";base64," +
                                   String(
-                                    props.imgData == "undefined"
+                                    props.imgData === "undefined"
                                       ? Blanco.Data
                                       : props.imgData
                                   )

@@ -64,35 +64,18 @@ import EnviarDocumento from "../views/components/EFIRMA/EnviarDocumento";
 export const AppRouter = ({ login }: { login: boolean }) => {
   const log = login;
   const user: USUARIORESPONSE = JSON.parse(String(getUser()));
-  const [responseStorage, setResponseStorage] = useState<RESPONSESTORAGE>();
-  const [ClearresponseStorage, setClearResponseStorage] =
-    useState<RESPONSESTORAGE>();
 
   const handleCloseModal = () => {};
   const handleChangeImg = () => {
     //  GetImage("/FOTOPERFIL/", user.RutaFoto);
   };
 
-  /*const GetImage = (tipo: string, nameImagen: string) => {
-    AuthService.GetImagenProfile(tipo, nameImagen).then((res) => {
-      if (res.SUCCESS) {
-        setResponseStorage(res.RESPONSE.RESPONSE);
-      } else {
-        setResponseStorage(responseStorage);
-      }
-    });
-  };
-*/
   useEffect(() => {
     handleChangeImg();
   }, []);
 
   return (
-    <Inicio
-      user={user}
-      imgData={String(responseStorage?.FILE)}
-      imgTipo={String(responseStorage?.TIPO)}
-    >
+    <Inicio user={user} imgData={""} imgTipo={""}>
       <Routes>
         <Route path="/*" element={log ? <Eo404 /> : <AuthRouter />} />
         <Route
@@ -198,8 +181,8 @@ export const AppRouter = ({ login }: { login: boolean }) => {
           element={
             <Perfil
               handleChangeImg={handleChangeImg}
-              imgData={String(responseStorage?.FILE)}
-              imgTipo={String(responseStorage?.TIPO)}
+              imgData={""}
+              imgTipo={""}
             />
           }
         />
