@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/iframe-has-title */
 import DeleteIcon from "@mui/icons-material/Delete";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import {
@@ -52,6 +53,7 @@ const SpeisAdmin = ({
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
   const [agregarCFDI, setAgregarCFDI] = useState<boolean>(false);
+  const [VERIFICARCFDI, SETVERIFICARCFDI] = useState<boolean>(false);
   const [PERMISOVerSpei, setPERMISOVerSpei] = useState<boolean>(false);
   const [permisoDescargarSpei, setPermisoDescargarSpei] =
     useState<boolean>(false);
@@ -522,20 +524,6 @@ const SpeisAdmin = ({
     });
   };
 
-  const dataUrlToFile = async (
-    dataUrl: string,
-    fileName: string,
-    mimeType: string
-  ): Promise<Blob> => {
-    const binStr = dataUrl;
-    const len = binStr.length;
-    const arr = new Uint8Array(len);
-    for (let i = 0; i < len; i++) {
-      arr[i] = binStr.charCodeAt(i);
-    }
-    return new Blob([arr], { type: mimeType });
-  };
-
   const consulta = () => {
     setslideropen(true);
     if (modo == "SPEI") {
@@ -582,45 +570,42 @@ const SpeisAdmin = ({
   };
   useEffect(() => {
     consulta();
-    var ancho = 0;
     permisos.map((item: PERMISO) => {
       if (
-        String(item.menu) == "DAFADMINPAG" ||
-        String(item.ControlInterno) == "PARTMUN"
+        String(item.menu) === "DAFADMINPAG" ||
+        String(item.ControlInterno) === "PARTMUN"
       ) {
-        if (String(item.ControlInterno) == "AGREGSPEI") {
+        if (String(item.ControlInterno) === "AGREGSPEI") {
           setAgregar(true);
         }
-        if (String(item.ControlInterno) == "ELIMSPEI") {
+        if (String(item.ControlInterno) === "ELIMSPEI") {
           setEliminar(true);
-          ancho = ancho + 50;
         }
-        if (String(item.ControlInterno) == "ELIMCFDI") {
+        if (String(item.ControlInterno) === "ELIMCFDI") {
           setEliminarCFDI(true);
-          ancho = ancho + 50;
         }
-        if (String(item.ControlInterno) == "DESCARGARSPEI") {
+        if (String(item.ControlInterno) === "DESCARGARSPEI") {
           setPermisoDescargarSpei(true);
-          ancho = ancho + 50;
         }
-        if (String(item.ControlInterno) == "VERSPEI") {
+        if (String(item.ControlInterno) === "VERSPEI") {
           setPERMISOVerSpei(true);
-          ancho = ancho + 50;
         }
-        if (String(item.ControlInterno) == "AGREGCFDI") {
+        if (String(item.ControlInterno) === "AGREGCFDI") {
           setAgregarCFDI(true);
         }
-        if (String(item.ControlInterno) == "VERCFDI") {
+        if (String(item.ControlInterno) === "VERCFDI") {
           setPERMISOVerSpei(true);
-          ancho = ancho + 50;
         }
-        if (String(item.ControlInterno) == "DESCARGARCFDI") {
+        if (String(item.ControlInterno) === "DESCARGARCFDI") {
           setPERMISOVerSpei(true);
-          ancho = ancho + 50;
+        }
+        if (String(item.ControlInterno) === "VERIFICARCFDI") {
+          SETVERIFICARCFDI(true);
         }
       }
     });
   }, []);
+
   return (
     <>
       <ModalForm
@@ -663,10 +648,7 @@ const SpeisAdmin = ({
         <Box>
           <ButtonsAdd
             handleOpen={handleAgregarSpei}
-            agregar={
-              agregar || (modo == "CFDI" && agregarCFDI)
-              //  && (user.MUNICIPIO.length > 0 || user.ORG.length > 0)
-            }
+            agregar={agregar || (modo === "CFDI" && agregarCFDI)}
           />
           <Grid item xs={12}>
             <MUIXDataGridMun
@@ -741,7 +723,8 @@ const SpeisAdmin = ({
         <ModalForm title={"Visualización"} handleClose={handleCloseModal}>
           <DialogContent dividers={true}>
             <Grid container spacing={1}>
-              {vobj?.Estatus === "En Proceso de Verificación" &&
+              {VERIFICARCFDI &&
+              vobj?.Estatus === "En Proceso de Verificación" &&
               modo === "CFDI" ? (
                 <Grid container item xs={12}>
                   <Grid item xs={12} sm={12} md={2} lg={2}>
