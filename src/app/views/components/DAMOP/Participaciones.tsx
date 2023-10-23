@@ -1075,7 +1075,6 @@ const Participaciones = () => {
     SETDAMOP_FRA(false);
     SETDAMOP_ARA(false);
     SETDAF_SPEI(false);
-    // setEditCabecera(false);
     SETDAMOP_FINALIZADO(false);
   };
 
@@ -2329,7 +2328,7 @@ const Participaciones = () => {
             ""
           )}
 
-          {true ? (
+          {SESTATUS ? (
             <Grid item xs={11.5} sm={6} md={4} lg={2}>
               <Typography sx={{ fontFamily: "sans-serif" }}>
                 Estatus:
