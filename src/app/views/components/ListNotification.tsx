@@ -1,37 +1,28 @@
 import AddIcon from "@mui/icons-material/Add";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { Box, Button, IconButton, Tooltip } from "@mui/material";
-import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
-import React, { useEffect, useState } from "react";
+import { Box, Button, Grid, IconButton, Tooltip } from "@mui/material";
+import { GridColDef } from "@mui/x-data-grid";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { USUARIORESPONSE } from "../../interfaces/user/UserInfo";
 import { CatalogosServices } from "../../services/catalogosServices";
-import { getUser } from "../../services/localStorage";
+import { getUser, getcontrolInternoEntidad } from "../../services/localStorage";
 import ListNotificationsModal from "./ListNotificationsModal";
 import MUIXDataGridMun from "./MUIXDataGridMun";
 
 export const ListNotification = () => {
-  const [slideropen, setslideropen] = useState(false);
   const [notificacion, setNotificacion] = useState([]);
   const [data, setData] = useState({});
-  const [plantilla, setPlantilla] = useState("");
   const [modo, setModo] = useState("ViewMessage");
   const [destinatario, setDestinatario] = useState("");
-  const [perfil, setPerfil] = useState<string>();
   const navigate = useNavigate();
   const [remitente, setRemitente] = useState("");
   const [tipoOperacion, setTipoOperacion] = useState<number>(8);
-  const [selectionModel, setSelectionModel] =
-    React.useState<GridSelectionModel>([]);
   const user: USUARIORESPONSE = JSON.parse(String(getUser()));
   const [open, setOpen] = useState(false);
-  const [nombreMenu, setNombreMenu] = useState("");
 
-  const handleBorrar = (v: any) => {
-    setSelectionModel(v);
-  };
-
+  const handleBorrar = (v: string) => {};
   const columns: GridColDef[] = [
     { field: "id", hide: true, hideable: false },
     { field: "deleted", hide: true, hideable: false },
@@ -58,7 +49,8 @@ export const ListNotification = () => {
               </IconButton>
             </Tooltip>
 
-            {modo == "ViewMessage" || modo == "viewMessageReading" ? (
+            {(modo === "ViewMessage" || modo === "viewMessageReading") &&
+            "CPH" === JSON.parse(String(getcontrolInternoEntidad())) ? (
               <Tooltip title={"Ir A"}>
                 <IconButton onClick={() => goa(v)}>
                   <DoubleArrowIcon />
@@ -82,24 +74,23 @@ export const ListNotification = () => {
       field: "origen",
       headerName: "Remitente",
       description: "Remitente",
-      width: 300,
-      hide: modo == "MessageSend",
+      width: 200,
+      hide: modo === "MessageSend",
     },
     {
       field: "destinatario",
       headerName: "Destinatario",
       description: "Destinatario",
-      width: 300,
-      hide: modo == "viewMessageReading" || modo == "ViewMessage",
+      width: 200,
+      hide: modo === "viewMessageReading" || modo === "ViewMessage",
     },
     {
       field: "Encabezado",
       headerName: "Encabezado",
       description: "Encabezado",
-      width: 550,
+      width: 200,
     },
     { field: "Descripcion", headerName: "Mensaje", width: 550 },
-    { field: "Visto", headerName: "Visto", width: 300, hide: true },
     {
       field: "Destinatario",
       headerName: "destinatario",
@@ -117,7 +108,7 @@ export const ListNotification = () => {
 
   const viewMessageModal = (v: any) => {
     setTipoOperacion(6);
-    if (v.row.Visto == "0") {
+    if (v.row.Visto === "0") {
       setDestinatario(v.row.destinatario);
       setRemitente(v.row.origen);
     }
@@ -179,13 +170,13 @@ export const ListNotification = () => {
   };
 
   const handleClose = (v: string) => {
-    if (v == "9") {
+    if (v === "9") {
       setModo("MessageSend");
       setOpen(false);
       viewMessageSend(9);
     }
 
-    if (v == "8") {
+    if (v === "8") {
       setModo("ViewMessage");
       let dat = {
         NUMOPERACION: Number(v),
@@ -196,16 +187,15 @@ export const ListNotification = () => {
       });
       setOpen(false);
     }
-    if (v == "cerrar") {
+    if (v === "cerrar") {
       setOpen(false);
     }
-    if (v == "7") {
+    if (v === "7") {
       setOpen(false);
     }
   };
 
   useEffect(() => {
-    //  setPerfil(PER[0].Referencia);
     let dat = {
       NUMOPERACION: 8,
       CHUSER: user.Id,
@@ -232,107 +222,65 @@ export const ListNotification = () => {
         ""
       )}
 
-      <Box
-        sx={{
-          display: "flex",
-          height: "90%",
-          justifyContent: "content-position",
-          p: 1,
-          m: 1,
-          // bgcolor:"red",
-          // bgcolor: 'background.paper',
-        }}
+      <Grid
+        container
+        item
+        spacing={1}
+        xs={12}
+        sm={12}
+        md={12}
+        lg={12}
+        justifyContent="center"
+        alignItems="center"
       >
-        <Box sx={{ width: "150px", paddingRight: ".5%" }}>
-          <Box
-            sx={{
-              position: "relative",
-              top: 10,
-              left: 7,
-              width: "90%",
-              justifyContent: "center",
-              display: "flex",
-              borderRadius: 1,
-            }}
-          >
-            {perfil != "MUN" ? (
-              <Button
-                className="nuevo-mensaje"
-                color="success"
-                variant="contained"
-                endIcon={<AddIcon />}
-                onClick={() => handleNuevoMensaje()}
-              >
-                Nuevo
-              </Button>
-            ) : (
-              ""
-            )}
-          </Box>
-
-          <Box
-            sx={{
-              height: "120px",
-
-              justifyContent: "space-between",
-              position: "relative",
-              flexDirection: "column",
-              top: 50,
-              left: 7,
-              width: "90%",
-              display: "flex",
-              borderRadius: 1,
-            }}
-          >
+        <Grid container item xs={12} sm={12} md={12} lg={12}>
+          <Grid item xs={12} sm={12} md={12} lg={1}>
             <Button
-              className={
-                modo == "ViewMessage"
-                  ? "notificacionesSelected"
-                  : "notificaciones"
-              }
+              className="nuevo-mensaje"
+              color="success"
+              variant="contained"
+              endIcon={<AddIcon />}
+              onClick={() => handleNuevoMensaje()}
+            >
+              Nuevo
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={12} md={12} lg={1}>
+            <Button
+              className={"notificacionesSelected"}
+              onClick={() => viewMessageReading(7)}
+            >
+              Leídos
+            </Button>
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={12} lg={1}>
+            <Button
+              className={"notificacionesSelected"}
+              onClick={() => viewMessageSend(9)}
+            >
+              Enviados
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={12} md={12} lg={1}>
+            <Button
+              className={"notificacionesSelected"}
               onClick={() => viewMessage(8)}
             >
               Recibidos
             </Button>
-
-            {perfil != "MUN" ? (
-              <Button
-                className={
-                  modo == "MessageSend"
-                    ? "notificacionesSelected"
-                    : "notificaciones"
-                }
-                onClick={() => viewMessageSend(9)}
-              >
-                Enviados
-                {/* <SendIcon /> */}
-              </Button>
-            ) : (
-              ""
-            )}
-
-            <Button
-              className={
-                modo == "viewMessageReading"
-                  ? "notificacionesSelected"
-                  : "notificaciones"
-              }
-              onClick={() => viewMessageReading(7)}
-            >
-              Leídos
-              {/* <AutoStoriesIcon /> */}
-            </Button>
-          </Box>
-        </Box>
-
-        <MUIXDataGridMun
-          columns={columns}
-          rows={notificacion}
-          handleBorrar={handleBorrar}
-          modulo={"Notificacion"}
-          controlInterno={""}
-        />
-      </Box>
+          </Grid>
+        </Grid>
+        <Grid item xs={12} sm={12} md={12} lg={12}>
+          <MUIXDataGridMun
+            columns={columns}
+            rows={notificacion}
+            handleBorrar={handleBorrar}
+            modulo={"Notificacion"}
+            controlInterno={""}
+          />
+        </Grid>
+      </Grid>
     </div>
   );
 };
