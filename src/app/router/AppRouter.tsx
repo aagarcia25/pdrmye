@@ -20,7 +20,6 @@ import Inicio from "../views/components/Inicio";
 import { ListNotification } from "../views/components/ListNotification";
 import AgregarContactoMunicipio from "../views/components/Municipios/AgregarContactoMunicipio";
 import ContactoMunicipios from "../views/components/Municipios/ContactoMunicipios";
-import CPH from "../views/components/POWERBI/CPH";
 import { Reporteador } from "../views/components/Reportes/Reporteador";
 import { Art14f } from "../views/components/menu/articulos/Art14f";
 import Art14fP from "../views/components/menu/articulos/Art14fP";
@@ -307,7 +306,6 @@ export const AppRouter = ({ login }: { login: boolean }) => {
           path="/estadisticas/reportes"
           element={log ? <Reporteador /> : <AuthRouter />}
         />
-        <Route path="/powerbicph/" element={log ? <CPH /> : <AuthRouter />} />
         {/* /// herramientas */}
       </Routes>
     </Inicio>
