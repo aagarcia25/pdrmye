@@ -70,15 +70,9 @@ export const ListNotification = () => {
       hide: true,
       hideable: false,
     },
+
     {
-      field: "origen",
-      headerName: "Remitente",
-      description: "Remitente",
-      width: 200,
-      hide: modo === "MessageSend",
-    },
-    {
-      field: "destinatario",
+      field: "personades",
       headerName: "Destinatario",
       description: "Destinatario",
       width: 200,
@@ -91,13 +85,6 @@ export const ListNotification = () => {
       width: 200,
     },
     { field: "Descripcion", headerName: "Mensaje", width: 550 },
-    {
-      field: "Destinatario",
-      headerName: "destinatario",
-      width: 300,
-      hide: true,
-      hideable: false,
-    },
   ];
 
   const handleNuevoMensaje = () => {
@@ -109,10 +96,10 @@ export const ListNotification = () => {
   const viewMessageModal = (v: any) => {
     setTipoOperacion(6);
     if (v.row.Visto === "0") {
-      setDestinatario(v.row.destinatario);
+      setDestinatario(v.row.personades);
       setRemitente(v.row.origen);
     }
-    setDestinatario(v.row.destinatario);
+    setDestinatario(v.row.personades);
     setRemitente(v.row.origen);
     setOpen(true);
     setData(v);
