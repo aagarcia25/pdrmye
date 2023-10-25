@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/iframe-has-title */
 import DeleteIcon from "@mui/icons-material/Delete";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
@@ -242,7 +243,9 @@ const SpeisAdmin = ({
               ""
             )}
 
-            {eliminarCFDI && modo == "CFDI" ? (
+            {eliminarCFDI &&
+            v.row.Estatus !== "En Proceso de Verificación" &&
+            modo == "CFDI" ? (
               <Tooltip title={"Eliminar Archivo"}>
                 <IconButton onClick={() => handleDeleteSpei(v)}>
                   <DeleteIcon />
