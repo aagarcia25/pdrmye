@@ -270,7 +270,7 @@ export const MunPoblacion = () => {
     setAnios(fanios());
 
     permisos.map((item: PERMISO) => {
-      if (item.ControlInterno == "MUNPO") {
+      if (item.menu == "MUNPO") {
         if (String(item.ControlInterno) == "EDIT") {
           setUpdate(true);
         }
