@@ -244,7 +244,7 @@ const SpeisAdmin = ({
             )}
 
             {eliminarCFDI &&
-            v.row.Estatus !== "En Proceso de Verificación" &&
+            v.row.Estatus !== "Verificado" &&
             modo === "CFDI" ? (
               <Tooltip title={"Eliminar Archivo"}>
                 <IconButton onClick={() => handleDeleteSpei(v)}>
