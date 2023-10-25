@@ -616,7 +616,7 @@ const Participaciones = () => {
       renderCell: (v: any) => {
         return (
           <Box>
-            {v.row.tipo === 2 ? (
+            {v.row.tipo === "2" ? (
               <Tooltip title={"Base de Cálculo"}>
                 <IconButton
                   value="check"
@@ -635,7 +635,7 @@ const Participaciones = () => {
               </IconButton>
             </Tooltip>
 
-            {v.row.tipo === 1 ? (
+            {v.row.tipo === "1" ? (
               <Tooltip title={"Ver Pagos Parciales"}>
                 <IconButton
                   value="check"
