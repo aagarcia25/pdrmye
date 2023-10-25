@@ -5,7 +5,6 @@ import Swal from "sweetalert2";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import {
-  ITEMS,
   PERMISO,
   USUARIORESPONSE,
   menus,

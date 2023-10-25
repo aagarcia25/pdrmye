@@ -90,13 +90,6 @@ export const MunRecaudacion = () => {
       description: "Recaudación",
       width: 150,
       ...Moneda,
-      //  renderCell: (v) => {
-      //   return (
-      //     <>
-
-      //     </>
-      //   );
-      // },
     },
   ];
 
