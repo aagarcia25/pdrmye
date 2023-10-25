@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -176,26 +177,19 @@ export const ParametrosGenerales = () => {
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      menu.map((item: any) => {
-        item.items.map((itemsMenu: ITEMS) => {
-          if (String(itemsMenu.ControlInterno) == "PG") {
-            setNombreMenu(itemsMenu.Menu);
-          }
-        });
-      });
-
-      if (String(item.ControlInterno) == "PG") {
-        if (String(item.ControlInterno) == "AGREG") {
+      if (String(item.menu) === "PG") {
+        if (String(item.ControlInterno) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.ControlInterno) == "ELIM") {
+        if (String(item.ControlInterno) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.ControlInterno) == "EDIT") {
+        if (String(item.ControlInterno) === "EDIT") {
           setEditar(true);
         }
       }
     });
+
     consulta({ NUMOPERACION: 4 });
   }, []);
 
