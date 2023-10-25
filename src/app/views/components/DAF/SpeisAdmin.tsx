@@ -232,7 +232,7 @@ const SpeisAdmin = ({
                   <img
                     className="iconButton"
                     src={
-                      v.row.Nombre.slice(-3).toUpperCase() == "PDF"
+                      v.row.Nombre.slice(-3).toUpperCase() === "PDF"
                         ? IconSPEIPDFDown
                         : IconeXML
                     }
@@ -245,7 +245,7 @@ const SpeisAdmin = ({
 
             {eliminarCFDI &&
             v.row.Estatus !== "En Proceso de Verificación" &&
-            modo == "CFDI" ? (
+            modo === "CFDI" ? (
               <Tooltip title={"Eliminar Archivo"}>
                 <IconButton onClick={() => handleDeleteSpei(v)}>
                   <DeleteIcon />
