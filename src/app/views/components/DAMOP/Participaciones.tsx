@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import AddIcon from "@mui/icons-material/Add";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
@@ -22,6 +23,7 @@ import PolylineIcon from "@mui/icons-material/Polyline";
 import PrintIcon from "@mui/icons-material/Print";
 import SegmentIcon from "@mui/icons-material/Segment";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import MoneyIcon from "@mui/icons-material/Money";
 import {
   Box,
   Button,
@@ -80,6 +82,7 @@ import Slider from "../Slider";
 import TrazabilidadSolicitud from "../TrazabilidadSolicitud";
 import { Descuentos } from "./Descuentos";
 import { Retenciones } from "./Retenciones";
+import { PagosParciales } from "./PagosParciales";
 const Participaciones = () => {
   ///////////////modal de adminisracion Spei cfdi
   const [modoSpeiCfdi, setModoSpeiCfdi] = useState("");
@@ -192,6 +195,7 @@ const Participaciones = () => {
   const [anchoAcciones, setAnchoAcciones] = useState<number>(0);
   const [idORG, setIdORG] = useState("");
   const [openModalCabecera, setOpenModalCabecera] = useState<boolean>(false);
+  const [openModalPagos, setopenModalPagos] = useState<boolean>(false);
   const [modo, setModo] = useState<string>("");
   const [organismos, setOrganismos] = useState<SelectValues[]>([]);
 
@@ -239,6 +243,9 @@ const Participaciones = () => {
     setModo("Ver");
   };
 
+  const handlepagosparciales = (data: any) => {
+    setopenModalPagos(true);
+  };
   const handleBorrarSolicitud = (v: any) => {
     let data = {
       CHID: v?.row?.id,
@@ -609,17 +616,37 @@ const Participaciones = () => {
       renderCell: (v: any) => {
         return (
           <Box>
-            <Tooltip title={"Base de Cálculo"}>
-              <IconButton value="check" onClick={() => handleprintsolicitud(v)}>
-                <PrintIcon />
-              </IconButton>
-            </Tooltip>
+            {v.row.tipo === 2 ? (
+              <Tooltip title={"Base de Cálculo"}>
+                <IconButton
+                  value="check"
+                  onClick={() => handleprintsolicitud(v)}
+                >
+                  <PrintIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
 
             <Tooltip title={"Administrar Detalles"}>
               <IconButton value="check" onClick={() => handledetalles(v)}>
                 <MenuBookIcon />
               </IconButton>
             </Tooltip>
+
+            {v.row.tipo === 1 ? (
+              <Tooltip title={"Ver Pagos Parciales"}>
+                <IconButton
+                  value="check"
+                  onClick={() => handlepagosparciales(v)}
+                >
+                  <MoneyIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
 
             {ELIMINA && v.row.Integrado === 1 ? (
               <IconButton
@@ -633,7 +660,6 @@ const Participaciones = () => {
             ) : (
               ""
             )}
-
             {verSegmentar &&
             String(v.row.estatus) === "Ingresando Operación" ? (
               <Tooltip title={"Segmentar Operación"}>
@@ -644,7 +670,6 @@ const Participaciones = () => {
             ) : (
               ""
             )}
-
             {verTrazabilidad ? (
               <Tooltip title={"Ver Trazabilidad"}>
                 <IconButton
@@ -657,7 +682,6 @@ const Participaciones = () => {
             ) : (
               ""
             )}
-
             {(String(v.row.estatus) === "Ingresando Operación" &&
               cargarPlant) ||
             permisoAgregarNumeroSolicitud ? (
@@ -669,7 +693,6 @@ const Participaciones = () => {
             ) : (
               ""
             )}
-
             {v.row.orden >= 13 ? (
               <>
                 <Tooltip title="Ver Spei">
@@ -1011,6 +1034,7 @@ const Participaciones = () => {
     setOpenModalDescuento(false);
     setOpenModalDetalle(false);
     setOpenModalVerSpei(false);
+    setopenModalPagos(false);
   };
 
   const handleFilterChange2 = (v: SelectValues[]) => {
@@ -2140,117 +2164,111 @@ const Participaciones = () => {
     }
   };
 
-  useEffect(
-    () => {
-      var ancho = 0;
-      setMeses(fmeses());
-      setAnios(fanios());
-      loadFilter(27);
-      loadFilter(31);
-      loadFilter(5);
-      loadFilter(17);
-      loadFilter(25);
-      loadFilter(24);
-      loadFilter(38);
+  useEffect(() => {
+    var ancho = 0;
+    setMeses(fmeses());
+    setAnios(fanios());
+    loadFilter(27);
+    loadFilter(31);
+    loadFilter(5);
+    loadFilter(17);
+    loadFilter(25);
+    loadFilter(24);
+    loadFilter(38);
 
-      permisos.map((item: PERMISO) => {
-        if (String(item.menu) === "PARTMUN") {
-          if (String(item.ControlInterno) === "AGREGPLANT") {
-            setCargarPlant(true);
-          } else if (String(item.ControlInterno) === "DESCPLANT") {
-            setDescPlant(true);
-          } else if (String(item.ControlInterno) === "DISFIDE") {
-            setDisFide(true);
-          } else if (String(item.ControlInterno) === "TRAZASPEIDAF") {
-            ancho = ancho + 50;
-            setVerTrazabilidad(true);
-          } else if (String(item.ControlInterno) === "SEGM") {
-            ancho = ancho + 50;
-            setVerSegmentar(true);
-          } else if (String(item.ControlInterno) === "ASIGNAOBS") {
-            ancho = ancho + 50;
-            setasignaObservacion(true);
-          } else if (String(item.ControlInterno) === "CGPRESTAMO") {
-            ancho = ancho + 50;
-            setCargaPrestamos(true);
-          } else if (String(item.ControlInterno) === "AG_REGISTRO") {
-            ancho = ancho + 50;
-            //setCargaPrestamos(true);
-          } else if (String(item.ControlInterno) === "CG_PLANTILLA_ORG") {
-            ancho = ancho + 50;
-            setCG_PLANTILLA_ORG(true);
-          } else if (String(item.ControlInterno) === "INTEGRAR_OPERACION") {
-            ancho = ancho + 50;
-            setINTEGRAR_OPERACION(true);
-          } else if (String(item.ControlInterno) === "INTEGRACION_MASIVA") {
-            ancho = ancho + 50;
-            setINTEGRACION_MASIVA(true);
-          } else if (String(item.ControlInterno) === "UNIFICACION") {
-            ancho = ancho + 50;
-            setUNIFICACION(true);
-          } else if (String(item.ControlInterno) === "SORGANISMOS") {
-            setSORGANISMOS(true);
-          } else if (String(item.ControlInterno) === "SESTATUS") {
-            setSESTATUS(true);
-          } else if (String(item.ControlInterno) === "STIPOSOLICITUD") {
-            setSTIPOSOLICITUD(true);
-          } else if (String(item.ControlInterno) === "SFONDO") {
-            setSFONDO(true);
-          } else if (String(item.ControlInterno) === "SMUNICIPIO") {
-            setSMUNICIPIO(true);
-          } else if (String(item.ControlInterno) === "SMES") {
-            setSMES(true);
-          } else if (String(item.ControlInterno) === "ELIMINA") {
-            setELIMINA(true);
-          } else if (String(item.ControlInterno) === "ELIMINAMASIVO") {
-            setELIMINAMASIVO(true);
-          } else if (String(item.ControlInterno) === "INSERTAREG") {
-            setINSERTAREG(true);
-          } else if (String(item.ControlInterno) === "EDITCAB") {
-            setEditCabecera(true);
-          } else if (String(item.ControlInterno) === "AGREGDETALLE") {
-            setPermisoAgregarDetalle(true);
-          } else if (String(item.ControlInterno) === "AGREGRETEN") {
-            setPermisoAgregarRetencion(true);
-          } else if (String(item.ControlInterno) === "EDITRETENCION") {
-            setPermisoEditarRetencion(true);
-          } else if (String(item.ControlInterno) === "DELETERETEN") {
-            setPermisoEliminarRetencion(true);
-          } else if (String(item.ControlInterno) === "ELIMDETCABECERA") {
-            setPermisoEliminarDetalleCabecera(true);
-          } else if (String(item.ControlInterno) === "EDITARDETALLECABECERA") {
-            setPermisoEditarDetalleCabecera(true);
-          } else if (String(item.ControlInterno) === "ELIMDESC") {
-            setPermisoEliminarDescuento(true);
-          } else if (String(item.ControlInterno) === "EDITDESC") {
-            setPermisoEditarDescuento(true);
-          } else if (String(item.ControlInterno) === "AGREGDESC") {
-            setPermisoAgregarDescuento(true);
-          } else if (String(item.ControlInterno) === "ASIGNANUMEROORDENPAGO") {
-            setPermisoAgregarNumeroSolicitud(true);
-          } else if (String(item.ControlInterno) === "MARCAMONEX") {
-            setMarcaMonex(true);
-          } else if (String(item.ControlInterno) === "SANIO") {
-            setSANIO(true);
-          } else if (String(item.ControlInterno) === "MULTICFDI") {
-            setMultiCFDI(true);
-          }
+    permisos.map((item: PERMISO) => {
+      if (String(item.menu) === "PARTMUN") {
+        if (String(item.ControlInterno) === "AGREGPLANT") {
+          setCargarPlant(true);
+        } else if (String(item.ControlInterno) === "DESCPLANT") {
+          setDescPlant(true);
+        } else if (String(item.ControlInterno) === "DISFIDE") {
+          setDisFide(true);
+        } else if (String(item.ControlInterno) === "TRAZASPEIDAF") {
+          ancho = ancho + 50;
+          setVerTrazabilidad(true);
+        } else if (String(item.ControlInterno) === "SEGM") {
+          ancho = ancho + 50;
+          setVerSegmentar(true);
+        } else if (String(item.ControlInterno) === "ASIGNAOBS") {
+          ancho = ancho + 50;
+          setasignaObservacion(true);
+        } else if (String(item.ControlInterno) === "CGPRESTAMO") {
+          ancho = ancho + 50;
+          setCargaPrestamos(true);
+        } else if (String(item.ControlInterno) === "AG_REGISTRO") {
+          ancho = ancho + 50;
+          //setCargaPrestamos(true);
+        } else if (String(item.ControlInterno) === "CG_PLANTILLA_ORG") {
+          ancho = ancho + 50;
+          setCG_PLANTILLA_ORG(true);
+        } else if (String(item.ControlInterno) === "INTEGRAR_OPERACION") {
+          ancho = ancho + 50;
+          setINTEGRAR_OPERACION(true);
+        } else if (String(item.ControlInterno) === "INTEGRACION_MASIVA") {
+          ancho = ancho + 50;
+          setINTEGRACION_MASIVA(true);
+        } else if (String(item.ControlInterno) === "UNIFICACION") {
+          ancho = ancho + 50;
+          setUNIFICACION(true);
+        } else if (String(item.ControlInterno) === "SORGANISMOS") {
+          setSORGANISMOS(true);
+        } else if (String(item.ControlInterno) === "SESTATUS") {
+          setSESTATUS(true);
+        } else if (String(item.ControlInterno) === "STIPOSOLICITUD") {
+          setSTIPOSOLICITUD(true);
+        } else if (String(item.ControlInterno) === "SFONDO") {
+          setSFONDO(true);
+        } else if (String(item.ControlInterno) === "SMUNICIPIO") {
+          setSMUNICIPIO(true);
+        } else if (String(item.ControlInterno) === "SMES") {
+          setSMES(true);
+        } else if (String(item.ControlInterno) === "ELIMINA") {
+          setELIMINA(true);
+        } else if (String(item.ControlInterno) === "ELIMINAMASIVO") {
+          setELIMINAMASIVO(true);
+        } else if (String(item.ControlInterno) === "INSERTAREG") {
+          setINSERTAREG(true);
+        } else if (String(item.ControlInterno) === "EDITCAB") {
+          setEditCabecera(true);
+        } else if (String(item.ControlInterno) === "AGREGDETALLE") {
+          setPermisoAgregarDetalle(true);
+        } else if (String(item.ControlInterno) === "AGREGRETEN") {
+          setPermisoAgregarRetencion(true);
+        } else if (String(item.ControlInterno) === "EDITRETENCION") {
+          setPermisoEditarRetencion(true);
+        } else if (String(item.ControlInterno) === "DELETERETEN") {
+          setPermisoEliminarRetencion(true);
+        } else if (String(item.ControlInterno) === "ELIMDETCABECERA") {
+          setPermisoEliminarDetalleCabecera(true);
+        } else if (String(item.ControlInterno) === "EDITARDETALLECABECERA") {
+          setPermisoEditarDetalleCabecera(true);
+        } else if (String(item.ControlInterno) === "ELIMDESC") {
+          setPermisoEliminarDescuento(true);
+        } else if (String(item.ControlInterno) === "EDITDESC") {
+          setPermisoEditarDescuento(true);
+        } else if (String(item.ControlInterno) === "AGREGDESC") {
+          setPermisoAgregarDescuento(true);
+        } else if (String(item.ControlInterno) === "ASIGNANUMEROORDENPAGO") {
+          setPermisoAgregarNumeroSolicitud(true);
+        } else if (String(item.ControlInterno) === "MARCAMONEX") {
+          setMarcaMonex(true);
+        } else if (String(item.ControlInterno) === "SANIO") {
+          setSANIO(true);
+        } else if (String(item.ControlInterno) === "MULTICFDI") {
+          setMultiCFDI(true);
         }
-        setAnchoAcciones(ancho);
-      });
-      handleClick();
-    },
-    [
-      // munTieneFide
-    ]
-  );
+      }
+      setAnchoAcciones(ancho);
+    });
+    handleClick();
+  }, []);
   const handleBorrarMasivo = (v: GridSelectionModel) => {
     setSelectionModel(v);
   };
   return (
     <div>
       <Slider open={slideropen}></Slider>
-
       <Grid container spacing={1} padding={0}>
         <Grid container item spacing={1} xs={12} sm={12} md={12} lg={12}>
           <Grid container sx={{ justifyContent: "center" }}>
@@ -2962,6 +2980,8 @@ const Participaciones = () => {
       ) : (
         ""
       )}
+
+      {openModalPagos ? <PagosParciales handleClose={handleClose} /> : ""}
       {openModalCabecera ? (
         <ORGHeader
           dataCabecera={vrows}
