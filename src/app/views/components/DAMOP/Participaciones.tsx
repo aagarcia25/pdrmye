@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/alt-text */
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import AddIcon from "@mui/icons-material/Add";
@@ -36,7 +37,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { GridSelectionModel } from "@mui/x-data-grid";
+import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -198,7 +199,8 @@ const Participaciones = () => {
   const [openModalPagos, setopenModalPagos] = useState<boolean>(false);
   const [modo, setModo] = useState<string>("");
   const [organismos, setOrganismos] = useState<SelectValues[]>([]);
-
+  const [columnsParticipaciones, setcolumnsParticipaciones] =
+    useState<GridColDef[]>();
   const handleprintsolicitud = (data: any) => {
     setslideropen(true);
     let body = {
@@ -602,7 +604,7 @@ const Participaciones = () => {
     },
   ];
 
-  const columnsParticipaciones = [
+  const columnsParticipacionesmun = [
     { field: "id", hide: true, hideable: false },
     { field: "TipoSolicitud", hide: true, hideable: false },
     { field: "IdConCheque", hide: true, hideable: false },
@@ -954,6 +956,229 @@ const Participaciones = () => {
         return <>{v.row.Monex === 1 ? "SI" : "NO"}</>;
       },
     },
+    {
+      field: "Observaciones",
+      headerName: "Observaciones",
+      width: 400,
+      description: "Observaciones",
+    },
+  ];
+
+  const columnsParticipacionesorganismos = [
+    { field: "id", hide: true, hideable: false },
+    { field: "TipoSolicitud", hide: true, hideable: false },
+    { field: "IdConCheque", hide: true, hideable: false },
+    {
+      field: "Operaciones",
+      disableExport: true,
+      headerName: "Operaciones",
+      description: "Operaciones",
+      sortable: false,
+      width: 200 + anchoAcciones,
+      renderCell: (v: any) => {
+        return (
+          <Box>
+            <Tooltip title={"Administrar Detalles"}>
+              <IconButton value="check" onClick={() => handledetalles(v)}>
+                <MenuBookIcon />
+              </IconButton>
+            </Tooltip>
+
+            {v.row.tipo === "1" ? (
+              <Tooltip title={"Ver Pagos Parciales"}>
+                <IconButton
+                  value="check"
+                  onClick={() => handlepagosparciales(v)}
+                >
+                  <MoneyIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+
+            {ELIMINA && v.row.Integrado === 1 ? (
+              <IconButton
+                value="check"
+                onClick={() => handleBorrarSolicitud(v)}
+              >
+                <Tooltip title={"Eliminar"}>
+                  <DeleteForeverOutlinedIcon />
+                </Tooltip>
+              </IconButton>
+            ) : (
+              ""
+            )}
+
+            {verTrazabilidad ? (
+              <Tooltip title={"Ver Trazabilidad"}>
+                <IconButton
+                  value="check"
+                  onClick={() => handleVerTazabilidad(v)}
+                >
+                  <InsightsIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+            {(String(v.row.estatus) === "Ingresando Operación" &&
+              cargarPlant) ||
+            permisoAgregarNumeroSolicitud ? (
+              <Tooltip title={"Asignar N° de Solicitud de Pago"}>
+                <IconButton value="check" onClick={() => handlecheque(v, 5)}>
+                  <MonetizationOnIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+
+            {v.row.orden >= 13 ? (
+              <>
+                <Tooltip title="Ver Spei">
+                  <IconButton onClick={() => handleVerSpei(v, "SPEI")}>
+                    <img className="iconButton" src={IconSPEI} />
+                  </IconButton>
+                </Tooltip>
+              </>
+            ) : (
+              ""
+            )}
+            {v.row.orden >= 15 ? (
+              <Tooltip title="Administrar CFDI">
+                <IconButton onClick={() => handleVerSpei(v, "CFDI")}>
+                  <img className="iconButton" src={IconCFDI} />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+          </Box>
+        );
+      },
+    },
+
+    {
+      field: "estatus",
+      headerName: "Estatus",
+      description: "Estatus",
+      width: 170,
+    },
+    {
+      field: "NumOper",
+      headerName: "Nº De Operación",
+      description: "Nº De Operación",
+      width: 110,
+    },
+    {
+      field: "NumEgreso",
+      headerName: "Egreso",
+      width: 80,
+      description: "Número De Egreso",
+    },
+    {
+      field: "a3",
+      headerName: "Solicitud de Pago",
+      width: 120,
+      description: "Número De Solicitud de Pago",
+    },
+
+    {
+      field: "Anio",
+      headerName: "Ejercicio",
+      width: 100,
+      description: "Ejercicio",
+    },
+    {
+      field: "Mes",
+      headerName: "Mes",
+      width: 100,
+      description: "Mes",
+    },
+    {
+      field: "TipoSolicituds",
+      headerName: "Tipo",
+      width: 170,
+      description: "Tipo de Solicitud",
+    },
+
+    {
+      field: "Nombre",
+      headerName: "Proveedor",
+      width: 200,
+      description: "Proveedor",
+    },
+
+    {
+      field: "uresclave",
+      headerName: "U. Resp",
+      description: "Unidad Responsable",
+      width: 80,
+    },
+    {
+      field: "NumProyecto",
+      headerName: "Número de Proyecto",
+      description: "Número de Proyecto",
+      width: 150,
+    },
+
+    {
+      field: "Presupuesto",
+      headerName: "Presupuesto SIREGOB",
+      width: 170,
+      description: "Presupuesto SIREGOB",
+      ...Moneda,
+    },
+    {
+      field: "total",
+      headerName: "Total Bruto",
+      width: 140,
+      description: "Total Bruto",
+      ...Moneda,
+    },
+
+    {
+      field: "a5",
+      headerName: "Total Neto",
+      width: 200,
+      description: "Total Neto = (Total Bruto - (Retenciones + Descuentos))",
+      ...Moneda,
+      renderHeader: () => (
+        <>{"Total: " + currencyFormatter.format(Number(sumaTotal))}</>
+      ),
+    },
+    {
+      field: "Proveedor",
+      headerName: "Proveedor",
+      width: 80,
+      description: "Proveedor",
+    },
+    {
+      field: "Deudor",
+      headerName: "Deudor",
+      width: 80,
+      description: "Deudor",
+    },
+    {
+      field: "clasificacion",
+      headerName: "Clasificación",
+      width: 100,
+      description: "Clasificación de Solicitud de Pago",
+    },
+    {
+      field: "FechadePago",
+      headerName: "Fecha de Pago",
+      width: 100,
+      description: "Fecha de Pago",
+    },
+    {
+      field: "Divisa",
+      headerName: "Divisa",
+      width: 80,
+      description: "Divisa",
+    },
+
     {
       field: "Observaciones",
       headerName: "Observaciones",
@@ -2165,6 +2390,14 @@ const Participaciones = () => {
   };
 
   useEffect(() => {
+    if (JSON.parse(String(getcontrolInternoEntidad())) === "DAMOP") {
+      setcolumnsParticipaciones(columnsParticipacionesmun);
+    } else if (JSON.parse(String(getcontrolInternoEntidad())) === "DAMOP_ORG") {
+      setcolumnsParticipaciones(columnsParticipacionesorganismos);
+    } else {
+      setcolumnsParticipaciones(columnsParticipacionesmun);
+    }
+    console.log(columnsParticipaciones);
     var ancho = 0;
     setMeses(fmeses());
     setAnios(fanios());
@@ -2263,6 +2496,7 @@ const Participaciones = () => {
     });
     handleClick();
   }, []);
+
   const handleBorrarMasivo = (v: GridSelectionModel) => {
     setSelectionModel(v);
   };
@@ -2834,7 +3068,6 @@ const Participaciones = () => {
 
             {DAMOP_TE ? (
               <Tooltip title={"Transferir a egreso"}>
-                {/* // GENERA EL NUM DE EGRESO */}
                 <ToggleButton value="check" onClick={() => handleTranEgreso()}>
                   <ArrowUpwardIcon />
                 </ToggleButton>
@@ -2875,7 +3108,6 @@ const Participaciones = () => {
 
             {DAMOP_GSE ? (
               <Tooltip title={"Generar solicitud de pago"}>
-                {/* // GENERA N DE ORDEN DE PAGO */}
                 <ToggleButton
                   value="check"
                   onClick={() => handleGenNumOrdenPago()}
@@ -2936,20 +3168,24 @@ const Participaciones = () => {
         </Grid>
 
         <Grid item xs={12} sm={12} md={12} lg={12}>
-          <MUIXDataGridGeneral
-            modulo={nombreExport}
-            handleBorrar={handleBorrarMasivo}
-            columns={
-              DA.MUNICIPIO.length === 0 && DA.ORG.length === 0
-                ? columnsParticipaciones
-                : DA.MUNICIPIO.length >= 1
-                ? columnasMunicipio
-                : columnasOrganismos
-            }
-            rows={data}
-            controlInterno={""}
-            multiselect={true}
-          />
+          {columnsParticipaciones !== undefined ? (
+            <MUIXDataGridGeneral
+              modulo={nombreExport}
+              handleBorrar={handleBorrarMasivo}
+              columns={
+                DA.MUNICIPIO.length === 0 && DA.ORG.length === 0
+                  ? columnsParticipaciones
+                  : DA.MUNICIPIO.length >= 1
+                  ? columnasMunicipio
+                  : columnasOrganismos
+              }
+              rows={data}
+              controlInterno={""}
+              multiselect={true}
+            />
+          ) : (
+            "Cargando Datos"
+          )}
         </Grid>
       </Grid>
       {openModalVerSpei ? (
