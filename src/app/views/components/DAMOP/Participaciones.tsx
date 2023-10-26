@@ -684,8 +684,7 @@ const Participaciones = () => {
             ) : (
               ""
             )}
-            {(String(v.row.estatus) === "Ingresando Operación" &&
-              cargarPlant) ||
+            {String(v.row.estatus) === "Ingresando Operación" &&
             permisoAgregarNumeroSolicitud ? (
               <Tooltip title={"Asignar N° de Solicitud de Pago"}>
                 <IconButton value="check" onClick={() => handlecheque(v, 5)}>
@@ -1095,12 +1094,6 @@ const Participaciones = () => {
       headerName: "Mes",
       width: 100,
       description: "Mes",
-    },
-    {
-      field: "TipoSolicituds",
-      headerName: "Tipo",
-      width: 170,
-      description: "Tipo de Solicitud",
     },
 
     {
