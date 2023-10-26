@@ -684,16 +684,18 @@ const Participaciones = () => {
             ) : (
               ""
             )}
-            {String(v.row.estatus) === "Ingresando Operación" &&
-            permisoAgregarNumeroSolicitud ? (
-              <Tooltip title={"Asignar N° de Solicitud de Pago"}>
-                <IconButton value="check" onClick={() => handlecheque(v, 5)}>
-                  <MonetizationOnIcon />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              ""
-            )}
+            {
+              // String(v.row.estatus) == "Ingresando Operación" &&
+              permisoAgregarNumeroSolicitud ? (
+                <Tooltip title={"Asignar N° de Solicitud de Pago"}>
+                  <IconButton value="check" onClick={() => handlecheque(v, 5)}>
+                    <MonetizationOnIcon />
+                  </IconButton>
+                </Tooltip>
+              ) : (
+                ""
+              )
+            }
             {v.row.orden >= 13 ? (
               <>
                 <Tooltip title="Ver Spei">
