@@ -618,37 +618,17 @@ const Participaciones = () => {
       renderCell: (v: any) => {
         return (
           <Box>
-            {v.row.tipo === "2" ? (
-              <Tooltip title={"Base de Cálculo"}>
-                <IconButton
-                  value="check"
-                  onClick={() => handleprintsolicitud(v)}
-                >
-                  <PrintIcon />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              ""
-            )}
+            <Tooltip title={"Base de Cálculo"}>
+              <IconButton value="check" onClick={() => handleprintsolicitud(v)}>
+                <PrintIcon />
+              </IconButton>
+            </Tooltip>
 
             <Tooltip title={"Administrar Detalles"}>
               <IconButton value="check" onClick={() => handledetalles(v)}>
                 <MenuBookIcon />
               </IconButton>
             </Tooltip>
-
-            {v.row.tipo === "1" ? (
-              <Tooltip title={"Ver Pagos Parciales"}>
-                <IconButton
-                  value="check"
-                  onClick={() => handlepagosparciales(v)}
-                >
-                  <MoneyIcon />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              ""
-            )}
 
             {ELIMINA && v.row.Integrado === 1 ? (
               <IconButton
@@ -685,17 +665,13 @@ const Participaciones = () => {
               ""
             )}
             {
-              // String(v.row.estatus) == "Ingresando Operación" &&
-              permisoAgregarNumeroSolicitud ? (
-                <Tooltip title={"Asignar N° de Solicitud de Pago"}>
-                  <IconButton value="check" onClick={() => handlecheque(v, 5)}>
-                    <MonetizationOnIcon />
-                  </IconButton>
-                </Tooltip>
-              ) : (
-                ""
-              )
+              <Tooltip title={"Asignar N° de Solicitud de Pago"}>
+                <IconButton value="check" onClick={() => handlecheque(v, 5)}>
+                  <MonetizationOnIcon />
+                </IconButton>
+              </Tooltip>
             }
+
             {v.row.orden >= 13 ? (
               <>
                 <Tooltip title="Ver Spei">
