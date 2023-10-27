@@ -304,7 +304,7 @@ const ModalNew = ({
 
         <Grid item xs={12} sm={12} md={12}>
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
-            <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "right" }}>
+            <Grid item xs={3} sm={6} md={6} sx={{ textAlign: "right" }}>
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
                 Año:
               </Typography>
@@ -319,13 +319,13 @@ const ModalNew = ({
 
         <Grid item xs={12} sm={12} md={12}>
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
-            <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "right" }}>
+            <Grid item xs={3} sm={6} md={6} sx={{ textAlign: "right" }}>
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
                 Mes:
               </Typography>
             </Grid>
 
-            <Grid item xs={2} sm={2} md={2} sx={{ textAlign: "left" }}>
+            <Grid item xs={6} sm={2} md={2} sx={{ textAlign: "left" }}>
               <SelectFrag
                 value={idmes}
                 options={mes}
@@ -341,12 +341,12 @@ const ModalNew = ({
 
         <Grid item xs={12} sm={12} md={12}>
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
-            <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "right" }}>
+            <Grid item xs={3} sm={6} md={6} sx={{ textAlign: "right" }}>
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
                 Tipo de Cálculo:
               </Typography>
             </Grid>
-            <Grid item xs={2} sm={2} md={2} sx={{ textAlign: "left" }}>
+            <Grid item xs={6} sm={2} md={2} sx={{ textAlign: "left" }}>
               <SelectFrag
                 value={idTipoCalculo}
                 options={tipoCalculo}
@@ -401,12 +401,12 @@ const ModalNew = ({
           }}
         >
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
-            <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "right" }}>
+            <Grid item xs={3} sm={6} md={6} sx={{ textAlign: "right" }}>
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
                 Versión de Coeficiente:
               </Typography>
             </Grid>
-            <Grid item xs={2} sm={2} md={2} sx={{ textAlign: "left" }}>
+            <Grid item xs={6} sm={2} md={2} sx={{ textAlign: "left" }}>
               <SelectFrag
                 value={idVersionCalculo}
                 options={versionCalculo}
@@ -442,7 +442,7 @@ const ModalNew = ({
           }}
         >
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
-            <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "right" }}>
+            <Grid item xs={3} sm={6} md={6} sx={{ textAlign: "right" }}>
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
                 Importe:
               </Typography>
