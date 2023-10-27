@@ -78,6 +78,7 @@ export const TextFieldFormatoMoneda = ({
             onChange={handleChange}
             name="numberformat"
             id="formatted-numberformat-input"
+            onPaste={(e) => e.preventDefault()} // Prevenir la acción de pegar
             InputProps={{
               inputComponent: NumericFormatCustom as any,
             }}

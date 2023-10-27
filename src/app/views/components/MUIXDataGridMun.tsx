@@ -26,7 +26,7 @@ const MUIXDataGridMun = ({
   controlInterno: string;
 }) => {
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-  const [elimasiva, setelimasiva] = useState<boolean>(false);
+  const [elimasiva, setelimasiva] = useState<boolean>(true);
 
   const [columnVisibilityModel, setColumnVisibilityModel] =
     React.useState<GridColumnVisibilityModel>({

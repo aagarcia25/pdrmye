@@ -484,6 +484,7 @@ const ModalNew = ({
                 onChange={(v) => {
                   setieja(Number(v.target.value));
                 }}
+                onPaste={(e) => e.preventDefault()} // Prevenir la acción de pegar
                 error={ieja ? false : true}
                 type="number"
                 startAdornment={
@@ -525,6 +526,7 @@ const ModalNew = ({
                 onChange={(v) => {
                   setDerecho(Number(v.target.value));
                 }}
+                onPaste={(e) => e.preventDefault()} // Prevenir la acción de pegar
                 error={derecho ? false : true}
                 type="number"
                 startAdornment={
