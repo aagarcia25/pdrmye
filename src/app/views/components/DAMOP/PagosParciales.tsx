@@ -1,9 +1,9 @@
 import { GridColDef } from "@mui/x-data-grid";
-import MUIXDataGrid from "../MUIXDataGrid";
-import ModalForm from "../componentes/ModalForm";
 import { useEffect, useState } from "react";
-import { SireService } from "../../../services/SireService";
 import { AlertS } from "../../../helpers/AlertS";
+import { SireService } from "../../../services/SireService";
+import MUIXDataGridid from "../MUIXDataGridid";
+import ModalForm from "../componentes/ModalForm";
 
 export const PagosParciales = ({
   handleClose,
@@ -105,7 +105,7 @@ export const PagosParciales = ({
   return (
     <>
       <ModalForm title={"Pagos"} handleClose={handleClose}>
-        <MUIXDataGrid columns={columns} rows={dataRow} />
+        <MUIXDataGridid columns={columns} rows={dataRow} />
       </ModalForm>
     </>
   );
