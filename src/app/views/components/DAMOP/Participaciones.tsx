@@ -249,7 +249,7 @@ const Participaciones = () => {
   };
 
   const handlepagosparciales = (data: any) => {
-    setsp(data.a3);
+    setsp(data?.row?.a3);
     setopenModalPagos(true);
   };
   const handleBorrarSolicitud = (v: any) => {
