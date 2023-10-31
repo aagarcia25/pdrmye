@@ -35,7 +35,7 @@ export default function MUIXDataGridid(props: any) {
           rowsPerPageOptions={[10, 25, 50, 100]}
           disableSelectionOnClick
           disableDensitySelector
-          getRowId={(row) => generateRowId}
+          getRowId={generateRowId}
           rowHeight={255}
           getRowHeight={() => "auto"}
           sx={{
