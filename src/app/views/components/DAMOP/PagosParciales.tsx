@@ -16,8 +16,6 @@ export const PagosParciales = ({
   const [dataRow, setdataRow] = useState([]);
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "Identificador", hide: true, width: 100 },
-
     {
       field: "SP",
       headerName: "Solicitud de Pago",
