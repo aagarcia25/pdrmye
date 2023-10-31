@@ -77,27 +77,6 @@ function App() {
     }
   };
 
-  const mensaje = (icon: string, title: string, text: string) => {
-    setlogin(false);
-    setAcceso(false);
-    Swal.fire({
-      icon: icon == "info" ? "info" : "warning",
-      title: title,
-      text: text,
-      showDenyButton: false,
-      showCancelButton: false,
-      confirmButtonText: "Aceptar",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        localStorage.clear();
-        var ventana = window.self;
-        ventana.location.replace(
-          String(process.env.REACT_APP_APPLICATION_BASE_URL_LOGIN)
-        );
-      }
-    });
-  };
-
   const buscaUsuario = (id: string) => {
     let data = {
       IdUsuario: id,
@@ -231,7 +210,7 @@ function App() {
         setRfToken(refjwt);
         setIdApp(idapp);
         var ventana = window.self;
-        ventana.location.replace("/pdrmye/");
+        ventana.location.replace(String(process.env.REACT_APP_APPLICATION_ENV));
       } else {
         Swal.fire({
           title: "Token no valido",
