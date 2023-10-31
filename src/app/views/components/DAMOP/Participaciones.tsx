@@ -201,6 +201,9 @@ const Participaciones = () => {
   const [organismos, setOrganismos] = useState<SelectValues[]>([]);
   const [columnsParticipaciones, setcolumnsParticipaciones] =
     useState<GridColDef[]>();
+
+  const [sp, setsp] = useState("");
+
   const handleprintsolicitud = (data: any) => {
     setslideropen(true);
     let body = {
@@ -246,6 +249,7 @@ const Participaciones = () => {
   };
 
   const handlepagosparciales = (data: any) => {
+    setsp(data.a3);
     setopenModalPagos(true);
   };
   const handleBorrarSolicitud = (v: any) => {
@@ -3188,7 +3192,11 @@ const Participaciones = () => {
         ""
       )}
 
-      {openModalPagos ? <PagosParciales handleClose={handleClose} /> : ""}
+      {openModalPagos ? (
+        <PagosParciales handleClose={handleClose} sp={sp} />
+      ) : (
+        ""
+      )}
       {openModalCabecera ? (
         <ORGHeader
           dataCabecera={vrows}
