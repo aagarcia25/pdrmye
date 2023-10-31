@@ -14,16 +14,6 @@ export default function MUIXDataGridid(props: any) {
   const [columnVisibilityModel, setColumnVisibilityModel] =
     React.useState<GridColumnVisibilityModel>({
       id: false,
-      IdConCheque: false,
-      TipoSolicitud: false,
-      idbanco: false,
-      idestatus: false,
-      IdRegistro: false,
-      Solicitud: false,
-      nombreMunicipio: false,
-      Tipo: false,
-      idmunicipio: false,
-      idMunicipio: false,
     });
 
   const generateRowId = () => {
@@ -45,10 +35,9 @@ export default function MUIXDataGridid(props: any) {
           rowsPerPageOptions={[10, 25, 50, 100]}
           disableSelectionOnClick
           disableDensitySelector
-          getRowId={(row) => (row.Id ? row.Id : row.id)}
+          getRowId={(row) => generateRowId}
           rowHeight={255}
           getRowHeight={() => "auto"}
-          getRowId={(fila) => generateRowId()}
           sx={{
             fontFamily: "Poppins,sans-serif",
             fontWeight: "600",
