@@ -4,6 +4,7 @@ import { AlertS } from "../../../helpers/AlertS";
 import { SireService } from "../../../services/SireService";
 import MUIXDataGridid from "../MUIXDataGridid";
 import ModalForm from "../componentes/ModalForm";
+import { Moneda } from "../menu/CustomToolbar";
 
 export const PagosParciales = ({
   handleClose,
@@ -20,31 +21,32 @@ export const PagosParciales = ({
       field: "SP",
       headerName: "Solicitud de Pago",
       description: "Solicitud de Pago",
-      width: 150,
+      width: 100,
     },
     {
       field: "FECHA_PAGO",
       headerName: "Fecha de Pago",
       description: "Fecha de Pago",
-      width: 250,
+      width: 100,
     },
     {
       field: "TOTAL_PAGO",
       headerName: "Pago",
       description: "Pago",
       width: 250,
+      ...Moneda,
     },
     {
       field: "NO_CUENTA",
       headerName: "Número de Cuenta",
       description: "Número de Cuenta",
-      width: 250,
+      width: 200,
     },
     {
       field: "NO_CHEQUE",
       headerName: "Número de Cheque",
       description: "Número de Cheque",
-      width: 250,
+      width: 200,
     },
     {
       field: "BENEFICIARIOPAGO",
@@ -62,19 +64,19 @@ export const PagosParciales = ({
       field: "CONCEPTO",
       headerName: "Concepto",
       description: "Concepto",
-      width: 250,
+      width: 350,
     },
     {
       field: "COG",
       headerName: "Clave",
       description: "Clave",
-      width: 250,
+      width: 100,
     },
     {
       field: "DESCOG",
       headerName: "Descripción",
       description: "Descripción",
-      width: 250,
+      width: 450,
     },
   ];
 
