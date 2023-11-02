@@ -2372,7 +2372,6 @@ const Participaciones = () => {
     } else {
       setcolumnsParticipaciones(columnsParticipacionesmun);
     }
-    console.log(columnsParticipaciones);
     var ancho = 0;
     setMeses(fmeses());
     setAnios(fanios());
@@ -2471,6 +2470,8 @@ const Participaciones = () => {
     });
     handleClick();
   }, []);
+
+  useEffect(() => {}, [columnsParticipaciones]);
 
   const handleBorrarMasivo = (v: GridSelectionModel) => {
     setSelectionModel(v);
@@ -2724,12 +2725,7 @@ const Participaciones = () => {
           )}
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12} paddingBottom={0}>
-          <Button
-            // className="enviar"
-            onClick={handleClick}
-            variant="contained"
-            color="secondary"
-          >
+          <Button onClick={handleClick} variant="contained" color="secondary">
             <Typography sx={{ color: "white" }}> Buscar </Typography>
           </Button>
         </Grid>
