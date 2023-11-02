@@ -608,7 +608,7 @@ const Participaciones = () => {
     },
   ];
 
-  const columnsParticipacionesmun = [
+  const columnsParticipacionesmun: GridColDef[] = [
     { field: "id", hide: true, hideable: false },
     { field: "TipoSolicitud", hide: true, hideable: false },
     { field: "IdConCheque", hide: true, hideable: false },
@@ -618,7 +618,7 @@ const Participaciones = () => {
       headerName: "Operaciones",
       description: "Operaciones",
       sortable: false,
-      width: 200 + anchoAcciones,
+      width: 300,
       renderCell: (v: any) => {
         return (
           <Box>
@@ -945,7 +945,7 @@ const Participaciones = () => {
     },
   ];
 
-  const columnsParticipacionesorganismos = [
+  const columnsParticipacionesorganismos: GridColDef[] = [
     { field: "id", hide: true, hideable: false },
     { field: "TipoSolicitud", hide: true, hideable: false },
     { field: "IdConCheque", hide: true, hideable: false },
@@ -955,7 +955,7 @@ const Participaciones = () => {
       headerName: "Operaciones",
       description: "Operaciones",
       sortable: false,
-      width: 200 + anchoAcciones,
+      width: 180,
       renderCell: (v: any) => {
         return (
           <Box>
@@ -972,43 +972,6 @@ const Participaciones = () => {
                   onClick={() => handlepagosparciales(v)}
                 >
                   <MoneyIcon />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              ""
-            )}
-
-            {ELIMINA && v.row.Integrado === 1 ? (
-              <IconButton
-                value="check"
-                onClick={() => handleBorrarSolicitud(v)}
-              >
-                <Tooltip title={"Eliminar"}>
-                  <DeleteForeverOutlinedIcon />
-                </Tooltip>
-              </IconButton>
-            ) : (
-              ""
-            )}
-
-            {verTrazabilidad ? (
-              <Tooltip title={"Ver Trazabilidad"}>
-                <IconButton
-                  value="check"
-                  onClick={() => handleVerTazabilidad(v)}
-                >
-                  <InsightsIcon />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              ""
-            )}
-            {(String(v.row.estatus) === "Ingresando Operación" &&
-              cargarPlant) ||
-            permisoAgregarNumeroSolicitud ? (
-              <Tooltip title={"Asignar N° de Solicitud de Pago"}>
-                <IconButton value="check" onClick={() => handlecheque(v, 5)}>
-                  <MonetizationOnIcon />
                 </IconButton>
               </Tooltip>
             ) : (
@@ -1068,7 +1031,7 @@ const Participaciones = () => {
     {
       field: "Anio",
       headerName: "Ejercicio",
-      width: 100,
+      width: 70,
       description: "Ejercicio",
     },
     {
@@ -1077,11 +1040,16 @@ const Participaciones = () => {
       width: 100,
       description: "Mes",
     },
-
+    {
+      field: "Proveedor",
+      headerName: "Proveedor",
+      width: 80,
+      description: "Proveedor",
+    },
     {
       field: "Nombre",
       headerName: "Proveedor",
-      width: 200,
+      width: 290,
       description: "Proveedor",
     },
 
@@ -1091,50 +1059,22 @@ const Participaciones = () => {
       description: "Unidad Responsable",
       width: 80,
     },
-    {
-      field: "NumProyecto",
-      headerName: "Número de Proyecto",
-      description: "Número de Proyecto",
-      width: 150,
-    },
-
-    {
-      field: "Presupuesto",
-      headerName: "Presupuesto SIREGOB",
-      width: 170,
-      description: "Presupuesto SIREGOB",
-      ...Moneda,
-    },
-    {
-      field: "total",
-      headerName: "Total Bruto",
-      width: 140,
-      description: "Total Bruto",
-      ...Moneda,
-    },
 
     {
       field: "a5",
       headerName: "Total Neto",
-      width: 200,
-      description: "Total Neto = (Total Bruto - (Retenciones + Descuentos))",
+      width: 150,
+      description: "Total Neto",
       ...Moneda,
-      renderHeader: () => (
-        <>{"Total: " + currencyFormatter.format(Number(sumaTotal))}</>
-      ),
     },
     {
-      field: "Proveedor",
-      headerName: "Proveedor",
-      width: 80,
-      description: "Proveedor",
+      field: "Resta",
+      headerName: "Resta",
+      width: 150,
+      description: "Resta",
+      ...Moneda,
     },
-    {
-      field: "Deudor",
-      headerName: "Deudor",
-      width: 80,
-      description: "Deudor",
-    },
+
     {
       field: "clasificacion",
       headerName: "Clasificación",
@@ -1146,12 +1086,6 @@ const Participaciones = () => {
       headerName: "Fecha de Pago",
       width: 100,
       description: "Fecha de Pago",
-    },
-    {
-      field: "Divisa",
-      headerName: "Divisa",
-      width: 80,
-      description: "Divisa",
     },
 
     {
@@ -2365,13 +2299,6 @@ const Participaciones = () => {
   };
 
   useEffect(() => {
-    if (JSON.parse(String(getcontrolInternoEntidad())) === "DAMOP") {
-      setcolumnsParticipaciones(columnsParticipacionesmun);
-    } else if (JSON.parse(String(getcontrolInternoEntidad())) === "DAMOP_ORG") {
-      setcolumnsParticipaciones(columnsParticipacionesorganismos);
-    } else {
-      setcolumnsParticipaciones(columnsParticipacionesmun);
-    }
     var ancho = 0;
     setMeses(fmeses());
     setAnios(fanios());
@@ -2468,10 +2395,19 @@ const Participaciones = () => {
       }
       setAnchoAcciones(ancho);
     });
+
     handleClick();
   }, []);
 
-  useEffect(() => {}, [columnsParticipaciones]);
+  useEffect(() => {
+    if (JSON.parse(String(getcontrolInternoEntidad())) === "DAMOP") {
+      setcolumnsParticipaciones(columnsParticipacionesmun);
+    } else if (JSON.parse(String(getcontrolInternoEntidad())) === "DAMOP_ORG") {
+      setcolumnsParticipaciones(columnsParticipacionesorganismos);
+    } else {
+      setcolumnsParticipaciones(columnsParticipacionesmun);
+    }
+  }, [data]);
 
   const handleBorrarMasivo = (v: GridSelectionModel) => {
     setSelectionModel(v);
