@@ -618,7 +618,7 @@ const Participaciones = () => {
       headerName: "Operaciones",
       description: "Operaciones",
       sortable: false,
-      width: 200 + anchoAcciones,
+      width: 300,
       renderCell: (v: any) => {
         return (
           <Box>
