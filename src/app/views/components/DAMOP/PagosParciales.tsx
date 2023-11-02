@@ -5,6 +5,7 @@ import { SireService } from "../../../services/SireService";
 import MUIXDataGridid from "../MUIXDataGridid";
 import ModalForm from "../componentes/ModalForm";
 import { Moneda } from "../menu/CustomToolbar";
+import Slider from "../Slider";
 
 export const PagosParciales = ({
   handleClose,
@@ -14,6 +15,7 @@ export const PagosParciales = ({
   sp: string;
 }) => {
   // CAMPOS DE LOS FORMULARIOS
+  const [slideropen, setslideropen] = useState(true);
   const [dataRow, setdataRow] = useState([]);
 
   const columns: GridColDef[] = [
@@ -81,6 +83,7 @@ export const PagosParciales = ({
   ];
 
   const consulta = () => {
+    setslideropen(true);
     let data = {
       sp: sp,
     };
@@ -88,7 +91,9 @@ export const PagosParciales = ({
     SireService.getPagosbySP(data).then((res) => {
       if (res.SUCCESS) {
         setdataRow(res.RESPONSE);
+        setslideropen(false);
       } else {
+        setslideropen(false);
         AlertS.fire({
           title: "¡Error!",
           text: "Sin Respuesta",
@@ -104,6 +109,7 @@ export const PagosParciales = ({
 
   return (
     <>
+      <Slider open={slideropen}></Slider>
       <ModalForm title={"Pagos"} handleClose={handleClose}>
         <MUIXDataGridid columns={columns} rows={dataRow} />
       </ModalForm>
