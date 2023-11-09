@@ -25,6 +25,7 @@ import PrintIcon from "@mui/icons-material/Print";
 import SegmentIcon from "@mui/icons-material/Segment";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import MoneyIcon from "@mui/icons-material/Money";
+import ArticleIcon from "@mui/icons-material/Article";
 import {
   Box,
   Button,
@@ -153,6 +154,7 @@ const Participaciones = () => {
   const [INSERTAREG, setINSERTAREG] = useState<boolean>(false);
   const [editCabecera, setEditCabecera] = useState<boolean>(false);
   const [MultiCFDI, setMultiCFDI] = useState<boolean>(false);
+  const [cargaOficios, setcargaOficios] = useState<boolean>(false);
   const [permisoAgregarDetalle, setPermisoAgregarDetalle] =
     useState<boolean>(false);
   const [permisoAgregarRetencion, setPermisoAgregarRetencion] =
@@ -402,6 +404,12 @@ const Participaciones = () => {
       },
     },
 
+    {
+      field: "oficio",
+      headerName: "Oficio",
+      description: "Oficio",
+      width: 170,
+    },
     {
       field: "estatus",
       headerName: "Estatus del pago",
@@ -1004,6 +1012,12 @@ const Participaciones = () => {
     },
 
     {
+      field: "oficio",
+      headerName: "Oficio",
+      description: "Oficio",
+      width: 170,
+    },
+    {
       field: "estatus",
       headerName: "Estatus",
       description: "Estatus",
@@ -1266,6 +1280,19 @@ const Participaciones = () => {
         icon: "error",
       });
     }
+  };
+
+  const handleUploadOficios = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setslideropen(true);
+    let file = event?.target?.files?.[0] || "";
+    const formData = new FormData();
+    formData.append("inputfile", file, "inputfile.xlxs");
+    formData.append("CHUSER", user.Id);
+    formData.append("tipo", "OFICIOSORG");
+    CatalogosServices.migraData(formData).then((res) => {
+      setslideropen(false);
+      handleClick();
+    });
   };
 
   const handleUploadPA = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -2391,6 +2418,8 @@ const Participaciones = () => {
           setSANIO(true);
         } else if (String(item.ControlInterno) === "MULTICFDI") {
           setMultiCFDI(true);
+        } else if (String(item.ControlInterno) === "CARGAOFICIO") {
+          setcargaOficios(true);
         }
       }
       setAnchoAcciones(ancho);
@@ -2885,6 +2914,30 @@ const Participaciones = () => {
                       onChange={(v) => handleUploadPA(v)}
                     />
                     <DriveFileMoveIcon />
+                  </IconButton>
+                </ToggleButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+
+            {cargaOficios ? (
+              <Tooltip title={"Cargar Plantilla Oficios"}>
+                <ToggleButton value="check">
+                  <IconButton
+                    color="secondary"
+                    aria-label="upload documento"
+                    component="label"
+                    size="large"
+                  >
+                    <input
+                      hidden
+                      accept=".xlsx, .XLSX, .xls, .XLS"
+                      type="file"
+                      value=""
+                      onChange={(v) => handleUploadOficios(v)}
+                    />
+                    <ArticleIcon />
                   </IconButton>
                 </ToggleButton>
               </Tooltip>
