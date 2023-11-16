@@ -1144,7 +1144,7 @@ const Participaciones = () => {
 
   const loadFilter = (operacion: number) => {
     setslideropen(true);
-    let data = { NUMOPERACION: operacion };
+    let data = { NUMOPERACION: operacion, CHUSER: user.Id };
     CatalogosServices.SelectIndex(data).then((res) => {
       if (operacion === 31) {
         setFondos(res.RESPONSE);
@@ -1168,7 +1168,7 @@ const Participaciones = () => {
             : ""
         );
         setslideropen(false);
-      } else if (operacion === 38) {
+      } else if (operacion === 40) {
         setOrganismos(res.RESPONSE);
         setslideropen(false);
       }
