@@ -2335,7 +2335,7 @@ const Participaciones = () => {
     loadFilter(17);
     loadFilter(25);
     loadFilter(24);
-    loadFilter(38);
+    loadFilter(40);
 
     permisos.map((item: PERMISO) => {
       if (String(item.menu) === "PARTMUN") {
