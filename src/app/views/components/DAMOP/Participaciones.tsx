@@ -2329,7 +2329,6 @@ const Participaciones = () => {
     var ancho = 0;
     setMeses(fmeses());
     setAnios(fanios());
-    loadFilter(27);
     loadFilter(31);
     loadFilter(5);
     loadFilter(17);
