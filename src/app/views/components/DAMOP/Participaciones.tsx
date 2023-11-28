@@ -1128,7 +1128,7 @@ const Participaciones = () => {
       if (obj.RESPONSE.length > 0) {
         let sp = "";
         obj.RESPONSE.map((item: resultmigracion) => {
-          sp = sp + item.IDENTIFICADORC + ",";
+          sp = sp + item.VIDENTIFICADORCABECERA + ",";
         });
         AlertS.fire({
           title:
