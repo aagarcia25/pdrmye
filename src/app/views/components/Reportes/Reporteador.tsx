@@ -232,7 +232,7 @@ export const Reporteador = () => {
           .request(config)
           .then((response) => {
             var bufferArray = base64ToArrayBuffer(
-              String(response.data.RESPONSE)
+              String(response.data.RESPONSE.response64)
             );
             var blobStore = new Blob([bufferArray], {
               type: "application/*",
@@ -240,7 +240,8 @@ export const Reporteador = () => {
 
             const link = document.createElement("a");
             link.href = window.URL.createObjectURL(blobStore);
-            link.download = reporte?.Nombre + "." + tipoExportacion;
+            link.download =
+              reporte?.Nombre + "." + response.data.RESPONSE.extencion;
             link.click();
             setOpenSlider(false);
           })
