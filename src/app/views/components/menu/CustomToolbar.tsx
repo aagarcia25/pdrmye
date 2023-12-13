@@ -15,7 +15,7 @@ import { NumericFormat, NumericFormatProps } from "react-number-format";
 export function CustomToolbar() {
   return (
     <GridToolbarContainer>
-      <GridToolbarColumnsButton />
+      <GridToolbarColumnsButton placeholder="" />
       <GridToolbarFilterButton />
       <GridToolbarDensitySelector />
       <GridToolbarExport />
