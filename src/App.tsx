@@ -1,5 +1,5 @@
 import jwt_decode from "jwt-decode";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useIdleTimer } from "react-idle-timer";
 import { HashRouter } from "react-router-dom";
 import Swal from "sweetalert2";
