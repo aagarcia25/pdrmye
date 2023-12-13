@@ -12,14 +12,15 @@ import {
 import clsx from "clsx";
 import React from "react";
 import { NumericFormat, NumericFormatProps } from "react-number-format";
+
 export function CustomToolbar() {
   return (
     <GridToolbarContainer>
       <GridToolbarColumnsButton placeholder="" />
-      <GridToolbarFilterButton />
-      <GridToolbarDensitySelector />
-      <GridToolbarExport />
-      <GridToolbarQuickFilter />
+      <GridToolbarFilterButton placeholder="" />
+      <GridToolbarDensitySelector placeholder="" />
+      <GridToolbarExport placeholder="" />
+      <GridToolbarQuickFilter placeholder="" />
     </GridToolbarContainer>
   );
 }
