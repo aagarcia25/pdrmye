@@ -171,15 +171,22 @@ export const Fpg = () => {
       description: "Mes",
     },
     {
-      field: "Total",
-      headerName: "Total",
+      field: "TotalCompleto",
+      headerName: "Importe Total",
       width: 180,
-      description: "Total",
+      description: "Importe Total",
+      ...Moneda,
+    },
+    {
+      field: "Total",
+      headerName: "Distribución",
+      width: 200,
+      description: "Distribución",
       ...Moneda,
       renderHeader: (v) => (
         <>
           {v.field
-            ? "Total: " + currencyFormatter.format(Number(sumaTotal))
+            ? "Distribución: " + currencyFormatter.format(Number(sumaTotal))
             : ""}
         </>
       ),

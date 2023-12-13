@@ -508,7 +508,7 @@ export const Retenciones = ({
                   }
                   placeholder={descRet !== "" ? descRet : ""}
                   styles={{
-                    menu: (base) => ({
+                    menu: (base: any) => ({
                       position: "absolute",
                       paddingLeft: "1rem",
                       zIndex: 500,
