@@ -43,7 +43,7 @@ const SelectFragLogin = ({
           },
         })}
         styles={{
-          menu: (base) => ({
+          menu: (base: any) => ({
             position: "fixed",
             zIndex: 500,
             ...base,
