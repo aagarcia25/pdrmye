@@ -42,13 +42,15 @@ const SelectFragLogin = ({
             primary: "rgb(175, 140, 85)",
           },
         })}
-        styles={{
-          menu: (base: any) => ({
-            position: "fixed",
-            zIndex: 500,
-            ...base,
-          }),
-        }}
+        styles={
+          {
+            // menu: (base: any) => ({
+            //   position: "fixed",
+            //   zIndex: 500,
+            //   ...base,
+            // }),
+          }
+        }
       />
     </div>
   );

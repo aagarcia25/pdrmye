@@ -507,14 +507,14 @@ export const Retenciones = ({
                     v == null ? onInputChange("") : onInputChange(v)
                   }
                   placeholder={descRet !== "" ? descRet : ""}
-                  styles={{
-                    menu: (base: any) => ({
-                      position: "absolute",
-                      paddingLeft: "1rem",
-                      zIndex: 500,
-                      ...base,
-                    }),
-                  }}
+                  // styles={{
+                  //   menu: (base: any) => ({
+                  //     position: "absolute",
+                  //     paddingLeft: "1rem",
+                  //     zIndex: 500,
+                  //     ...base,
+                  //   }),
+                  // }}
                 />
               </FormControl>
             </Grid>
