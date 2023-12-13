@@ -179,7 +179,7 @@ const ButtonsMunicipio = ({
                 placeholder={label != "" ? label : placeholder}
                 //  value={value}
                 styles={{
-                  menu: (base) => ({
+                  menu: (base: any) => ({
                     position: "absolute",
                     paddingLeft: "1rem",
                     zIndex: 500,
