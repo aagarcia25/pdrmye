@@ -124,12 +124,6 @@ export const AjSemestral = () => {
       width: 100,
     },
     {
-      field: "nombre",
-      headerName: "Municipio",
-      description: "Municipio",
-      width: 200,
-    },
-    {
       field: "Descripcion",
       headerName: "Fondo",
       width: 300,
