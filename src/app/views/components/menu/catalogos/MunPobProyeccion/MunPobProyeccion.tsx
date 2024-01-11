@@ -281,27 +281,19 @@ export const MunPobProyeccion = () => {
     <div style={{ height: 500, width: "100%" }}>
       <Slider open={slideropen}></Slider>
       <NombreCatalogo controlInterno={"MUNPROYEC"} />
-      <Grid
-        container
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        <Grid item xs={12}>
-          <ButtonsMunicipio
-            url={"MUNICIPIO_PROYECCION.xlsx"}
-            handleUpload={handleUpload}
-            controlInterno={"MUNPROYEC"}
-            options={anios}
-            onInputChange={handleFilterChange}
-            placeholder={"Seleccione Año"}
-            label={""}
-            disabled={false}
-            value={""}
-            handleOpen={handleOpen}
-          />
-        </Grid>
-      </Grid>
+
+      <ButtonsMunicipio
+        url={"MUNICIPIO_PROYECCION.xlsx"}
+        handleUpload={handleUpload}
+        controlInterno={"MUNPROYEC"}
+        options={anios}
+        onInputChange={handleFilterChange}
+        placeholder={"Seleccione Año"}
+        label={""}
+        disabled={false}
+        value={""}
+        handleOpen={handleOpen}
+      />
 
       <MUIXDataGridMun
         columns={columns}
