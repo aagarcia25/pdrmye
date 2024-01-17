@@ -292,9 +292,7 @@ export const Fpg = () => {
     setstep(0);
     setNombreMenu(String(params.fondo));
     permisos.map((item: PERMISO) => {
-      if (
-        String(item.ControlInterno) == String(params.fondo).replace(/\s/g, "")
-      ) {
+      if (String(item.menu) == String(params.fondo).replace(/\s/g, "")) {
         if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }
