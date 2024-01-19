@@ -2,7 +2,15 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 import InfoIcon from "@mui/icons-material/Info";
 import InsightsIcon from "@mui/icons-material/Insights";
-import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  IconButton,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
@@ -26,10 +34,12 @@ import ButtonsCalculo from "../catalogos/Utilerias/ButtonsCalculo";
 import DetalleFgp from "./DetalleFgp";
 import ModalAjuste from "./ModalAjuste";
 import ModalNew from "./ModalNew";
+import DetalleFgpAnual from "./DetalleFgpAnual";
 
 export const Fpg = () => {
   const [slideropen, setslideropen] = useState(false);
   const [data, setdata] = useState([]);
+  const [dataanual, setdataanual] = useState([]);
   const [step, setstep] = useState(0);
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
@@ -38,6 +48,7 @@ export const Fpg = () => {
   const [tipoCalculo, setTipoCalculo] = useState<string>("");
   const [idtrazabilidad, setIdtrazabilidad] = useState("");
   const [openDetalles, setOpenDetalles] = useState(false);
+  const [openDetallesanual, setOpenDetallesanual] = useState(false);
   const [clave, setClave] = useState("");
   const [agregar, setAgregar] = useState<boolean>(false);
   const [agregarajuste, setAgregarAjuste] = useState<boolean>(false);
@@ -49,6 +60,33 @@ export const Fpg = () => {
   const [nombreMenu, setNombreMenu] = useState("");
   const [sumaTotal, setSumaTotal] = useState<Number>();
   const user: USUARIORESPONSE = JSON.parse(String(getUser()));
+  const [checked, setChecked] = useState(false);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+
+    if (event.target.checked) {
+      setslideropen(true);
+      let data = { FONDO: objfondo?.Clave, anual: true };
+      calculosServices.calculosInfo(data).then((res) => {
+        if (res.SUCCESS) {
+          Toast.fire({
+            icon: "success",
+            title: "¡Consulta Exitosa!",
+          });
+          setdataanual(res.RESPONSE);
+
+          setslideropen(false);
+        } else {
+          AlertS.fire({
+            title: "¡Error!",
+            text: res.STRMESSAGE,
+            icon: "error",
+          });
+          setslideropen(false);
+        }
+      });
+    }
+  };
 
   const closeTraz = (v: any) => {
     setOpenTrazabilidad(false);
@@ -67,6 +105,7 @@ export const Fpg = () => {
     setstep(0);
     setOpenDetalles(false);
     setOpenTrazabilidad(false);
+    setOpenDetallesanual(false);
   };
 
   const handleAjuste = (v: any) => {
@@ -82,6 +121,12 @@ export const Fpg = () => {
     setTipoCalculo(v.row.Tipo);
     setOpenDetalles(true);
     setAnio(Number(v.row.Anio));
+  };
+
+  const handleDetalleanual = (v: any) => {
+    setClave(v.row.Clave);
+    setAnio(Number(v.row.Anio));
+    setOpenDetallesanual(true);
   };
 
   const columns: GridColDef[] = [
@@ -199,6 +244,56 @@ export const Fpg = () => {
     },
   ];
 
+  const columnsAnio: GridColDef[] = [
+    { field: "id", headerName: "Identificador", width: 150, hide: true },
+    {
+      disableExport: true,
+      field: "acciones",
+      headerName: "Acciones",
+      description: "Acciones",
+      sortable: false,
+      width: 100,
+      renderCell: (v) => {
+        return (
+          <Box>
+            <Tooltip title="Ver Detalle de Cálculo">
+              <IconButton onClick={() => handleDetalleanual(v)}>
+                <InfoIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        );
+      },
+    },
+    {
+      field: "Anio",
+      headerName: "Año",
+      width: 80,
+      description: "Año",
+    },
+    {
+      field: "Descripcion",
+      headerName: "Descripción",
+      width: 300,
+      description: "Descripción del Fondo",
+    },
+
+    {
+      field: "TOTALCOMPLETO",
+      headerName: "Importe Total",
+      width: 180,
+      description: "Importe Total",
+      ...Moneda,
+    },
+    {
+      field: "TOTAL",
+      headerName: "Distribución",
+      width: 200,
+      description: "Distribución",
+      ...Moneda,
+    },
+  ];
+
   const consultafondo = (data: any) => {
     calculosServices.fondoInfo(data).then((res) => {
       if (res.SUCCESS) {
@@ -289,6 +384,7 @@ export const Fpg = () => {
   let params = useParams();
 
   useEffect(() => {
+    setChecked(false);
     setstep(0);
     setNombreMenu(String(params.fondo));
     permisos.map((item: PERMISO) => {
@@ -352,7 +448,34 @@ export const Fpg = () => {
           </TooltipPersonalizado>
         </Grid>
       </Grid>
+      {step == 0 ? (
+        <Grid container>
+          <Grid item xs={12} sm={12}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={checked}
+                  onChange={handleChange}
+                  inputProps={{ "aria-label": "controlled" }}
+                />
+              }
+              label="Vista por Año"
+            />
+          </Grid>
+        </Grid>
+      ) : (
+        ""
+      )}
 
+      {openDetallesanual ? (
+        <DetalleFgpAnual
+          anio={anio}
+          clave={clave}
+          handleClose={handleClose}
+        ></DetalleFgpAnual>
+      ) : (
+        ""
+      )}
       {openDetalles ? (
         <DetalleFgp
           idCalculo={idtrazabilidad}
@@ -366,7 +489,7 @@ export const Fpg = () => {
       )}
 
       {step == 0 ? (
-        <div style={{ height: 600, width: "100%" }}>
+        <>
           <Grid
             container
             sx={{
@@ -396,16 +519,26 @@ export const Fpg = () => {
                 justifyContent: "center",
               }}
             >
-              <MUIXDataGridMun
-                columns={columns}
-                rows={data}
-                modulo={nombreMenu}
-                handleBorrar={handleBorrar}
-                controlInterno={String(params.fondo).replace(/\s/g, "")}
-              />
+              {checked ? (
+                <MUIXDataGridMun
+                  columns={columnsAnio}
+                  rows={dataanual}
+                  modulo={nombreMenu}
+                  handleBorrar={handleBorrar}
+                  controlInterno={String(params.fondo).replace(/\s/g, "")}
+                />
+              ) : (
+                <MUIXDataGridMun
+                  columns={columns}
+                  rows={data}
+                  modulo={nombreMenu}
+                  handleBorrar={handleBorrar}
+                  controlInterno={String(params.fondo).replace(/\s/g, "")}
+                />
+              )}
             </Grid>
           </Grid>
-        </div>
+        </>
       ) : (
         ""
       )}
