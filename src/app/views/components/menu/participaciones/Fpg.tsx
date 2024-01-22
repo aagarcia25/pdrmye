@@ -8,6 +8,7 @@ import {
   FormControlLabel,
   Grid,
   IconButton,
+  ToggleButton,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -35,7 +36,8 @@ import DetalleFgp from "./DetalleFgp";
 import ModalAjuste from "./ModalAjuste";
 import ModalNew from "./ModalNew";
 import DetalleFgpAnual from "./DetalleFgpAnual";
-
+import LocalAtmIcon from "@mui/icons-material/LocalAtm";
+import { CatalogosServices } from "../../../../services/catalogosServices";
 export const Fpg = () => {
   const [slideropen, setslideropen] = useState(false);
   const [data, setdata] = useState([]);
@@ -53,6 +55,7 @@ export const Fpg = () => {
   const [agregar, setAgregar] = useState<boolean>(false);
   const [agregarajuste, setAgregarAjuste] = useState<boolean>(false);
   const [cancelar, setCancelar] = useState<boolean>(false);
+  const [calculoAnual, setcalculoAnual] = useState<boolean>(false);
 
   const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
   const [objfondo, setObjFondo] = useState<fondoinfo>();
@@ -379,6 +382,19 @@ export const Fpg = () => {
     });
   };
 
+  const handleUpload = (data: any) => {
+    setslideropen(true);
+    let file = data.target?.files?.[0] || "";
+    const formData = new FormData();
+    formData.append("inputfile", file, "inputfile.xlxs");
+    formData.append("CHUSER", user.Id);
+    formData.append("tipo", "CALANUAL");
+    CatalogosServices.migraData(formData).then((res) => {
+      handleClose("tes");
+      setslideropen(false);
+    });
+  };
+
   const handleBorrar = () => {};
 
   let params = useParams();
@@ -400,6 +416,9 @@ export const Fpg = () => {
         }
         if (String(item.ControlInterno) == "CCALCULO") {
           setCancelar(true);
+        }
+        if (String(item.ControlInterno) == "CANUAL") {
+          setcalculoAnual(true);
         }
       }
     });
@@ -508,6 +527,31 @@ export const Fpg = () => {
               }}
             >
               <ButtonsCalculo handleOpen={handleOpen} agregar={agregar} />
+
+              {calculoAnual ? (
+                <Box sx={{}}>
+                  <Tooltip title={"Generar Cálculo Anual"}>
+                    <IconButton
+                      className="enviar-mensaje"
+                      component="label"
+                      size="large"
+                    >
+                      <input
+                        id="CANUAL"
+                        required
+                        type="file"
+                        hidden
+                        onChange={(event) => {
+                          handleUpload(event);
+                        }}
+                      />
+                      <LocalAtmIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+              ) : (
+                ""
+              )}
             </Grid>
 
             <Grid
