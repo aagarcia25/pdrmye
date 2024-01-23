@@ -88,6 +88,8 @@ export const Fpg = () => {
           setslideropen(false);
         }
       });
+    } else {
+      consulta({ FONDO: params.fondo });
     }
   };
 
@@ -491,6 +493,7 @@ export const Fpg = () => {
           anio={anio}
           clave={clave}
           handleClose={handleClose}
+          nombreFondo={objfondo?.Descripcion || ""}
         ></DetalleFgpAnual>
       ) : (
         ""
