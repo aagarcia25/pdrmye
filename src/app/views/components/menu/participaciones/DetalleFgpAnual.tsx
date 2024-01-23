@@ -17,20 +17,102 @@ import { getUser } from "../../../../services/localStorage";
 import MUIXDataGridGroup from "../../MUIXDataGridGroup";
 import Slider from "../../Slider";
 import { Moneda } from "../CustomToolbar";
-
+import { Titulo } from "../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
+import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 const DetalleFgpAnual = ({
+  nombreFondo,
   anio,
   clave,
   handleClose,
 }: {
+  nombreFondo: string;
   anio: number;
   clave: string;
   handleClose: Function;
 }) => {
   const user: USUARIORESPONSE = JSON.parse(String(getUser()));
   const [openSlider, setOpenSlider] = useState(true);
+  const [estatus, setEstatus] = useState<boolean>(false);
   //Permisos
   const [data, setData] = useState([]);
+
+  const cancelar = () => {
+    setOpenSlider(true);
+    let data = {
+      ClaveFondo: clave,
+      anio: anio,
+      CHUSER: user.Id,
+    };
+    calculosServices.BorraCalculoAnual(data).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "¡Consulta Exitosa!",
+        });
+        handleClose();
+      } else {
+        AlertS.fire({
+          title: "¡Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+      setOpenSlider(false);
+    });
+  };
+
+  const validar = () => {
+    setOpenSlider(true);
+    let data = {
+      ClaveFondo: clave,
+      anio: anio,
+      CHUSER: user.Id,
+    };
+    calculosServices.aprovarcalculoanual(data).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "¡Consulta Exitosa!",
+        });
+        setOpenSlider(false);
+        handleClose();
+      } else {
+        AlertS.fire({
+          title: "¡Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+      setOpenSlider(false);
+    });
+  };
+
+  const Cestatus = () => {
+    let data = {
+      ClaveFondo: clave,
+      anio: anio,
+    };
+    calculosServices.estatusanual(data).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "¡Consulta Exitosa!",
+        });
+        console.log(res.RESPONSE[0].estatus);
+        if (res.RESPONSE[0].estatus === "Inicio") {
+          setEstatus(true);
+        }
+      } else {
+        AlertS.fire({
+          title: "¡Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+      setOpenSlider(false);
+    });
+  };
 
   const consulta = (data: any) => {
     calculosServices.calculosanualdetalle(data).then((res) => {
@@ -439,6 +521,7 @@ const DetalleFgpAnual = ({
 
   useEffect(() => {
     consulta({ ClaveFondo: clave, anio: anio });
+    Cestatus();
   }, []);
 
   return (
@@ -456,7 +539,7 @@ const DetalleFgpAnual = ({
                   bgcolor: "rgb(245,245,245)",
                 }}
               >
-                {/* <Titulo name={String(nombreFondo)} /> */}
+                {<Titulo name={String(nombreFondo)} />}
               </Box>
             </Grid>
           </Grid>
@@ -482,6 +565,31 @@ const DetalleFgpAnual = ({
                     <ArrowBackIcon />
                   </ToggleButton>
                 </Tooltip>
+                {estatus ? (
+                  <>
+                    <Tooltip title={"Validar"}>
+                      <ToggleButton
+                        className="aceptar"
+                        value="check"
+                        onClick={() => validar()}
+                      >
+                        <DoneAllIcon />
+                      </ToggleButton>
+                    </Tooltip>
+
+                    <Tooltip title={"Cancelar"}>
+                      <ToggleButton
+                        className="aceptar"
+                        value="check"
+                        onClick={() => cancelar()}
+                      >
+                        <CancelPresentationIcon />
+                      </ToggleButton>
+                    </Tooltip>
+                  </>
+                ) : (
+                  ""
+                )}
               </ToggleButtonGroup>
             </Box>
             <MUIXDataGridGroup

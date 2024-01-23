@@ -80,4 +80,16 @@ export class calculosServices {
   public static async AjusteAnualIndex(data: any) {
     return await post("AjusteAnualIndex", data);
   }
+
+  public static async aprovarcalculoanual(data: any) {
+    return await post("aprovarcalculoanual", data);
+  }
+
+  public static async BorraCalculoAnual(data: any) {
+    return await post("BorraCalculoAnual", data);
+  }
+
+  public static async estatusanual(data: any) {
+    return await post("estatusanual", data);
+  }
 }
