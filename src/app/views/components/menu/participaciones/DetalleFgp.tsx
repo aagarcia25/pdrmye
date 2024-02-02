@@ -8,6 +8,7 @@ import {
   Box,
   Dialog,
   Grid,
+  IconButton,
   ToggleButton,
   ToggleButtonGroup,
   Tooltip,
@@ -30,7 +31,7 @@ import Trazabilidad from "../../Trazabilidad";
 import ModalCalculos from "../../componentes/ModalCalculos";
 import { Moneda, currencyFormatter } from "../CustomToolbar";
 import { Titulo } from "../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
-
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 const DetalleFgp = ({
   idCalculo,
   idDetalle,
@@ -63,7 +64,8 @@ const DetalleFgp = ({
   const [autorizar, setAutorizar] = useState<boolean>(true);
   const [cancelar, setCancelar] = useState<boolean>(true);
   const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(true);
-  const [recalcular, setrecalcular] = useState<boolean>(true);
+  const [recalcular, setrecalcular] = useState<boolean>(false);
+  const [ajustar, setAjustar] = useState<boolean>(false);
   //Modals
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
@@ -275,6 +277,23 @@ const DetalleFgp = ({
     });
   };
 
+  const handleAjustar = () => {
+    let data = {
+      IDCALCULO: idDetalle,
+    };
+    calculosServices.getEstatusCalculo(data).then((res) => {
+      if (res.SUCCESS) {
+        setStatus(res.RESPONSE[0]);
+      } else {
+        AlertS.fire({
+          title: "¡Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  };
+
   const getResponsable = () => {
     let data = {
       IDCALCULO: idDetalle,
@@ -377,6 +396,29 @@ const DetalleFgp = ({
       renderHeader: () => (
         <>{"Total: " + currencyFormatter.format(Number(sumaTotal))}</>
       ),
+    },
+    {
+      disableExport: true,
+      field: "acciones",
+      headerName: "Acciones",
+      description: "Acciones",
+      sortable: false,
+      width: 150,
+      renderCell: (v) => {
+        return (
+          <Box>
+            {ajustar ? (
+              <Tooltip title="Ajustar Cifra">
+                <IconButton onClick={() => handleAjustar(v)}>
+                  <MonetizationOnIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+          </Box>
+        );
+      },
     },
   ];
   const EstablecePermisos = () => {
