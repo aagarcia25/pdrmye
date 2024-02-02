@@ -360,7 +360,6 @@ const DetalleFgp = ({
       headerName: "Mensual",
       width: 220,
       description: "Mensual",
-      ...Moneda,
     },
 
     {
@@ -368,7 +367,6 @@ const DetalleFgp = ({
       headerName: clave == "ISR SALARIOS" ? "Devoluciones" : "AjusteEstatal",
       width: 150,
       description: clave == "ISR SALARIOS" ? "Devoluciones" : "AjusteEstatal",
-      ...Moneda,
     },
 
     {
@@ -376,7 +374,6 @@ const DetalleFgp = ({
       headerName: "Total",
       width: 250,
       description: "Total",
-      ...Moneda,
       renderHeader: () => (
         <>{"Total: " + currencyFormatter.format(Number(sumaTotal))}</>
       ),
