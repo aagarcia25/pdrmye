@@ -244,6 +244,7 @@ const DetalleFgp = ({
       IDCALCULO: data.id,
       CHUSER: user.Id,
       MONTO: importemensual,
+      IDCALCULOPADRE: idDetalle,
     };
 
     calculosServices.grabacentavos(obj).then((res) => {
