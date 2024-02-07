@@ -237,6 +237,33 @@ const DetalleFgp = ({
     });
   };
 
+  const grabacentavos = (data: any) => {
+    setimportemensual(0);
+    console.log(data);
+    let obj = {
+      IDCALCULO: data.id,
+      CHUSER: user.Id,
+      MONTO: importemensual,
+    };
+
+    calculosServices.grabacentavos(obj).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "ReCalculo Exitoso!",
+        });
+        consulta({ IDCALCULOTOTAL: idDetalle });
+        setopenModalAjuste(false);
+      } else {
+        AlertS.fire({
+          title: "¡Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  };
+
   const BorraCalculo = () => {
     let data = {
       IDCALCULO: idDetalle,
@@ -835,7 +862,7 @@ const DetalleFgp = ({
               <Button
                 color="success"
                 className="guardar"
-                // onClick={() => ()}
+                onClick={() => grabacentavos(row)}
               >
                 Guardar
               </Button>

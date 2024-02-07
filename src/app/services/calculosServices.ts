@@ -92,4 +92,8 @@ export class calculosServices {
   public static async estatusanual(data: any) {
     return await post("estatusanual", data);
   }
+
+  public static async grabacentavos(data: any) {
+    return await post("grabacentavos", data);
+  }
 }
