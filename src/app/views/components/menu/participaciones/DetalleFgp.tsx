@@ -5,6 +5,7 @@ import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import InsightsIcon from "@mui/icons-material/Insights";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import {
   Box,
   Button,
@@ -87,6 +88,30 @@ const DetalleFgp = ({
 
   const handleClick = () => {
     setshowDecimal(!showDecimal);
+  };
+
+  const handleRenviarCorreo = () => {
+    setOpenSlider(true);
+    let obj = {
+      CHID: idDetalle,
+    };
+
+    calculosServices.renviarCorreo(obj).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Notificación Enviada!",
+        });
+        setOpenSlider(false);
+      } else {
+        AlertS.fire({
+          title: "¡Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+        setOpenSlider(false);
+      }
+    });
   };
 
   const closeTraz = () => {
@@ -700,6 +725,19 @@ const DetalleFgp = ({
                     <AssessmentIcon />
                   </ToggleButton>
                 </Tooltip>
+                {fase == 4 ? (
+                  <Tooltip title={"Renviar Correo"}>
+                    <ToggleButton
+                      className="aceptar"
+                      value="check"
+                      onClick={() => handleRenviarCorreo()}
+                    >
+                      <MailOutlineIcon />
+                    </ToggleButton>
+                  </Tooltip>
+                ) : (
+                  ""
+                )}
 
                 {recalcular ? (
                   <Tooltip title={"Generar Recálculo"}>
