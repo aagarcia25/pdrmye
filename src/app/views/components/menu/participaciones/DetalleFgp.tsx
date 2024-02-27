@@ -716,15 +716,6 @@ const DetalleFgp = ({
                     <ArrowBackIcon />
                   </ToggleButton>
                 </Tooltip>
-                <Tooltip title={"Generar Reporte de Cálculo"}>
-                  <ToggleButton
-                    className="aceptar"
-                    value="check"
-                    onClick={() => handleClick()}
-                  >
-                    <AssessmentIcon />
-                  </ToggleButton>
-                </Tooltip>
                 {fase == 4 ? (
                   <Tooltip title={"Renviar Correo"}>
                     <ToggleButton
