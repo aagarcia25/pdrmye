@@ -38,6 +38,9 @@ import ModalNew from "./ModalNew";
 import DetalleFgpAnual from "./DetalleFgpAnual";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 import { CatalogosServices } from "../../../../services/catalogosServices";
+import AssessmentIcon from "@mui/icons-material/Assessment";
+import axios from "axios";
+import { base64ToArrayBuffer } from "../../../../helpers/Files";
 export const Fpg = () => {
   const [slideropen, setslideropen] = useState(false);
   const [data, setdata] = useState([]);
@@ -134,6 +137,62 @@ export const Fpg = () => {
     setOpenDetallesanual(true);
   };
 
+  const handleGenerar = (v: any) => {
+    setslideropen(true);
+    console.log(v);
+    let data = {
+      CLAVE: v.row.Clave,
+      MES: v.row.nummes,
+      DESCRIPCION: v.row.Descripcion,
+      ANIO: v.row.Anio,
+      MESD: v.row.Mes,
+    };
+
+    try {
+      let config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: process.env.REACT_APP_APPLICATION_BASE_URL + "handleReportFlex",
+        headers: {
+          "Content-Type": "application/json",
+          responseType: "blob",
+        },
+        data: data,
+      };
+
+      axios
+        .request(config)
+        .then((response) => {
+          var bufferArray = base64ToArrayBuffer(
+            String(response.data.RESPONSE.response64)
+          );
+          var blobStore = new Blob([bufferArray], {
+            type: "application/*",
+          });
+
+          const link = document.createElement("a");
+          link.href = window.URL.createObjectURL(blobStore);
+          link.download =
+            v.row.Clave +
+            "_" +
+            v.row.Mes +
+            "_" +
+            v.row.Anio +
+            "." +
+            response.data.RESPONSE.extencion;
+          link.click();
+          setslideropen(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setslideropen(false);
+        });
+    } catch (err: any) {
+      setslideropen(false);
+      console.log(err);
+    }
+  };
+
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150, hide: true },
     {
@@ -146,6 +205,25 @@ export const Fpg = () => {
       renderCell: (v) => {
         return (
           <Box>
+            {String(v.row.Clave) == "FGP" ||
+            String(v.row.Clave) == "FFM70" ||
+            String(v.row.Clave) == "FFM30" ||
+            String(v.row.Clave) == "IEPS" ||
+            String(v.row.Clave) == "FOFIR" ||
+            String(v.row.Clave) == "ISAN" ||
+            String(v.row.Clave) == "COMP ISAN" ||
+            String(v.row.Clave) == "IEPSGyD" ||
+            String(v.row.Clave) == "ISR SALARIOS" ||
+            String(v.row.Clave) == "ISR INMUEBLES" ? (
+              <Tooltip title="Descargar Informe Acumulado">
+                <IconButton onClick={() => handleGenerar(v)}>
+                  <AssessmentIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+
             <Tooltip title="Ver Detalle de Cálculo">
               <IconButton onClick={() => handleDetalle(v)}>
                 <InfoIcon />
