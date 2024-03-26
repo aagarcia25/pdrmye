@@ -6,6 +6,7 @@ import DoneAllIcon from "@mui/icons-material/DoneAll";
 import InsightsIcon from "@mui/icons-material/Insights";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import TextSnippetIcon from "@mui/icons-material/TextSnippet";
 import {
   Box,
   Button,
@@ -41,6 +42,8 @@ import ModalCalculos from "../../componentes/ModalCalculos";
 import { Moneda, currencyFormatter } from "../CustomToolbar";
 import { Titulo } from "../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
 import AssessmentIcon from "@mui/icons-material/Assessment";
+import { ReportesServices } from "../../../../services/ReportesServices";
+import { base64ToArrayBuffer } from "../../../../helpers/Files";
 const DetalleFgp = ({
   idCalculo,
   idDetalle,
@@ -596,6 +599,37 @@ const DetalleFgp = ({
     });
   };
 
+  const descargaPlantilla = () => {
+    setOpenSlider(true);
+    let data = {
+      P_IDDETALLE: idDetalle,
+    };
+
+    ReportesServices.requerimientoPresupuestal(data).then((res) => {
+      if (res.SUCCESS) {
+        var bufferArray = base64ToArrayBuffer(String(res.RESPONSE));
+        var blobStore = new Blob([bufferArray], {
+          type: "application/vnd.ms-excel",
+        });
+        var data = window.URL.createObjectURL(blobStore);
+        var link = document.createElement("a");
+        document.body.appendChild(link);
+        link.href = data;
+        link.download = "Requerimiento Prespuestal.xlsx";
+        link.click();
+        window.URL.revokeObjectURL(data);
+        link.remove();
+        setOpenSlider(false);
+      } else {
+        setOpenSlider(false);
+        AlertS.fire({
+          title: "¡Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  };
   useEffect(() => {
     EstablecePermisos();
     EstatusCalculo();
@@ -834,6 +868,17 @@ const DetalleFgp = ({
                 ) : (
                   ""
                 )}
+                <Tooltip
+                  title={"Descarfar Formato de Requerimiento Presupuestal"}
+                >
+                  <ToggleButton
+                    className="aceptar"
+                    value="check"
+                    onClick={() => descargaPlantilla()}
+                  >
+                    <TextSnippetIcon />
+                  </ToggleButton>
+                </Tooltip>
               </ToggleButtonGroup>
             </Box>
 
