@@ -192,39 +192,48 @@ const DetalleFgp = ({
 
   const Fnworkflow = (data: any) => {
     setOpenSlider(true);
+    console.log(data.usuario);
+    console.log(data.mensaje);
 
-    if (!perfilDestino || !data.mensaje) {
-      AlertS.fire({
-        title: "Verifique Los Campos",
-        icon: "error",
-      });
+    if (data.usuario != "" || area == "DAMOP") {
+      if (!perfilDestino || !data.mensaje!) {
+        AlertS.fire({
+          title: "Verifique Los Campos",
+          icon: "error",
+        });
+      } else {
+        let obj = {
+          CHID: idCalculo,
+          ESTATUS_DESTINO: estatusDestino,
+          CHUSER: user.Id,
+          TEXTO: data.mensaje,
+          PERFIL_DESTINO: perfilDestino,
+          CHUSERASIGNADO: data.usuario,
+          AREA: area,
+        };
+
+        calculosServices.indexCalculo(obj).then((res) => {
+          if (res.SUCCESS) {
+            Toast.fire({
+              icon: "success",
+              title: "¡Consulta Exitosa!",
+            });
+            setOpenSlider(false);
+            handleClose();
+          } else {
+            setOpenSlider(false);
+            AlertS.fire({
+              title: "¡Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
+        });
+      }
     } else {
-      let obj = {
-        CHID: idCalculo,
-        ESTATUS_DESTINO: estatusDestino,
-        CHUSER: user.Id,
-        TEXTO: data.mensaje,
-        PERFIL_DESTINO: perfilDestino,
-        CHUSERASIGNADO: data.usuario,
-        AREA: area,
-      };
-
-      calculosServices.indexCalculo(obj).then((res) => {
-        if (res.SUCCESS) {
-          Toast.fire({
-            icon: "success",
-            title: "¡Consulta Exitosa!",
-          });
-          setOpenSlider(false);
-          handleClose();
-        } else {
-          setOpenSlider(false);
-          AlertS.fire({
-            title: "¡Error!",
-            text: res.STRMESSAGE,
-            icon: "error",
-          });
-        }
+      AlertS.fire({
+        title: "Favor de Seleccionar al responsable de Validación",
+        icon: "error",
       });
     }
   };
