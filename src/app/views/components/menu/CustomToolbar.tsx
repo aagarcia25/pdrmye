@@ -16,11 +16,11 @@ import { NumericFormat, NumericFormatProps } from "react-number-format";
 export function CustomToolbar() {
   return (
     <GridToolbarContainer>
-      <GridToolbarColumnsButton />
-      <GridToolbarFilterButton placeholder="" />
-      <GridToolbarDensitySelector placeholder="" />
-      <GridToolbarExport placeholder="" />
-      <GridToolbarQuickFilter placeholder="" />
+      <GridToolbarColumnsButton placeholder={""} />
+      <GridToolbarFilterButton placeholder={""} />
+      <GridToolbarDensitySelector placeholder={""} />
+      <GridToolbarExport placeholder={""} />
+      <GridToolbarQuickFilter placeholder={""} />
     </GridToolbarContainer>
   );
 }
