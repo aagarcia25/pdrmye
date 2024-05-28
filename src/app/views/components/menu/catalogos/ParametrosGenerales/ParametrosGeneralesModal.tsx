@@ -26,11 +26,15 @@ export const ParametrosGeneralesModal = ({
   const [valor, setValor] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [referencia, setReferencia] = useState("");
-
   const user: USUARIORESPONSE = JSON.parse(String(getUser()));
 
   const handleSend = () => {
-    if (nombre == "" || valor == "" || referencia == "" || descripcion == "") {
+    if (
+      nombre === "" ||
+      valor === "" ||
+      referencia === "" ||
+      descripcion === ""
+    ) {
       AlertS.fire({
         title: "¡Error!",
         text: "Favor de Completar los Campos",
@@ -52,10 +56,10 @@ export const ParametrosGeneralesModal = ({
   };
 
   const handleRequest = (data: any) => {
-    if (tipo == 1) {
+    if (tipo === 1) {
       //AGREGAR
       agregar(data);
-    } else if (tipo == 2) {
+    } else if (tipo === 2) {
       //EDITAR
       editar(data);
     }
@@ -96,7 +100,7 @@ export const ParametrosGeneralesModal = ({
   };
 
   useEffect(() => {
-    if (dt == "") {
+    if (dt === "") {
     } else {
       //SE PINTAN LOS CAMPOS
       setId(dt?.row?.id);
@@ -123,7 +127,7 @@ export const ParametrosGeneralesModal = ({
             onChange={(v) => setNombre(v.target.value)}
             error={!nombre ? true : false}
             inputProps={{ maxLength: 100 }}
-            disabled={modo == "Editar"}
+            disabled={modo === "Editar"}
           />
           <TextField
             required
@@ -180,10 +184,10 @@ export const ParametrosGeneralesModal = ({
       >
         <Grid item xs={4} sm={3} md={2} lg={1}>
           <Button
-            className={tipo == 1 ? "guardar" : "actualizar"}
+            className={tipo === 1 ? "guardar" : "actualizar"}
             onClick={() => handleSend()}
           >
-            {tipo == 1 ? "Guardar" : "Actualizar"}
+            {tipo === 1 ? "Guardar" : "Actualizar"}
           </Button>
         </Grid>
       </Grid>

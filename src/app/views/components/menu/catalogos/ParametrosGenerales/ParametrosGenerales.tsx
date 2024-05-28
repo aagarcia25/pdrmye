@@ -1,20 +1,15 @@
+/* eslint-disable array-callback-return */
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AlertS } from "../../../../../helpers/AlertS";
 import { Toast } from "../../../../../helpers/Toast";
 import {
-  ITEMS,
   PERMISO,
   USUARIORESPONSE,
-  menus,
 } from "../../../../../interfaces/user/UserInfo";
 import { ParametroServices } from "../../../../../services/ParametroServices";
-import {
-  getMenus,
-  getPermisos,
-  getUser,
-} from "../../../../../services/localStorage";
+import { getPermisos, getUser } from "../../../../../services/localStorage";
 import { messages } from "../../../../styles";
 import MUIXDataGridMun from "../../../MUIXDataGridMun";
 import BotonesAcciones from "../../../componentes/BotonesAcciones";
@@ -32,8 +27,6 @@ export const ParametrosGenerales = () => {
   const [editar, setEditar] = useState<boolean>(false);
   const [eliminar, setEliminar] = useState<boolean>(false);
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
-  const menu: menus[] = JSON.parse(String(getMenus()));
-  const [nombreMenu, setNombreMenu] = useState("");
 
   const columns: GridColDef[] = [
     {
@@ -94,12 +87,12 @@ export const ParametrosGenerales = () => {
     },
   ];
   const handleAccion = (v: any) => {
-    if (v.tipo == 1) {
+    if (v.tipo === 1) {
       setTipoOperacion(2);
       setModo("Editar");
       setOpen(true);
       setVrows(v.data);
-    } else if (v.tipo == 2) {
+    } else if (v.tipo === 2) {
       handleDelete(v.data);
     }
   };
@@ -176,26 +169,19 @@ export const ParametrosGenerales = () => {
 
   useEffect(() => {
     permisos.map((item: PERMISO) => {
-      menu.map((item: any) => {
-        item.items.map((itemsMenu: ITEMS) => {
-          if (String(itemsMenu.ControlInterno) == "PG") {
-            setNombreMenu(itemsMenu.Menu);
-          }
-        });
-      });
-
-      if (String(item.ControlInterno) == "PG") {
-        if (String(item.ControlInterno) == "AGREG") {
+      if (String(item.menu) === "PG") {
+        if (String(item.ControlInterno) === "AGREG") {
           setAgregar(true);
         }
-        if (String(item.ControlInterno) == "ELIM") {
+        if (String(item.ControlInterno) === "ELIM") {
           setEliminar(true);
         }
-        if (String(item.ControlInterno) == "EDIT") {
+        if (String(item.ControlInterno) === "EDIT") {
           setEditar(true);
         }
       }
     });
+
     consulta({ NUMOPERACION: 4 });
   }, []);
 
@@ -217,7 +203,7 @@ export const ParametrosGenerales = () => {
       <MUIXDataGridMun
         columns={columns}
         rows={parametroGeneral}
-        modulo={nombreMenu.toUpperCase().replace(" ", "_")}
+        modulo={"Parametros Generales"}
         handleBorrar={handleBorrar}
         controlInterno={"PG"}
       />

@@ -4,13 +4,23 @@ import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import InsightsIcon from "@mui/icons-material/Insights";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import TextSnippetIcon from "@mui/icons-material/TextSnippet";
 import {
   Box,
+  Button,
   Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Grid,
+  IconButton,
+  TextField,
   ToggleButton,
   ToggleButtonGroup,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -19,6 +29,7 @@ import { Toast } from "../../../../helpers/Toast";
 import SelectValues from "../../../../interfaces/Select/SelectValues";
 import {
   FPGDetalle,
+  IdetalleCalculo,
   PERMISO,
   USUARIORESPONSE,
 } from "../../../../interfaces/user/UserInfo";
@@ -30,7 +41,9 @@ import Trazabilidad from "../../Trazabilidad";
 import ModalCalculos from "../../componentes/ModalCalculos";
 import { Moneda, currencyFormatter } from "../CustomToolbar";
 import { Titulo } from "../catalogos/Utilerias/AgregarCalculoUtil/Titulo";
-
+import AssessmentIcon from "@mui/icons-material/Assessment";
+import { ReportesServices } from "../../../../services/ReportesServices";
+import { base64ToArrayBuffer } from "../../../../helpers/Files";
 const DetalleFgp = ({
   idCalculo,
   idDetalle,
@@ -60,16 +73,49 @@ const DetalleFgp = ({
   const [fase, setFase] = useState<Number>();
   //Permisos
   const [data, setData] = useState([]);
+  const [row, setRow] = useState<IdetalleCalculo>();
   const [autorizar, setAutorizar] = useState<boolean>(true);
   const [cancelar, setCancelar] = useState<boolean>(true);
   const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(true);
-  const [recalcular, setrecalcular] = useState<boolean>(true);
+  const [recalcular, setrecalcular] = useState<boolean>(false);
+  const [ajustar, setAjustar] = useState<boolean>(true);
   //Modals
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openModalAjuste, setopenModalAjuste] = useState<boolean>(false);
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
   const [tipoAccion, setTipoAccion] = useState("");
   //Columnas
   const [visibleselect, setvisibleselect] = useState<Number>(0);
+  const [importemensual, setimportemensual] = useState<Number>();
+  const [showDecimal, setshowDecimal] = useState<boolean>(false);
+
+  const handleClick = () => {
+    setshowDecimal(!showDecimal);
+  };
+
+  const handleRenviarCorreo = () => {
+    setOpenSlider(true);
+    let obj = {
+      CHID: idDetalle,
+    };
+
+    calculosServices.renviarCorreo(obj).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "Notificación Enviada!",
+        });
+        setOpenSlider(false);
+      } else {
+        AlertS.fire({
+          title: "¡Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+        setOpenSlider(false);
+      }
+    });
+  };
 
   const closeTraz = () => {
     setOpenSlider(false);
@@ -146,39 +192,48 @@ const DetalleFgp = ({
 
   const Fnworkflow = (data: any) => {
     setOpenSlider(true);
+    console.log(data.usuario);
+    console.log(data.mensaje);
 
-    if (!perfilDestino || !data.mensaje) {
-      AlertS.fire({
-        title: "Verifique Los Campos",
-        icon: "error",
-      });
+    if (data.usuario != "" || area == "DAMOP") {
+      if (!perfilDestino || !data.mensaje!) {
+        AlertS.fire({
+          title: "Verifique Los Campos",
+          icon: "error",
+        });
+      } else {
+        let obj = {
+          CHID: idCalculo,
+          ESTATUS_DESTINO: estatusDestino,
+          CHUSER: user.Id,
+          TEXTO: data.mensaje,
+          PERFIL_DESTINO: perfilDestino,
+          CHUSERASIGNADO: data.usuario,
+          AREA: area,
+        };
+
+        calculosServices.indexCalculo(obj).then((res) => {
+          if (res.SUCCESS) {
+            Toast.fire({
+              icon: "success",
+              title: "¡Consulta Exitosa!",
+            });
+            setOpenSlider(false);
+            handleClose();
+          } else {
+            setOpenSlider(false);
+            AlertS.fire({
+              title: "¡Error!",
+              text: res.STRMESSAGE,
+              icon: "error",
+            });
+          }
+        });
+      }
     } else {
-      let obj = {
-        CHID: idCalculo,
-        ESTATUS_DESTINO: estatusDestino,
-        CHUSER: user.Id,
-        TEXTO: data.mensaje,
-        PERFIL_DESTINO: perfilDestino,
-        CHUSERASIGNADO: data.usuario,
-        AREA: area,
-      };
-
-      calculosServices.indexCalculo(obj).then((res) => {
-        if (res.SUCCESS) {
-          Toast.fire({
-            icon: "success",
-            title: "¡Consulta Exitosa!",
-          });
-          setOpenSlider(false);
-          handleClose();
-        } else {
-          setOpenSlider(false);
-          AlertS.fire({
-            title: "¡Error!",
-            text: res.STRMESSAGE,
-            icon: "error",
-          });
-        }
+      AlertS.fire({
+        title: "Favor de Seleccionar al responsable de Validación",
+        icon: "error",
       });
     }
   };
@@ -214,6 +269,34 @@ const DetalleFgp = ({
               icon: "error",
             });
           }
+        });
+      }
+    });
+  };
+
+  const grabacentavos = (data: any) => {
+    setimportemensual(0);
+    console.log(data);
+    let obj = {
+      IDCALCULO: data.id,
+      CHUSER: user.Id,
+      MONTO: importemensual,
+      IDCALCULOPADRE: idDetalle,
+    };
+
+    calculosServices.grabacentavos(obj).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "ReCalculo Exitoso!",
+        });
+        consulta({ IDCALCULOTOTAL: idDetalle });
+        setopenModalAjuste(false);
+      } else {
+        AlertS.fire({
+          title: "¡Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
         });
       }
     });
@@ -273,6 +356,26 @@ const DetalleFgp = ({
         });
       }
     });
+  };
+
+  const handleAjustar = (row: any) => {
+    console.log(row.row);
+    setRow(row.row);
+    setopenModalAjuste(true);
+    // let data = {
+    //   IDCALCULO: idDetalle,
+    // };
+    // calculosServices.getEstatusCalculo(data).then((res) => {
+    //   if (res.SUCCESS) {
+    //     setStatus(res.RESPONSE[0]);
+    //   } else {
+    //     AlertS.fire({
+    //       title: "¡Error!",
+    //       text: res.STRMESSAGE,
+    //       icon: "error",
+    //     });
+    //   }
+    // });
   };
 
   const getResponsable = () => {
@@ -368,7 +471,6 @@ const DetalleFgp = ({
       headerName: clave == "ISR SALARIOS" ? "Devoluciones" : "AjusteEstatal",
       width: 150,
       description: clave == "ISR SALARIOS" ? "Devoluciones" : "AjusteEstatal",
-      ...Moneda,
     },
 
     {
@@ -381,7 +483,101 @@ const DetalleFgp = ({
         <>{"Total: " + currencyFormatter.format(Number(sumaTotal))}</>
       ),
     },
+    {
+      disableExport: true,
+      field: "acciones",
+      headerName: "Acciones",
+      description: "Acciones",
+      sortable: false,
+      width: 150,
+      renderCell: (v: any) => {
+        return (
+          <Box>
+            {ajustar ? (
+              <Tooltip title="Ajustar Cifra">
+                <IconButton onClick={() => handleAjustar(v)}>
+                  <MonetizationOnIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+          </Box>
+        );
+      },
+    },
   ];
+
+  const columnssinde = [
+    {
+      field: "id",
+      headerName: "Identificador",
+      width: 150,
+      hide: true,
+      hideable: false,
+    },
+
+    {
+      field: "ClaveEstado",
+      headerName: "Clave Estado",
+      width: 150,
+      description: "Identificador del Municipio",
+    },
+    {
+      field: "Nombre",
+      headerName: "Municipio",
+      width: 250,
+      description: "Nombre del Municipio",
+    },
+    {
+      field: "Mensual",
+      headerName: "Mensual",
+      width: 220,
+      description: "Mensual",
+    },
+
+    {
+      field: "AjusteEstatal",
+      headerName: clave == "ISR SALARIOS" ? "Devoluciones" : "AjusteEstatal",
+      width: 150,
+      description: clave == "ISR SALARIOS" ? "Devoluciones" : "AjusteEstatal",
+    },
+
+    {
+      field: "total",
+      headerName: "Total",
+      width: 250,
+      description: "Total",
+      ...Moneda,
+      renderHeader: () => (
+        <>{"Total: " + currencyFormatter.format(Number(sumaTotal))}</>
+      ),
+    },
+    {
+      disableExport: true,
+      field: "acciones",
+      headerName: "Acciones",
+      description: "Acciones",
+      sortable: false,
+      width: 150,
+      renderCell: (v: any) => {
+        return (
+          <Box>
+            {ajustar ? (
+              <Tooltip title="Ajustar Cifra">
+                <IconButton onClick={() => handleAjustar(v)}>
+                  <MonetizationOnIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+          </Box>
+        );
+      },
+    },
+  ];
+
   const EstablecePermisos = () => {
     permisos.map((item: PERMISO) => {
       if (String(item.menu) == String(clave).replace(/\s/g, "")) {
@@ -404,10 +600,45 @@ const DetalleFgp = ({
         if (String(item.ControlInterno) == "RECALCULAR") {
           setrecalcular(true);
         }
+
+        if (String(item.ControlInterno) == "AJUSTAR") {
+          setAjustar(true);
+        }
       }
     });
   };
 
+  const descargaPlantilla = () => {
+    setOpenSlider(true);
+    let data = {
+      P_IDDETALLE: idDetalle,
+    };
+
+    ReportesServices.requerimientoPresupuestal(data).then((res) => {
+      if (res.SUCCESS) {
+        var bufferArray = base64ToArrayBuffer(String(res.RESPONSE));
+        var blobStore = new Blob([bufferArray], {
+          type: "application/vnd.ms-excel",
+        });
+        var data = window.URL.createObjectURL(blobStore);
+        var link = document.createElement("a");
+        document.body.appendChild(link);
+        link.href = data;
+        link.download = "Requerimiento Prespuestal.xlsx";
+        link.click();
+        window.URL.revokeObjectURL(data);
+        link.remove();
+        setOpenSlider(false);
+      } else {
+        setOpenSlider(false);
+        AlertS.fire({
+          title: "¡Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    });
+  };
   useEffect(() => {
     EstablecePermisos();
     EstatusCalculo();
@@ -528,6 +759,19 @@ const DetalleFgp = ({
                     <ArrowBackIcon />
                   </ToggleButton>
                 </Tooltip>
+                {fase == 4 ? (
+                  <Tooltip title={"Renviar Correo"}>
+                    <ToggleButton
+                      className="aceptar"
+                      value="check"
+                      onClick={() => handleRenviarCorreo()}
+                    >
+                      <MailOutlineIcon />
+                    </ToggleButton>
+                  </Tooltip>
+                ) : (
+                  ""
+                )}
 
                 {recalcular ? (
                   <Tooltip title={"Generar Recálculo"}>
@@ -542,7 +786,6 @@ const DetalleFgp = ({
                 ) : (
                   ""
                 )}
-
                 {verTrazabilidad ? (
                   <Tooltip title={"Ver Trazabilidad"}>
                     <ToggleButton
@@ -556,7 +799,6 @@ const DetalleFgp = ({
                 ) : (
                   ""
                 )}
-
                 {autorizar && user.Id == responsable?.value && fase == 1 ? (
                   <Tooltip title={"Enviar a Validación"}>
                     <ToggleButton
@@ -570,7 +812,6 @@ const DetalleFgp = ({
                 ) : (
                   ""
                 )}
-
                 {autorizar && user.Id == responsable?.value && fase == 2 ? (
                   <Tooltip title={"Enviar a Coordinador"}>
                     <ToggleButton
@@ -584,7 +825,6 @@ const DetalleFgp = ({
                 ) : (
                   ""
                 )}
-
                 {autorizar && user.Id == responsable?.value && fase == 3 ? (
                   <Tooltip title={"Enviar a DAMOP"}>
                     <ToggleButton
@@ -598,7 +838,6 @@ const DetalleFgp = ({
                 ) : (
                   ""
                 )}
-
                 {cancelar && user.Id == responsable?.value && fase == 1 ? (
                   <Tooltip title={"Cancelar"}>
                     <ToggleButton
@@ -612,7 +851,6 @@ const DetalleFgp = ({
                 ) : (
                   ""
                 )}
-
                 {cancelar && user.Id == responsable?.value && fase == 2 ? (
                   <Tooltip title={"Regresar a Analista"}>
                     <ToggleButton
@@ -626,7 +864,6 @@ const DetalleFgp = ({
                 ) : (
                   ""
                 )}
-
                 {cancelar && user.Id == responsable?.value && fase == 3 ? (
                   <Tooltip title={"Regresar a Validador"}>
                     <ToggleButton
@@ -640,8 +877,20 @@ const DetalleFgp = ({
                 ) : (
                   ""
                 )}
+                <Tooltip
+                  title={"Descarfar Formato de Requerimiento Presupuestal"}
+                >
+                  <ToggleButton
+                    className="aceptar"
+                    value="check"
+                    onClick={() => descargaPlantilla()}
+                  >
+                    <TextSnippetIcon />
+                  </ToggleButton>
+                </Tooltip>
               </ToggleButtonGroup>
             </Box>
+
             <MUIXDataGrid
               columns={columns}
               rows={data}
@@ -650,6 +899,63 @@ const DetalleFgp = ({
           </Box>
         </Dialog>
       </Box>
+      {openModalAjuste ? (
+        <Box>
+          <Dialog open={true}>
+            <Grid container justifyContent="space-between">
+              <DialogTitle>Ajuste de Cifras</DialogTitle>
+              <Tooltip title={"Cerrar"}>
+                <Button
+                  className="CerrarModal"
+                  variant="outlined"
+                  color="error"
+                  onClick={() => handleClose()}
+                >
+                  X
+                </Button>
+              </Tooltip>
+            </Grid>
+
+            <DialogContent dividers={true}>
+              <Grid container spacing={1}>
+                <Grid item xs={12}>
+                  <h3> {row?.Nombre}</h3>
+                </Grid>
+                <Grid item xs={12}>
+                  <h3> {row?.Mensual}</h3>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography>Introduce el nuevo importe</Typography>
+                  <TextField
+                    required
+                    // disabled
+                    margin="dense"
+                    id="NumOperacion"
+                    value={importemensual}
+                    type="number"
+                    fullWidth
+                    variant="outlined"
+                    onChange={(v) => setimportemensual(Number(v.target.value))}
+                    InputLabelProps={{ shrink: true }}
+                  />
+                </Grid>
+              </Grid>
+            </DialogContent>
+
+            <DialogActions>
+              <Button
+                color="success"
+                className="guardar"
+                onClick={() => grabacentavos(row)}
+              >
+                Guardar
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </Box>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

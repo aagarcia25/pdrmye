@@ -2,27 +2,10 @@ import {
   GridCellParams,
   GridColTypeDef,
   GridColumnHeaderParams,
-  GridToolbarColumnsButton,
-  GridToolbarContainer,
-  GridToolbarDensitySelector,
-  GridToolbarExport,
-  GridToolbarFilterButton,
-  GridToolbarQuickFilter,
 } from "@mui/x-data-grid";
 import clsx from "clsx";
 import React from "react";
 import { NumericFormat, NumericFormatProps } from "react-number-format";
-export function CustomToolbar() {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarColumnsButton />
-      <GridToolbarFilterButton />
-      <GridToolbarDensitySelector />
-      <GridToolbarExport />
-      <GridToolbarQuickFilter />
-    </GridToolbarContainer>
-  );
-}
 
 interface CustomProps {
   onChange: (event: { target: { name: string; value: string } }) => void;

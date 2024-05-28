@@ -50,8 +50,6 @@ const ListNotificationsModal = ({
   const [chuserDestin, setChuserDestin] = useState<string>("");
   const [openSlider, setOpenSlider] = useState<boolean>(false);
 
-  const [name, setName] = useState<string>();
-
   const handleViewChange = () => {
     let data = {
       NUMOPERACION: tipo,
@@ -94,19 +92,6 @@ const ListNotificationsModal = ({
       };
       CatalogosServices.Notificaciones(data).then((res) => {
         if (res.SUCCESS) {
-          let jsonobj = {
-            texto: newMensaje,
-          };
-
-          let obj = {
-            referencia: 1,
-            data: jsonobj,
-            to: "aagarcia@cecapmex.com",
-            subject: newEncabezado,
-          };
-
-          MailServices.sendMail(obj).then(() => {});
-
           Toast.fire({
             icon: "success",
             title: "Mensaje Enviado!",
@@ -148,17 +133,16 @@ const ListNotificationsModal = ({
   useEffect(() => {
     loadSelectUser();
     setChuserDestin(destinatario);
-    if (dt == true) {
+    if (dt === true) {
       setOpenSlider(true);
       setChuserDestin(destinatario);
       setOpenSlider(false);
     }
-    if (dt == "") {
+    if (dt === "") {
     } else {
       setId(dt?.row?.id);
       setMensaje(dt?.row?.Descripcion);
       setEncabezado(dt?.row?.Encabezado);
-      setName(dt?.row?.Nombre);
     }
   }, [dt]);
 
@@ -176,14 +160,12 @@ const ListNotificationsModal = ({
       <Box
         maxWidth="100%"
         sx={{
-          // justifyContent: 'space-between',
           position: "relative",
           flexDirection: "column",
           margin: "4.5%",
-          // borderRadius: 2
         }}
       >
-        {modo == "NewMessage" ? (
+        {modo === "NewMessage" ? (
           <Box boxShadow={2} maxWidth="95%">
             <Box
               sx={{
@@ -191,7 +173,6 @@ const ListNotificationsModal = ({
                 justifyContent: "space-between",
                 position: "relative",
                 flexDirection: "column",
-                // borderRadius: 1,
               }}
             >
               <Grid
@@ -235,8 +216,7 @@ const ListNotificationsModal = ({
                 }}
               >
                 <Typography variant="h6" paddingBottom={0.5}>
-                  {" "}
-                  Para..{" "}
+                  Para..
                 </Typography>
                 <SelectFrag
                   value={chuserDestin}
@@ -267,8 +247,7 @@ const ListNotificationsModal = ({
                   }}
                 >
                   <Typography variant="h6" paddingBottom={0.2}>
-                    {" "}
-                    Asunto..{" "}
+                    Asunto..
                   </Typography>
                   <TextField
                     required
@@ -308,9 +287,6 @@ const ListNotificationsModal = ({
                 </Box>
               </Box>
 
-              {
-                ////// boton de enviar mensaje nuevo
-              }
               <Box
                 sx={{
                   position: "relative",
@@ -338,7 +314,7 @@ const ListNotificationsModal = ({
           ""
         )}
 
-        {modo == "ViewMessage" ? (
+        {modo === "ViewMessage" ? (
           <Box boxShadow={3}>
             <Grid container>
               <Grid item xs={12} sx={{ bgcolor: "grey", padding: ".8%" }}>

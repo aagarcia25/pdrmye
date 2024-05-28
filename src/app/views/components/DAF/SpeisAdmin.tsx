@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/iframe-has-title */
 import DeleteIcon from "@mui/icons-material/Delete";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
@@ -231,7 +232,7 @@ const SpeisAdmin = ({
                   <img
                     className="iconButton"
                     src={
-                      v.row.Nombre.slice(-3).toUpperCase() == "PDF"
+                      v.row.Nombre.slice(-3).toUpperCase() === "PDF"
                         ? IconSPEIPDFDown
                         : IconeXML
                     }
@@ -242,7 +243,9 @@ const SpeisAdmin = ({
               ""
             )}
 
-            {eliminarCFDI && modo == "CFDI" ? (
+            {eliminarCFDI &&
+            v.row.Estatus !== "Verificado" &&
+            modo === "CFDI" ? (
               <Tooltip title={"Eliminar Archivo"}>
                 <IconButton onClick={() => handleDeleteSpei(v)}>
                   <DeleteIcon />
@@ -573,7 +576,7 @@ const SpeisAdmin = ({
     permisos.map((item: PERMISO) => {
       if (
         String(item.menu) === "DAFADMINPAG" ||
-        String(item.ControlInterno) === "PARTMUN"
+        String(item.menu) === "PARTMUN"
       ) {
         if (String(item.ControlInterno) === "AGREGSPEI") {
           setAgregar(true);

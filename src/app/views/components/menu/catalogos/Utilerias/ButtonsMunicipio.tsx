@@ -178,14 +178,16 @@ const ButtonsMunicipio = ({
                 }
                 placeholder={label != "" ? label : placeholder}
                 //  value={value}
-                styles={{
-                  menu: (base) => ({
-                    position: "absolute",
-                    paddingLeft: "1rem",
-                    zIndex: 500,
-                    ...base,
-                  }),
-                }}
+                styles={
+                  {
+                    // menu: (base: any) => ({
+                    //   position: "absolute",
+                    //   paddingLeft: "1rem",
+                    //   zIndex: 500,
+                    //   ...base,
+                    // }),
+                  }
+                }
               />
             </FormControl>
           )}

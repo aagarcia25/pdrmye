@@ -2,7 +2,16 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 import InfoIcon from "@mui/icons-material/Info";
 import InsightsIcon from "@mui/icons-material/Insights";
-import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  IconButton,
+  ToggleButton,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
@@ -26,10 +35,16 @@ import ButtonsCalculo from "../catalogos/Utilerias/ButtonsCalculo";
 import DetalleFgp from "./DetalleFgp";
 import ModalAjuste from "./ModalAjuste";
 import ModalNew from "./ModalNew";
-
+import DetalleFgpAnual from "./DetalleFgpAnual";
+import LocalAtmIcon from "@mui/icons-material/LocalAtm";
+import { CatalogosServices } from "../../../../services/catalogosServices";
+import AssessmentIcon from "@mui/icons-material/Assessment";
+import axios from "axios";
+import { base64ToArrayBuffer } from "../../../../helpers/Files";
 export const Fpg = () => {
   const [slideropen, setslideropen] = useState(false);
   const [data, setdata] = useState([]);
+  const [dataanual, setdataanual] = useState([]);
   const [step, setstep] = useState(0);
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
@@ -38,10 +53,12 @@ export const Fpg = () => {
   const [tipoCalculo, setTipoCalculo] = useState<string>("");
   const [idtrazabilidad, setIdtrazabilidad] = useState("");
   const [openDetalles, setOpenDetalles] = useState(false);
+  const [openDetallesanual, setOpenDetallesanual] = useState(false);
   const [clave, setClave] = useState("");
-  const [agregar, setAgregar] = useState<boolean>(true);
-  const [agregarajuste, setAgregarAjuste] = useState<boolean>(true);
+  const [agregar, setAgregar] = useState<boolean>(false);
+  const [agregarajuste, setAgregarAjuste] = useState<boolean>(false);
   const [cancelar, setCancelar] = useState<boolean>(false);
+  const [calculoAnual, setcalculoAnual] = useState<boolean>(false);
 
   const [verTrazabilidad, setVerTrazabilidad] = useState<boolean>(false);
   const [objfondo, setObjFondo] = useState<fondoinfo>();
@@ -49,6 +66,35 @@ export const Fpg = () => {
   const [nombreMenu, setNombreMenu] = useState("");
   const [sumaTotal, setSumaTotal] = useState<Number>();
   const user: USUARIORESPONSE = JSON.parse(String(getUser()));
+  const [checked, setChecked] = useState(false);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+
+    if (event.target.checked) {
+      setslideropen(true);
+      let data = { FONDO: objfondo?.Clave, anual: true };
+      calculosServices.calculosInfo(data).then((res) => {
+        if (res.SUCCESS) {
+          Toast.fire({
+            icon: "success",
+            title: "¡Consulta Exitosa!",
+          });
+          setdataanual(res.RESPONSE);
+
+          setslideropen(false);
+        } else {
+          AlertS.fire({
+            title: "¡Error!",
+            text: res.STRMESSAGE,
+            icon: "error",
+          });
+          setslideropen(false);
+        }
+      });
+    } else {
+      consulta({ FONDO: params.fondo });
+    }
+  };
 
   const closeTraz = (v: any) => {
     setOpenTrazabilidad(false);
@@ -67,6 +113,7 @@ export const Fpg = () => {
     setstep(0);
     setOpenDetalles(false);
     setOpenTrazabilidad(false);
+    setOpenDetallesanual(false);
   };
 
   const handleAjuste = (v: any) => {
@@ -84,6 +131,68 @@ export const Fpg = () => {
     setAnio(Number(v.row.Anio));
   };
 
+  const handleDetalleanual = (v: any) => {
+    setClave(v.row.Clave);
+    setAnio(Number(v.row.Anio));
+    setOpenDetallesanual(true);
+  };
+
+  const handleGenerar = (v: any) => {
+    setslideropen(true);
+    console.log(v);
+    let data = {
+      CLAVE: v.row.Clave,
+      MES: v.row.nummes,
+      DESCRIPCION: v.row.Descripcion,
+      ANIO: v.row.Anio,
+      MESD: v.row.Mes,
+    };
+
+    try {
+      let config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: process.env.REACT_APP_APPLICATION_BASE_URL + "handleReportFlex",
+        headers: {
+          "Content-Type": "application/json",
+          responseType: "blob",
+        },
+        data: data,
+      };
+
+      axios
+        .request(config)
+        .then((response) => {
+          var bufferArray = base64ToArrayBuffer(
+            String(response.data.RESPONSE.response64)
+          );
+          var blobStore = new Blob([bufferArray], {
+            type: "application/*",
+          });
+
+          const link = document.createElement("a");
+          link.href = window.URL.createObjectURL(blobStore);
+          link.download =
+            v.row.Clave +
+            "_" +
+            v.row.Mes +
+            "_" +
+            v.row.Anio +
+            "." +
+            response.data.RESPONSE.extencion;
+          link.click();
+          setslideropen(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setslideropen(false);
+        });
+    } catch (err: any) {
+      setslideropen(false);
+      console.log(err);
+    }
+  };
+
   const columns: GridColDef[] = [
     { field: "id", headerName: "Identificador", width: 150, hide: true },
     {
@@ -96,6 +205,25 @@ export const Fpg = () => {
       renderCell: (v) => {
         return (
           <Box>
+            {String(v.row.Clave) == "FGP" ||
+            String(v.row.Clave) == "FFM70" ||
+            String(v.row.Clave) == "FFM30" ||
+            String(v.row.Clave) == "IEPS" ||
+            String(v.row.Clave) == "FOFIR" ||
+            String(v.row.Clave) == "ISAN" ||
+            String(v.row.Clave) == "COMP ISAN" ||
+            String(v.row.Clave) == "IEPSGyD" ||
+            String(v.row.Clave) == "ISR SALARIOS" ||
+            String(v.row.Clave) == "ISR INMUEBLES" ? (
+              <Tooltip title="Descargar Informe Acumulado">
+                <IconButton onClick={() => handleGenerar(v)}>
+                  <AssessmentIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+
             <Tooltip title="Ver Detalle de Cálculo">
               <IconButton onClick={() => handleDetalle(v)}>
                 <InfoIcon />
@@ -171,15 +299,22 @@ export const Fpg = () => {
       description: "Mes",
     },
     {
-      field: "Total",
-      headerName: "Total",
+      field: "TotalCompleto",
+      headerName: "Importe Total",
       width: 180,
-      description: "Total",
+      description: "Importe Total",
+      ...Moneda,
+    },
+    {
+      field: "Total",
+      headerName: "Distribución",
+      width: 200,
+      description: "Distribución",
       ...Moneda,
       renderHeader: (v) => (
         <>
           {v.field
-            ? "Total: " + currencyFormatter.format(Number(sumaTotal))
+            ? "Distribución: " + currencyFormatter.format(Number(sumaTotal))
             : ""}
         </>
       ),
@@ -189,6 +324,56 @@ export const Fpg = () => {
       headerName: "Estatus",
       width: 200,
       description: "Estatus",
+    },
+  ];
+
+  const columnsAnio: GridColDef[] = [
+    { field: "id", headerName: "Identificador", width: 150, hide: true },
+    {
+      disableExport: true,
+      field: "acciones",
+      headerName: "Acciones",
+      description: "Acciones",
+      sortable: false,
+      width: 100,
+      renderCell: (v) => {
+        return (
+          <Box>
+            <Tooltip title="Ver Detalle de Cálculo">
+              <IconButton onClick={() => handleDetalleanual(v)}>
+                <InfoIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        );
+      },
+    },
+    {
+      field: "Anio",
+      headerName: "Año",
+      width: 80,
+      description: "Año",
+    },
+    {
+      field: "Descripcion",
+      headerName: "Descripción",
+      width: 300,
+      description: "Descripción del Fondo",
+    },
+
+    {
+      field: "TOTALCOMPLETO",
+      headerName: "Importe Total",
+      width: 180,
+      description: "Importe Total",
+      ...Moneda,
+    },
+    {
+      field: "TOTAL",
+      headerName: "Distribución",
+      width: 200,
+      description: "Distribución",
+      ...Moneda,
     },
   ];
 
@@ -277,17 +462,29 @@ export const Fpg = () => {
     });
   };
 
+  const handleUpload = (data: any) => {
+    setslideropen(true);
+    let file = data.target?.files?.[0] || "";
+    const formData = new FormData();
+    formData.append("inputfile", file, "inputfile.xlxs");
+    formData.append("CHUSER", user.Id);
+    formData.append("tipo", "CALANUAL");
+    CatalogosServices.migraData(formData).then((res) => {
+      handleClose("tes");
+      setslideropen(false);
+    });
+  };
+
   const handleBorrar = () => {};
 
   let params = useParams();
 
   useEffect(() => {
+    setChecked(false);
     setstep(0);
     setNombreMenu(String(params.fondo));
     permisos.map((item: PERMISO) => {
-      if (
-        String(item.ControlInterno) == String(params.fondo).replace(/\s/g, "")
-      ) {
+      if (String(item.menu) == String(params.fondo).replace(/\s/g, "")) {
         if (String(item.ControlInterno) == "AGREG") {
           setAgregar(true);
         }
@@ -299,6 +496,9 @@ export const Fpg = () => {
         }
         if (String(item.ControlInterno) == "CCALCULO") {
           setCancelar(true);
+        }
+        if (String(item.ControlInterno) == "CANUAL") {
+          setcalculoAnual(true);
         }
       }
     });
@@ -347,7 +547,35 @@ export const Fpg = () => {
           </TooltipPersonalizado>
         </Grid>
       </Grid>
+      {step == 0 ? (
+        <Grid container>
+          <Grid item xs={12} sm={12}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={checked}
+                  onChange={handleChange}
+                  inputProps={{ "aria-label": "controlled" }}
+                />
+              }
+              label="Vista por Año"
+            />
+          </Grid>
+        </Grid>
+      ) : (
+        ""
+      )}
 
+      {openDetallesanual ? (
+        <DetalleFgpAnual
+          anio={anio}
+          clave={clave}
+          handleClose={handleClose}
+          nombreFondo={objfondo?.Descripcion || ""}
+        ></DetalleFgpAnual>
+      ) : (
+        ""
+      )}
       {openDetalles ? (
         <DetalleFgp
           idCalculo={idtrazabilidad}
@@ -361,7 +589,7 @@ export const Fpg = () => {
       )}
 
       {step == 0 ? (
-        <div style={{ height: 600, width: "100%" }}>
+        <>
           <Grid
             container
             sx={{
@@ -380,6 +608,31 @@ export const Fpg = () => {
               }}
             >
               <ButtonsCalculo handleOpen={handleOpen} agregar={agregar} />
+
+              {calculoAnual ? (
+                <Box sx={{}}>
+                  <Tooltip title={"Generar Cálculo Anual"}>
+                    <IconButton
+                      className="enviar-mensaje"
+                      component="label"
+                      size="large"
+                    >
+                      <input
+                        id="CANUAL"
+                        required
+                        type="file"
+                        hidden
+                        onChange={(event) => {
+                          handleUpload(event);
+                        }}
+                      />
+                      <LocalAtmIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+              ) : (
+                ""
+              )}
             </Grid>
 
             <Grid
@@ -391,16 +644,26 @@ export const Fpg = () => {
                 justifyContent: "center",
               }}
             >
-              <MUIXDataGridMun
-                columns={columns}
-                rows={data}
-                modulo={nombreMenu}
-                handleBorrar={handleBorrar}
-                controlInterno={String(params.fondo).replace(/\s/g, "")}
-              />
+              {checked ? (
+                <MUIXDataGridMun
+                  columns={columnsAnio}
+                  rows={dataanual}
+                  modulo={nombreMenu}
+                  handleBorrar={handleBorrar}
+                  controlInterno={String(params.fondo).replace(/\s/g, "")}
+                />
+              ) : (
+                <MUIXDataGridMun
+                  columns={columns}
+                  rows={data}
+                  modulo={nombreMenu}
+                  handleBorrar={handleBorrar}
+                  controlInterno={String(params.fondo).replace(/\s/g, "")}
+                />
+              )}
             </Grid>
           </Grid>
-        </div>
+        </>
       ) : (
         ""
       )}

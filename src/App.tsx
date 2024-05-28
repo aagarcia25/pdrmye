@@ -1,5 +1,5 @@
 import jwt_decode from "jwt-decode";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useIdleTimer } from "react-idle-timer";
 import { HashRouter } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -75,27 +75,6 @@ function App() {
         localStorage.setItem("Meses", JSON.stringify(res.RESPONSE));
       });
     }
-  };
-
-  const mensaje = (icon: string, title: string, text: string) => {
-    setlogin(false);
-    setAcceso(false);
-    Swal.fire({
-      icon: icon == "info" ? "info" : "warning",
-      title: title,
-      text: text,
-      showDenyButton: false,
-      showCancelButton: false,
-      confirmButtonText: "Aceptar",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        localStorage.clear();
-        var ventana = window.self;
-        ventana.location.replace(
-          String(process.env.REACT_APP_APPLICATION_BASE_URL_LOGIN)
-        );
-      }
-    });
   };
 
   const buscaUsuario = (id: string) => {
@@ -231,7 +210,7 @@ function App() {
         setRfToken(refjwt);
         setIdApp(idapp);
         var ventana = window.self;
-        ventana.location.replace("/pdrmye/");
+        ventana.location.replace(String(process.env.REACT_APP_APPLICATION_ENV));
       } else {
         Swal.fire({
           title: "Token no valido",

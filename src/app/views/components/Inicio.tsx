@@ -6,6 +6,7 @@ import { ReactNode } from "react";
 import { USUARIORESPONSE } from "../../interfaces/user/UserInfo";
 import Header from "./Header";
 import Navigator from "./Navigator";
+import FAB from "./componentes/FAB";
 
 let theme = createTheme({
   palette: {
@@ -19,7 +20,6 @@ let theme = createTheme({
       main: "#15212F",
       dark: "#15212F",
     },
-  
   },
   typography: {
     h5: {
@@ -173,27 +173,20 @@ interface Props {
   user: USUARIORESPONSE;
   imgData: string;
   imgTipo: string;
-
 }
 
 const drawerWidth = 230;
 
-export default function Inicio({ children, user,imgData,imgTipo }: Props) {
+export default function Inicio({ children, user, imgData, imgTipo }: Props) {
   const [mobileOpen, setMobileOpen] = React.useState(true);
-  const [slideropen, setslideropen] =  React.useState(false);
-
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-
   return (
     <ThemeProvider theme={theme}>
-      <Grid className="ContainerInicio" 
-      // container item xs={11.8} sm={11.85} md={12}
-        // sx={{ display: "flex",width:"100%" }}
-        >
+      <Grid className="ContainerInicio">
         <CssBaseline />
         <Navigator
           PaperProps={{ style: { width: drawerWidth } }}
@@ -204,16 +197,21 @@ export default function Inicio({ children, user,imgData,imgTipo }: Props) {
         <Grid sx={{ flexDirection: "column", width: "100%" }}>
           <Header
             onDrawerToggle={handleDrawerToggle}
-            name={user?.Nombre + " "
-              + user?.ApellidoPaterno + " "
-              + user?.ApellidoMaterno}
+            name={
+              user?.Nombre +
+              " " +
+              user?.ApellidoPaterno +
+              " " +
+              user?.ApellidoMaterno
+            }
             id={1}
             imgData={imgData}
             imgTipo={imgTipo}
-           />
+          />
           {children}
         </Grid>
       </Grid>
+      <FAB></FAB>
     </ThemeProvider>
   );
 }
