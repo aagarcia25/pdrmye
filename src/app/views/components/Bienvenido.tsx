@@ -6,6 +6,7 @@ import { Hidden } from "@mui/material";
 import { AuthService } from "../../services/AuthService";
 import { RESPONSESTORAGE } from "../../interfaces/user/UserInfo";
 import { Blanco } from "../../styles/imagen";
+import { FavIconAvisos } from "../../avisosPAUA/componentes/FavIconAvisos";
 
 export default function Bienvenido({ user }: { user: any }) {
   const [imagenesListas, setImagenesListas] = useState<Array<RESPONSESTORAGE>>(
@@ -114,6 +115,7 @@ export default function Bienvenido({ user }: { user: any }) {
           <CarouselAp />
         </Grid>
       </Grid>
+      <FavIconAvisos/>
     </Hidden>
   );
 }
