@@ -121,7 +121,11 @@ export const Reporteador = () => {
       setOpenSlider(false);
     }
 
-    if (reporte?.Auxiliar == "CPH_01" || reporte?.Auxiliar == "CPH_03") {
+    if (
+      reporte?.Auxiliar == "CPH_01" ||
+      reporte?.Auxiliar == "CPH_03" ||
+      reporte?.Auxiliar == "CPH_05"
+    ) {
       if (anio == "" || anio == "false") {
         AlertS.fire({
           title: "Es obligatorio el Año",
@@ -196,6 +200,24 @@ export const Reporteador = () => {
       } else if (mes.length > 1) {
         AlertS.fire({
           title: "Solo se Permite un Mes",
+          icon: "warning",
+        });
+        flag = false;
+        setOpenSlider(false);
+      }
+    }
+
+    if (reporte?.Auxiliar == "CPH_05") {
+      if (anio == "" || anio == "false") {
+        AlertS.fire({
+          title: "Es obligatorio el Año",
+          icon: "warning",
+        });
+        flag = false;
+        setOpenSlider(false);
+      } else if (idtrimestre.length == 0) {
+        AlertS.fire({
+          title: "Es obligatorio el Trimestre",
           icon: "warning",
         });
         flag = false;
@@ -659,6 +681,88 @@ export const Reporteador = () => {
                     disabled={false}
                   />
                 </Grid>
+              </Grid>
+            </>
+          ) : (
+            ""
+          )}
+
+          {reporte?.Auxiliar == "CPH_05" ? (
+            <>
+              <Grid
+                paddingTop={1}
+                container
+                spacing={2}
+                paddingLeft={2}
+                item
+                xs={12}
+                sm={12}
+                md={12}
+                lg={12}
+              >
+                <Grid item xs={12} sm={12} md={3} lg={3}>
+                  <SelectFrag
+                    value={tipoExportacion}
+                    options={tipoExportacionSelect}
+                    onInputChange={handleSelectTipoExportacion}
+                    placeholder={"Seleccione el Tipo de Exportación.."}
+                    label={""}
+                    disabled={false}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={12} md={3} lg={3}>
+                  {reporte !== undefined ? (
+                    <>
+                      <Button
+                        className="guardar"
+                        color="info"
+                        onClick={() => handleGenerar()}
+                      >
+                        {"Generar"}
+                      </Button>
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </Grid>
+
+                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
+              </Grid>
+
+              <Grid
+                paddingTop={1}
+                container
+                spacing={2}
+                paddingLeft={2}
+                item
+                xs={12}
+                sm={12}
+                md={12}
+                lg={12}
+              >
+                <Grid item xs={12} sm={12} md={3} lg={3}>
+                  <SelectFrag
+                    value={anio}
+                    options={anios}
+                    onInputChange={handleFilterChangeAnio}
+                    placeholder={"Seleccione Año"}
+                    label={""}
+                    disabled={false}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={12} md={3} lg={3}>
+                  <SelectFragMulti
+                    options={trimestreList}
+                    onInputChange={handleFilterChangetrimeste}
+                    placeholder={"Seleccione Trimestre"}
+                    label={""}
+                    disabled={disableTrimestre}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
               </Grid>
             </>
           ) : (
