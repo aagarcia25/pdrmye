@@ -254,7 +254,7 @@ export const Reporteador = () => {
           .request(config)
           .then((response) => {
             var bufferArray = base64ToArrayBuffer(
-              String(response.data.RESPONSE.response64)
+              String(response.data.RESPONSE.response64||response.data.RESPONSE)
             );
             var blobStore = new Blob([bufferArray], {
               type: "application/*",
