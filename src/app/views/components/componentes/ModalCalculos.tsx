@@ -1,4 +1,4 @@
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import SelectValues from "../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../services/catalogosServices";
@@ -22,6 +22,7 @@ const ModalCalculos = ({
   visibleselect: Number;
 }) => {
   const [mensaje, setMensaje] = useState<string>();
+  const [asuntoPersonalizado, setAsuntoPerzonalizado] = useState<string>();
   const [openSlider, setOpenSlider] = useState(false);
   const [usuarioSelect, setUsuarioSelect] = useState<SelectValues[]>([]);
   const [chuserDestin, setChuserDestin] = useState<string>("");
@@ -72,6 +73,39 @@ const ModalCalculos = ({
         ) : (
           ""
         )}
+        {
+          /* 
+            El asunto solo se mostrará a los encargados de autorización del proceso.
+          */
+        }
+        {
+          visibleselect == 0  ? 
+          (
+            <Grid 
+              container
+              spacing={1}
+              sx={{ 
+                mt: "2vh", 
+                width:"100%"
+              }}
+            >
+              <Grid item xs={12}>
+              <h3> Asunto Personalizado:</h3>
+                <TextField
+                variant="outlined"
+                fullWidth
+                placeholder="Escribe el asunto"
+                value={asuntoPersonalizado}
+                onChange={(a) => setAsuntoPerzonalizado(a.target.value)}
+                />
+              </Grid>
+
+            </Grid>
+          )
+          :
+          ("")
+        }
+        
 
         <Grid
           container
@@ -85,6 +119,7 @@ const ModalCalculos = ({
             flexDirection: "row",
           }}
         >
+          
           <Grid item xs={12}>
             <h3> Comentarios:</h3>
           </Grid>
@@ -108,7 +143,11 @@ const ModalCalculos = ({
               <Button
                 className="actualizar"
                 onClick={() =>
-                  handleAccion({ mensaje: mensaje, usuario: chuserDestin })
+                  handleAccion({ 
+                    mensaje: mensaje, 
+                    usuario: chuserDestin, 
+                    asuntoPersonalizado: asuntoPersonalizado ? asuntoPersonalizado : 0,
+                   })
                 }
               >
                 Guardar

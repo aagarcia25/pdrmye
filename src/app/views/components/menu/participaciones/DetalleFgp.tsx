@@ -207,6 +207,7 @@ const DetalleFgp = ({
           ESTATUS_DESTINO: estatusDestino,
           CHUSER: user.Id,
           TEXTO: data.mensaje,
+          ASUNTO_PRESONALIZADO: data.asuntoPersonalizado,
           PERFIL_DESTINO: perfilDestino,
           CHUSERASIGNADO: data.usuario,
           AREA: area,
