@@ -97,6 +97,7 @@ const DetalleFgp = ({
     setOpenSlider(true);
     let obj = {
       CHID: idDetalle,
+      USER_NAME: user.Nombre+" " +user.ApellidoPaterno+" "+user.ApellidoMaterno
     };
 
     calculosServices.renviarCorreo(obj).then((res) => {
@@ -208,6 +209,7 @@ const DetalleFgp = ({
           CHUSER: user.Id,
           TEXTO: data.mensaje,
           ASUNTO_PRESONALIZADO: data.asuntoPersonalizado,
+          USER_NAME :  user.Nombre + ' ' + user.ApellidoPaterno + ' ' + user.ApellidoMaterno,
           PERFIL_DESTINO: perfilDestino,
           CHUSERASIGNADO: data.usuario,
           AREA: area,
