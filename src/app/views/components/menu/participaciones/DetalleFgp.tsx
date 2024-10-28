@@ -213,6 +213,7 @@ const DetalleFgp = ({
           PERFIL_DESTINO: perfilDestino,
           CHUSERASIGNADO: data.usuario,
           AREA: area,
+          TIPO_CALCULO: tipoCalculo,
         };
 
         calculosServices.indexCalculo(obj).then((res) => {
