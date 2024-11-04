@@ -150,6 +150,8 @@ function App() {
     };
     setOpenSlider(true);
     UserServices.login(data).then((res) => {
+      console.log('log res',res);
+      
       if (res.status == 200) {
         setContraseñaValida(true);
         setToken(res.data.token);
@@ -239,7 +241,7 @@ function App() {
       getRfToken()
     ) {
       const decoded: UserLogin = jwt_decode(String(getToken()));
-      if ((decoded.exp - Date.now() / 1000) / 60 > 44.5) {
+      if ((decoded.exp - Date.now() / 1000) / 60 > 5) {
         verificatoken(true);
       } else {
         handleOnIdle();
