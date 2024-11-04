@@ -197,7 +197,7 @@ const DetalleFgp = ({
     console.log(data.mensaje);
 
     if (data.usuario != "" || area == "DAMOP") {
-      if (!perfilDestino || !data.mensaje!) {
+      if (!perfilDestino || !data.mensaje) {
         AlertS.fire({
           title: "Verifique Los Campos",
           icon: "error",
@@ -209,6 +209,7 @@ const DetalleFgp = ({
           CHUSER: user.Id,
           TEXTO: data.mensaje,
           ASUNTO_PRESONALIZADO: data.asuntoPersonalizado,
+          CUERPO_CORREO: data.cuerpoCorreo,
           USER_NAME :  user.Nombre + ' ' + user.ApellidoPaterno + ' ' + user.ApellidoMaterno,
           PERFIL_DESTINO: perfilDestino,
           CHUSERASIGNADO: data.usuario,

@@ -253,6 +253,9 @@ export const Reporteador = () => {
           data: data,
         };
 
+        console.log({config});
+        
+
         axios
           .request(config)
           .then((response) => {

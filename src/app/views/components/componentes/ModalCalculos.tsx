@@ -1,10 +1,12 @@
-import { Button, Grid, TextField } from "@mui/material";
+import { Button, Grid, TextField, Checkbox,  FormControlLabel, } from "@mui/material";
 import { useEffect, useState } from "react";
 import SelectValues from "../../../interfaces/Select/SelectValues";
 import { CatalogosServices } from "../../../services/catalogosServices";
 import SelectFrag from "../Fragmentos/SelectFrag";
 import Slider from "../Slider";
 import ModalForm from "./ModalForm";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const ModalCalculos = ({
   tipo,
@@ -22,10 +24,13 @@ const ModalCalculos = ({
   visibleselect: Number;
 }) => {
   const [mensaje, setMensaje] = useState<string>();
+  const [cuerpoCorreo, setCuerpoCorreo] = useState<string>();
   const [asuntoPersonalizado, setAsuntoPerzonalizado] = useState<string>();
   const [openSlider, setOpenSlider] = useState(false);
   const [usuarioSelect, setUsuarioSelect] = useState<SelectValues[]>([]);
   const [chuserDestin, setChuserDestin] = useState<string>("");
+
+  const [showInputs, setShowInputs] = useState(false);
 
   const loadSelectUser = () => {
     let data = {
@@ -45,6 +50,10 @@ const ModalCalculos = ({
     setChuserDestin(e);
   };
 
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setShowInputs(e.target.checked);
+  };
+
   useEffect(() => {
     loadSelectUser();
   }, []);
@@ -55,11 +64,23 @@ const ModalCalculos = ({
         <Slider open={openSlider}></Slider>
 
         {visibleselect == 1 ? (
+          <Grid 
+            container 
+            spacing={2}
+            sx={{
+              mt: "2vh",
+              width: "100%",
+              height: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "row",
+            }}
+          >
           <>
             <Grid item xs={12}>
               <h3> Asignar a :</h3>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xl={6} xs={12} lg={6} md={8} sm={6}>
               <SelectFrag
                 value={chuserDestin}
                 options={usuarioSelect}
@@ -70,6 +91,7 @@ const ModalCalculos = ({
               />
             </Grid>
           </>
+          </Grid>
         ) : (
           ""
         )}
@@ -77,36 +99,106 @@ const ModalCalculos = ({
           /* 
             El asunto solo se mostrará a los encargados de autorización del proceso.
           */
-        }
-        {
           visibleselect == 0  ? 
           (
+            
             <Grid 
               container
               spacing={1}
               sx={{ 
-                mt: "2vh", 
-                width:"100%"
+                mt: "2vh",
+                width: "100%",
+                height: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "row",
               }}
             >
+
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                    value={showInputs}
+                    checked = {showInputs}
+                    onChange={handleCheckboxChange}
+                    />
+                  }
+                  label="Correo por defecto"
+                />
+              </Grid>
+              {!showInputs && ( 
+  <>              
               <Grid item xs={12}>
               <h3> Asunto Personalizado:</h3>
+              </Grid>
+              <Grid item xl={6} xs={12} lg={6} md={8} sm={6}>
                 <TextField
-                variant="outlined"
-                fullWidth
-                placeholder="Escribe el asunto"
-                value={asuntoPersonalizado}
-                onChange={(a) => setAsuntoPerzonalizado(a.target.value)}
+                  variant="outlined"
+                  fullWidth
+                  placeholder="Escribe el asunto"
+                  value={asuntoPersonalizado}
+                  onChange={(a) => setAsuntoPerzonalizado(a.target.value)}
                 />
               </Grid>
 
+              <Grid item xs={12}>
+                <h3> Cuerpo del Correo:</h3>
+              </Grid>
+              <Grid item xl={6} xs={12} lg={6} md={8} sm={6}>
+                <ReactQuill
+                  value={cuerpoCorreo}
+                  onChange={setCuerpoCorreo}
+                  placeholder="Escribe el cuerpo del correo..."
+                  style ={{ 
+                    height: '250px',
+                    marginBottom: '50px' 
+                   }}
+                />
+              </Grid>
+           </>
+           )}  
             </Grid>
+            
+            
+            
           )
           :
-          ("")
+          
+          <>
+          
+          <Grid
+          container
+          spacing={1}
+          sx={{
+            mt: "2vh",
+            width: "100%",
+            height: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
+        >
+
+        
+          <Grid item xs={12}>
+              <h3> Comentarios:</h3>
+            </Grid>
+          <Grid item xl={6} xs={12} lg={6} md={8} sm={12}>
+              <textarea
+                required
+                spellCheck="true"
+                rows={5}
+                onChange={(v) => setMensaje(v.target.value)}
+                style={{ width: "100%" }}
+              />
+            </Grid>
+
+            </Grid>
+          </>
         }
         
-
+        
         <Grid
           container
           spacing={1}
@@ -119,20 +211,22 @@ const ModalCalculos = ({
             flexDirection: "row",
           }}
         >
-          
-          <Grid item xs={12}>
-            <h3> Comentarios:</h3>
-          </Grid>
-          <Grid item xs={12}>
-            <textarea
-              required
-              spellCheck="true"
-              rows={5}
-              onChange={(v) => setMensaje(v.target.value)}
-              style={{ width: "100%" }}
-            />
-          </Grid>
-
+        {showInputs && ( 
+          <>
+            <Grid item xs={12}>
+              <h3> Comentarios:</h3>
+            </Grid>
+            <Grid item xl={6} xs={12} lg={6} md={8} sm={12}>
+              <textarea
+                required
+                spellCheck="true"
+                rows={5}
+                onChange={(v) => setMensaje(v.target.value)}
+                style={{ width: "100%" }}
+              />
+            </Grid>
+          </>   
+        )} 
           <Grid item xs={12} sm={12} md={12} lg={12}>
             <Grid
               container
@@ -144,9 +238,10 @@ const ModalCalculos = ({
                 className="actualizar"
                 onClick={() =>
                   handleAccion({ 
-                    mensaje: mensaje, 
+                    mensaje: showInputs ? mensaje : "Mensaje", 
                     usuario: chuserDestin, 
                     asuntoPersonalizado: asuntoPersonalizado ? asuntoPersonalizado : 0,
+                    cuerpoCorreo: cuerpoCorreo ? cuerpoCorreo : 0,
                    })
                 }
               >
