@@ -25,7 +25,6 @@ const ModalCalculos = ({
 }) => {
   const [mensaje, setMensaje] = useState<string>();
   const [cuerpoCorreo, setCuerpoCorreo] = useState<string>();
-  const [asuntoPersonalizado, setAsuntoPerzonalizado] = useState<string>();
   const [openSlider, setOpenSlider] = useState(false);
   const [usuarioSelect, setUsuarioSelect] = useState<SelectValues[]>([]);
   const [chuserDestin, setChuserDestin] = useState<string>("");
@@ -130,19 +129,6 @@ const ModalCalculos = ({
               {!showInputs && ( 
   <>              
               <Grid item xs={12}>
-              <h3> Asunto Personalizado:</h3>
-              </Grid>
-              <Grid item xl={6} xs={12} lg={6} md={8} sm={6}>
-                <TextField
-                  variant="outlined"
-                  fullWidth
-                  placeholder="Escribe el asunto"
-                  value={asuntoPersonalizado}
-                  onChange={(a) => setAsuntoPerzonalizado(a.target.value)}
-                />
-              </Grid>
-
-              <Grid item xs={12}>
                 <h3> Cuerpo del Correo:</h3>
               </Grid>
               <Grid item xl={6} xs={12} lg={6} md={8} sm={6}>
@@ -236,11 +222,12 @@ const ModalCalculos = ({
             >
               <Button
                 className="actualizar"
+                disabled={visibleselect == 0 && !cuerpoCorreo}
                 onClick={() =>
                   handleAccion({ 
                     mensaje: showInputs ? mensaje : "Mensaje", 
                     usuario: chuserDestin, 
-                    asuntoPersonalizado: asuntoPersonalizado ? asuntoPersonalizado : 0,
+                   
                     cuerpoCorreo: cuerpoCorreo ? cuerpoCorreo : 0,
                    })
                 }
