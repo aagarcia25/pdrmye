@@ -21,7 +21,7 @@ export const Reporteador = () => {
   const [openSlider, setOpenSlider] = useState(true);
   const [disableMes, setdisableMes] = useState(false);
   const [disableTrimestre, setdisableTrimestre] = useState(false);
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(true);
 
   const user: USUARIORESPONSE = JSON.parse(String(getUser()));
 
@@ -55,15 +55,15 @@ export const Reporteador = () => {
   const [fondos, setFondos] = useState<[]>([]);
 
   const handleListReport = (v: string) => {
-    
+
     setFondos([]);
-    
+
     setdisableMes(false);
     setdisableTrimestre(false);
     setTotal(0);
     setMes([]);
 
-    setAnio("");
+    // setAnio("");
     setTipoExportacion("");
     setidReport(v);
     consultaReportes({
@@ -76,8 +76,8 @@ export const Reporteador = () => {
     setIdFondo(v);
   };
 
-  const handleCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
+  const handleCheckbox = () => {
+    setChecked(!checked);
   };
 
   const handleChange = (value: number) => {
@@ -260,7 +260,7 @@ export const Reporteador = () => {
           .request(config)
           .then((response) => {
             var bufferArray = base64ToArrayBuffer(
-              String(response.data.RESPONSE.response64||response.data.RESPONSE)
+              String(response.data.RESPONSE.response64 || response.data.RESPONSE)
             );
             var blobStore = new Blob([bufferArray], {
               type: "application/*",
@@ -345,6 +345,20 @@ export const Reporteador = () => {
     loadFilter(44);
   }, []);
 
+  useEffect(() => {
+    let x=tipoExportacionSelect[0]?.value||''
+    if(x)setTipoExportacion(x)
+    console.log('tipoExportacionSelect',tipoExportacionSelect);
+  },[tipoExportacionSelect])
+
+  useEffect(() => {
+    let x=anios[anios.length-1]?.value||''
+    if(x)setAnio(x)
+    console.log('anios',anios);
+  console.log('x anio',x);
+  
+  },[anios])
+
   return (
     <div>
       <SliderProgress open={openSlider} mensaje={"Generando Reporte"} />
@@ -410,10 +424,10 @@ export const Reporteador = () => {
 
                 <Grid item xs={12} sm={12} md={3} lg={3}>
                   <FormControlLabel
-                    label="Solo Distribución"
+                    label="Incluir Memoria de Cálculo"
                     control={
                       <Checkbox
-                        checked={checked}
+                        checked={!checked}
                         onChange={handleCheckbox}
                         inputProps={{ "aria-label": "controlled" }}
                       />
@@ -495,7 +509,7 @@ export const Reporteador = () => {
             ""
           )}
 
-{reporte?.Auxiliar == "CPH_03" ? (
+          {reporte?.Auxiliar == "CPH_03" ? (
             <>
               <Grid
                 paddingTop={1}
@@ -537,10 +551,10 @@ export const Reporteador = () => {
 
                 <Grid item xs={12} sm={12} md={3} lg={3}>
                   <FormControlLabel
-                    label="Solo Distribución"
+                    label="Incluir Memoria de Cálculo"
                     control={
                       <Checkbox
-                        checked={checked}
+                        checked={!checked}
                         onChange={handleCheckbox}
                         inputProps={{ "aria-label": "controlled" }}
                       />

@@ -150,6 +150,8 @@ function App() {
     };
     setOpenSlider(true);
     UserServices.login(data).then((res) => {
+      console.log('log res',res);
+      
       if (res.status == 200) {
         setContraseñaValida(true);
         setToken(res.data.token);
