@@ -1,186 +1,123 @@
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import SendIcon from "@mui/icons-material/Send";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import { Collapse, Grid, Tooltip, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import Drawer, { DrawerProps } from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/img/logo.svg";
-import { getMenus } from "../../services/localStorage";
 import { menus } from "../../interfaces/user/UserInfo";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import { getMenus } from "../../services/localStorage";
+
 export default function Navigator(props: DrawerProps, logoFijo: any) {
   const { ...other } = props;
+  const openNavigator=props.open;
+  
   const navigate = useNavigate();
-
   const list: menus[] = JSON.parse(String(getMenus()));
+  const actualPath = localStorage.getItem("actualPath");
   const [open, setOpen] = useState(-1);
-  const handleClick = (x: number) => {
-    open == x ? setOpen(-1) : setOpen(x);
-  };
-  const consulta = (data: string) => {
-    navigate(data);
+
+  const handleClick = (index: number) => {
+    // Cambia solo si el menú seleccionado es diferente al actual
+    setOpen((prevOpen) => (prevOpen === index ? -1 : index));
   };
 
+  const reedireccion = (path: string) => {
+    navigate(path);
+    localStorage.setItem("actualPath", path);
+  };
+
+  useEffect(()=>{
+    const openIndex = list.findIndex(
+      (item) =>
+        item.Path === actualPath || item.item?.some((subitem) => subitem.Path === actualPath)
+    );
+    if (openIndex !== -1) setOpen(openIndex);
+  },[openNavigator])
   return (
-    <Drawer variant="permanent" {...other} {...logoFijo}>
-      <Grid
-        container
-        position="sticky"
-        alignContent="center"
-        sx={{ bgcolor: "rgb(255, 255, 255)", width: "100%" }}
-      >
-        <Grid item sx={{ width: "auto", higth: "5%" }}>
-          <img
-            src={Logo}
-            style={{ width: "100%" }}
-            onClick={() => consulta("/")}
-          />
-        </Grid>
+    <>
+      <Drawer variant="permanent" {...other} {...logoFijo}>
         <Grid
-          item
-          sx={{ width: "auto", textAlign: "center", paddingLeft: "3%" }}
+          container
+          position="sticky"
+          alignContent="center"
+          sx={{ bgcolor: "rgb(255, 255, 255)", width: "100%", display: 'flex', justifyContent: 'center' }}
         >
-          <Typography variant="h6" sx={{ fontWeight: "550" }}>
-            {" "}
-            DISTRIBUCIÓN DE RECURSOS{" "}
-          </Typography>
-          {/* <Typography variant="subtitle1" > Ambiente:  {localStorage.getItem('Ambiente')} </Typography> */}
+          <Grid item xs={10.5} sx={{ width: "auto", height: "5%" }}>
+            <img src={Logo} style={{ width: "100%" }} onClick={() => reedireccion("/")} />
+          </Grid>
+          <Grid item sx={{ width: "auto", textAlign: "center", paddingLeft: "3%" }}>
+            <Typography variant="h6" sx={{ fontWeight: "550" }}>DISTRIBUCIÓN DE RECURSOS</Typography>
+          </Grid>
         </Grid>
-      </Grid>
-
-      <Box
-        sx={{
-          // overflow: "auto",
-          scrollbarWidth: "thin",
-          "&::-webkit-scrollbar": {
-            width: "0.4em",
-          },
-          "&::-webkit-scrollbar-track": {
-            background: "#f1f1f1",
-          },
-          "&::-webkit-scrollbar-thumb": {
-            backgroundColor: "#888",
-          },
-          "&::-webkit-scrollbar-thumb:hover": {
-            background: "#555",
-          },
-        }}
-      >
-        <div>
+        <Divider sx={{ m: '1vh' }} />
+        <Box sx={{ overflow: "auto", scrollbarWidth: "thin", "&::-webkit-scrollbar": { width: "0.4em" }, "&::-webkit-scrollbar-track": { background: "#f1f1f1" }, "&::-webkit-scrollbar-thumb": { backgroundColor: "#888" }, "&::-webkit-scrollbar-thumb:hover": { background: "#555" } }}>
           <List>
-            {list.map((item, indexx) => {
-              return item?.item?.length !== 0 ? (
-                <div key={indexx}>
-                  <ListItemButton
-                    sx={{
-                      bgcolor:
-                        open == indexx
-                          ? "rgba(195, 165, 117)"
-                          : "rgba(255, 255, 255, 0.291)",
-                    }}
-                    key={indexx}
-                    onClick={() => handleClick(indexx)}
+            {list.map((item, index) => (
+              <div key={index}>
+                <ListItemButton
+                  sx={{
+                    bgcolor: open === index ? "rgba(195, 165, 117)" : "rgba(255, 255, 255, 0.291)",
+                  }}
+                  onClick={() => handleClick(index)}
+                >
+                  <ListItemText
+                    primary={
+                      <Tooltip title={item.Descripcion}>
+                        <Typography variant="caption" sx={{ fontFamily: "sans-serif", fontWeight: "800" }} gutterBottom>
+                          {item.Menu}
+                        </Typography>
+                      </Tooltip>
+                    }
+                  />
+                  {open === index ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+                </ListItemButton>
+
+                {item?.item?.map((subitem, subindex) => (
+                  <Collapse
+                    key={subindex}
+                    in={open === index}
+                    timeout="auto"
+                    unmountOnExit
                   >
-                    <ListItemText
-                      key={indexx}
-                      primary={
-                        <Tooltip title={item.Descripcion}>
-                          <Typography
-                            variant="caption"
-                            sx={{ fontFamily: "sans-serif", fontWeight: "800" }}
-                            gutterBottom
-                          >
-                            {item.Menu}
-                          </Typography>
-                        </Tooltip>
-                      }
-                    />
-
-                    {open == indexx ? (
-                      <ArrowDropUpIcon />
-                    ) : (
-                      <ArrowDropDownIcon />
-                    )}
-                  </ListItemButton>
-
-                  {item?.item?.map((subitem, index) => {
-                    return (
-                      <Collapse
-                        key={index}
-                        in={open == indexx}
-                        timeout="auto"
-                        unmountOnExit
+                    <List component="div" disablePadding>
+                      <Divider />
+                      <ListItemButton
+                        onClick={() => reedireccion(subitem.Path)}
+                        sx={{
+                          pl: 4,
+                          bgcolor: subitem.Path === actualPath ? "rgba(225, 203, 163)" : null,
+                        }}
                       >
-                        <List
-                          sx={{ borderRadius: "1" }}
-                          key={index}
-                          component="div"
-                          disablePadding
-                        >
-                          <Divider />
-                          <ListItemButton
-                            className="itemMenu"
-                            key={index}
-                            onClick={() => consulta(subitem.Path)}
-                            sx={{ pl: 4 }}
-                          >
-                            <ListItemText
-                              key={index}
-                              primary={
-                                <>
-                                  <Tooltip title={subitem.Descripcion}>
-                                    <Typography
-                                      variant="h5"
-                                      className="menu-Typography"
-                                      gutterBottom
-                                    >
-                                      {subitem.Menu}
-                                    </Typography>
-                                  </Tooltip>
-                                </>
-                              }
-                            />
-                          </ListItemButton>
-                          <Divider />
-                        </List>
-                      </Collapse>
-                    );
-                  })}
-                </div>
-              ) : (
-                // SOLO IMPRIME EL BOTON CUANDO NO TIENE HIJOS RELACIONADOS
-                <div key={Math.random()}>
-                  <ListItemButton onClick={() => navigate(item.Path)}>
-                    <ListItemText
-                      key={Math.random()}
-                      primary={
-                        <Tooltip title={item.Descripcion}>
-                          <Typography
-                            variant="caption"
-                            sx={{ fontFamily: "sans-serif", fontWeight: "800" }}
-                            gutterBottom
-                          >
-                            {item.Menu}
-                          </Typography>
-                        </Tooltip>
-                      }
-                    />
-                  </ListItemButton>
-                  <Divider key={Math.random()} absolute />
-                </div>
-              );
-            })}
+                        <ListItemText
+                          primary={
+                            <Tooltip title={subitem.Descripcion}>
+                              <Typography
+                                variant="h5"
+                                className="menu-Typography"
+                                gutterBottom
+                                sx={{ color: subitem.Path === actualPath ? "black" : null }}
+                              >
+                                {subitem.Menu}
+                              </Typography>
+                            </Tooltip>
+                          }
+                        />
+                      </ListItemButton>
+                      <Divider />
+                    </List>
+                  </Collapse>
+                ))}
+              </div>
+            ))}
           </List>
-        </div>
-      </Box>
-    </Drawer>
+        </Box>
+      </Drawer>
+    </>
   );
 }
