@@ -401,6 +401,7 @@ export const Fpg = () => {
           title: "¡Consulta Exitosa!",
         });
         setdata(res.RESPONSE);
+        console.log(res.RESPONSE);
         var sumatotal = 0;
         res.RESPONSE.map((item: FPG) => {
           sumatotal = sumatotal + Number(item.Total);
@@ -654,7 +655,7 @@ export const Fpg = () => {
                 />
               ) : (
                 <MUIXDataGridMun
-                  columns={columns}
+                  columns={columns} 
                   rows={data}
                   modulo={nombreMenu}
                   handleBorrar={handleBorrar}
