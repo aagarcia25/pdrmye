@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import * as React from "react";
+import {useState} from "react";
 import { ReactNode } from "react";
 import { USUARIORESPONSE } from "../../interfaces/user/UserInfo";
 import Header from "./Header";
@@ -175,14 +175,16 @@ interface Props {
   imgTipo: string;
 }
 
-const drawerWidth = 230;
+const drawerWidth = 400;
 
 export default function Inicio({ children, user, imgData, imgTipo }: Props) {
-  const [mobileOpen, setMobileOpen] = React.useState(true);
+  const [mobileOpen, setMobileOpen] = useState(true);
 
+  const [moduloActual, setModuloActual]=useState('')
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
 
   return (
     <ThemeProvider theme={theme}>
