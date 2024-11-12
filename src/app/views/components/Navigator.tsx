@@ -46,7 +46,7 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
           container
           position="sticky"
           alignContent="center"
-          sx={{ bgcolor: "rgb(255, 255, 255)", width: "100%", display: 'flex', justifyContent: 'center' }}
+          sx={{ bgcolor: "rgb(255, 255, 255)", width: "100%",  justifyContent: 'center' }}
         >
            <Grid item xs={10.5}sx={{ width: "auto", higth: "5%" }}>
           <img
