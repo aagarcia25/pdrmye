@@ -48,12 +48,21 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
           alignContent="center"
           sx={{ bgcolor: "rgb(255, 255, 255)", width: "100%", display: 'flex', justifyContent: 'center' }}
         >
-          <Grid item xs={10.5} sx={{ width: "auto", height: "5%" }}>
-            <img src={Logo} style={{ width: "100%" }} onClick={() => reedireccion("/")} />
-          </Grid>
-          <Grid item sx={{ width: "auto", textAlign: "center", paddingLeft: "3%" }}>
-            <Typography variant="h6" sx={{ fontWeight: "550" }}>DISTRIBUCIÓN DE RECURSOS</Typography>
-          </Grid>
+           <Grid item xs={10.5}sx={{ width: "auto", higth: "5%" }}>
+          <img
+            src={Logo}
+            style={{ width: "100%" }}
+            onClick={() => reedireccion("/")}
+          />
+        </Grid>
+        <Grid
+          item
+          sx={{ width: "auto", textAlign: "center", paddingLeft: "3%" }}
+        >
+          <Typography variant="h6" sx={{ fontWeight: "550" }}>
+           
+            DISTRIBUCIÓN DE RECURSOS
+          </Typography></Grid>
         </Grid>
         <Divider sx={{ m: '1vh' }} />
         <Box sx={{ overflow: "auto", scrollbarWidth: "thin", "&::-webkit-scrollbar": { width: "0.4em" }, "&::-webkit-scrollbar-track": { background: "#f1f1f1" }, "&::-webkit-scrollbar-thumb": { backgroundColor: "#888" }, "&::-webkit-scrollbar-thumb:hover": { background: "#555" } }}>
