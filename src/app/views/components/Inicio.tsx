@@ -213,7 +213,7 @@ export default function Inicio({ children, user, imgData, imgTipo }: Props) {
           {children}
         </Grid>
       </Grid>
-      <FAB></FAB>
+      {/* <FAB></FAB> */}
     </ThemeProvider>
   );
 }

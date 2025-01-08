@@ -115,7 +115,7 @@ export default function Bienvenido({ user }: { user: any }) {
           <CarouselAp />
         </Grid>
       </Grid>
-      <FavIconAvisos/>
+      {/* <FavIconAvisos/> */}
     </Hidden>
   );
 }

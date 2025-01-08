@@ -41,21 +41,21 @@ export const DialogAvisos = ({
   const [avisos, setAvisos] = useState<IAviso[]>([]);
   const [progress, setProgress] = useState(true);
 
-  useEffect(() => {
-    const fetchAvisos = async () => {
-      try {
-        const { data } = await servicesAvisosPAUA.getAvisos();
-        setAvisos(data);
-        if(data.length==0){alertaInfo('No se encontraron Avisos')}
-      } catch (error) {
-        alertaError("Fallo la consulta de avisos"); 
-      } finally {
-        setProgress(false);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchAvisos = async () => {
+  //     try {
+  //       const { data } = await servicesAvisosPAUA.getAvisos();
+  //       setAvisos(data);
+  //       if(data.length==0){alertaInfo('No se encontraron Avisos')}
+  //     } catch (error) {
+  //       alertaError("Fallo la consulta de avisos"); 
+  //     } finally {
+  //       setProgress(false);
+  //     }
+  //   };
 
-    fetchAvisos();
-  }, []);
+  //   fetchAvisos();
+  // }, []);
 
   const handleChange = (event: any, value: any) => {
     setPage(value);
