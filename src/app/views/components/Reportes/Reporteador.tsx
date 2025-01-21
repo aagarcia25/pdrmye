@@ -161,14 +161,7 @@ export const Reporteador = () => {
         });
         flag = false;
         setOpenSlider(false);
-      } else if (total == 0) {
-        AlertS.fire({
-          title: "Es Obligatorio la cantidad ",
-          icon: "warning",
-        });
-        flag = false;
-        setOpenSlider(false);
-      }
+      } 
     }
 
     if (reporte?.Auxiliar == "CPH_04") {
@@ -710,16 +703,12 @@ export const Reporteador = () => {
                     disabled={false}
                   />
                 </Grid>
+            
+                
 
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <TextFieldFormatoMoneda
-                    disable={false}
-                    valor={0}
-                    handleSetValor={handleChange}
-                    error={!total}
-                    modo={"moneda"}
-                  />
-                </Grid>
+                
+
+
               </Grid>
 
               <Grid
