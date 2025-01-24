@@ -196,7 +196,7 @@ export const DialogAvisos = ({
             />:null}
           </DialogActions>
         </Dialog>
-      ) :null};
+      ) :null}
     </>
   );
 };
