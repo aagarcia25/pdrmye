@@ -164,14 +164,7 @@ export const Reporteador = () => {
         });
         flag = false;
         setOpenSlider(false);
-      } else if (total == 0) {
-        AlertS.fire({
-          title: "Es Obligatorio la cantidad ",
-          icon: "warning",
-        });
-        flag = false;
-        setOpenSlider(false);
-      }
+      } 
     }
 
     if (reporte?.Auxiliar == "CPH_04") {
