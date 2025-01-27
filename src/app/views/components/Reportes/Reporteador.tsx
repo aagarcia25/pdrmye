@@ -1,4 +1,4 @@
-import { Button, Checkbox, FormControlLabel, Grid } from "@mui/material";
+import { Box, Button, Checkbox, FormControlLabel, Grid, InputLabel } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { AlertS } from "../../../helpers/AlertS";
@@ -55,14 +55,16 @@ export const Reporteador = () => {
   const [fondos, setFondos] = useState<[]>([]);
 
   const handleListReport = (v: string) => {
+    console.log("v", v);
 
     setFondos([]);
 
     setdisableMes(false);
     setdisableTrimestre(false);
+
     setTotal(0);
     setMes([]);
-
+    setIdtrimestre([]);
     // setAnio("");
     setTipoExportacion("");
     setidReport(v);
@@ -70,6 +72,7 @@ export const Reporteador = () => {
       P_DEPENDENCIA: JSON.parse(String(getcontrolInternoEntidad())),
       CHID: v,
     });
+    toggleComponent();
   };
 
   const handleFilterChange2 = (v: SelectValues[]) => {
@@ -253,8 +256,8 @@ export const Reporteador = () => {
           data: data,
         };
 
-        console.log({config});
-        
+        console.log({ config });
+
 
         axios
           .request(config)
@@ -321,6 +324,8 @@ export const Reporteador = () => {
   const consultaReportes = (data: any) => {
     setOpenSlider(true);
     CatalogosServices.reportesAdministracionRelacion(data).then((res) => {
+      console.log("res", res);
+
       setReporte(res.RESPONSE[0]);
       loadFilter(43, "", "", res.RESPONSE[0]?.id);
       if (res.RESPONSE[0]?.Auxiliar == "CPH_01") {
@@ -346,706 +351,224 @@ export const Reporteador = () => {
   }, []);
 
   useEffect(() => {
-    let x=tipoExportacionSelect[0]?.value||''
-    if(x)setTipoExportacion(x)
-    console.log('tipoExportacionSelect',tipoExportacionSelect);
-  },[tipoExportacionSelect])
+    let x = tipoExportacionSelect[0]?.value || ''
+    if (x) setTipoExportacion(x)
+    console.log('tipoExportacionSelect', tipoExportacionSelect);
+  }, [tipoExportacionSelect])
 
   useEffect(() => {
-    let x=anios[anios.length-1]?.value||''
-    if(x)setAnio(x)
-    console.log('anios',anios);
-  console.log('x anio',x);
-  
-  },[anios])
+    let x = anios[anios.length - 1]?.value || ''
+    if (x) setAnio(x)
+  }, [anios])
 
+  const [isVisible, setIsVisible] = useState(true); // Controla la visibilidad del componente
+
+  const toggleComponent = () => {
+    setIsVisible(false); // Desmonta el componente
+    setTimeout(() => setIsVisible(true), 0); // Lo vuelve a montar inmediatamente
+  };
   return (
-    <div>
+    <Grid container xs={12} sm={12} md={12} lg={12} sx={{ display: 'flex', justifyContent: 'center' }} >
       <SliderProgress open={openSlider} mensaje={"Generando Reporte"} />
-      <Titulo name={"Módulo de Generación de Reportes"}></Titulo>
 
-      <Grid
-        container
-        direction="row"
-        justifyContent="flex-start"
-        alignItems="flex-start"
-      >
-        <Grid container item xs={12} sm={12} md={12} lg={3}>
-          <SelectFrag
-            value={idReport}
-            options={ListReport}
-            onInputChange={handleListReport}
-            placeholder={"Seleccione el Reporte.."}
-            label={""}
-            disabled={false}
-          />
-        </Grid>
-
-        <Grid container item xs={12} sm={12} md={12} lg={9}>
-          {reporte?.Auxiliar == "CPH_01" ? (
-            <>
-              <Grid
-                paddingTop={1}
-                container
-                spacing={2}
-                paddingLeft={2}
-                item
-                xs={12}
-                sm={12}
-                md={12}
-                lg={12}
-              >
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFrag
-                    value={tipoExportacion}
-                    options={tipoExportacionSelect}
-                    onInputChange={handleSelectTipoExportacion}
-                    placeholder={"Seleccione el Tipo de Exportación.."}
-                    label={""}
-                    disabled={false}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  {reporte !== undefined ? (
-                    <>
-                      <Button
-                        className="guardar"
-                        color="info"
-                        onClick={() => handleGenerar()}
-                      >
-                        {"Generar"}
-                      </Button>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <FormControlLabel
-                    label="Incluir Memoria de Cálculo"
-                    control={
-                      <Checkbox
-                        checked={!checked}
-                        onChange={handleCheckbox}
-                        inputProps={{ "aria-label": "controlled" }}
-                      />
-                    }
-                  />
-                </Grid>
-              </Grid>
-
-              <Grid
-                paddingTop={1}
-                container
-                spacing={2}
-                paddingLeft={2}
-                item
-                xs={12}
-                sm={12}
-                md={12}
-                lg={12}
-              >
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFrag
-                    value={anio}
-                    options={anios}
-                    onInputChange={handleFilterChangeAnio}
-                    placeholder={"Seleccione Año"}
-                    label={""}
-                    disabled={false}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFragMulti
-                    options={trimestreList}
-                    onInputChange={handleFilterChangetrimeste}
-                    placeholder={"Seleccione Trimestre"}
-                    label={""}
-                    disabled={disableTrimestre}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFragMulti
-                    options={meses}
-                    onInputChange={handleSelectMes}
-                    placeholder={"Seleccione Mes"}
-                    label={""}
-                    disabled={disableMes}
-                  />
-                </Grid>
-              </Grid>
-
-              <Grid
-                paddingTop={1}
-                container
-                spacing={2}
-                paddingLeft={2}
-                item
-                xs={12}
-                sm={12}
-                md={12}
-                lg={12}
-              >
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFragMulti
-                    options={fondos}
-                    onInputChange={handleFilterChange2}
-                    placeholder={"Seleccione Fondo(s)"}
-                    label={""}
-                    disabled={false}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
-              </Grid>
-            </>
-          ) : (
-            ""
-          )}
-
-          {reporte?.Auxiliar == "CPH_03" ? (
-            <>
-              <Grid
-                paddingTop={1}
-                container
-                spacing={2}
-                paddingLeft={2}
-                item
-                xs={12}
-                sm={12}
-                md={12}
-                lg={12}
-              >
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFrag
-                    value={tipoExportacion}
-                    options={tipoExportacionSelect}
-                    onInputChange={handleSelectTipoExportacion}
-                    placeholder={"Seleccione el Tipo de Exportación.."}
-                    label={""}
-                    disabled={false}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  {reporte !== undefined ? (
-                    <>
-                      <Button
-                        className="guardar"
-                        color="info"
-                        onClick={() => handleGenerar()}
-                      >
-                        {"Generar"}
-                      </Button>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <FormControlLabel
-                    label="Incluir Memoria de Cálculo"
-                    control={
-                      <Checkbox
-                        checked={!checked}
-                        onChange={handleCheckbox}
-                        inputProps={{ "aria-label": "controlled" }}
-                      />
-                    }
-                  />
-                </Grid>
-              </Grid>
-
-              <Grid
-                paddingTop={1}
-                container
-                spacing={2}
-                paddingLeft={2}
-                item
-                xs={12}
-                sm={12}
-                md={12}
-                lg={12}
-              >
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFrag
-                    value={anio}
-                    options={anios}
-                    onInputChange={handleFilterChangeAnio}
-                    placeholder={"Seleccione Año"}
-                    label={""}
-                    disabled={false}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFragMulti
-                    options={trimestreList}
-                    onInputChange={handleFilterChangetrimeste}
-                    placeholder={"Seleccione Trimestre"}
-                    label={""}
-                    disabled={disableTrimestre}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFragMulti
-                    options={meses}
-                    onInputChange={handleSelectMes}
-                    placeholder={"Seleccione Mes"}
-                    label={""}
-                    disabled={disableMes}
-                  />
-                </Grid>
-              </Grid>
-
-              <Grid
-                paddingTop={1}
-                container
-                spacing={2}
-                paddingLeft={2}
-                item
-                xs={12}
-                sm={12}
-                md={12}
-                lg={12}
-              >
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFragMulti
-                    options={fondos}
-                    onInputChange={handleFilterChange2}
-                    placeholder={"Seleccione Fondo(s)"}
-                    label={""}
-                    disabled={false}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
-              </Grid>
-            </>
-          ) : (
-            ""
-          )}
-
-          {reporte?.Auxiliar == "CPH_02" ? (
-            <>
-              <Grid
-                paddingTop={1}
-                container
-                spacing={2}
-                paddingLeft={2}
-                item
-                xs={12}
-                sm={12}
-                md={12}
-                lg={12}
-              >
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFrag
-                    value={tipoExportacion}
-                    options={tipoExportacionSelect}
-                    onInputChange={handleSelectTipoExportacion}
-                    placeholder={"Seleccione el Tipo de Exportación.."}
-                    label={""}
-                    disabled={false}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  {reporte !== undefined ? (
-                    <>
-                      <Button
-                        className="guardar"
-                        color="info"
-                        onClick={() => handleGenerar()}
-                      >
-                        {"Generar"}
-                      </Button>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
-              </Grid>
-
-              <Grid
-                paddingTop={1}
-                container
-                spacing={2}
-                paddingLeft={2}
-                item
-                xs={12}
-                sm={12}
-                md={12}
-                lg={12}
-              >
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFrag
-                    value={anio}
-                    options={anios}
-                    onInputChange={handleFilterChangeAnio}
-                    placeholder={"Seleccione Año"}
-                    label={""}
-                    disabled={false}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFragMulti
-                    options={fondos}
-                    onInputChange={handleFilterChange2}
-                    placeholder={"Seleccione Fondo(s)"}
-                    label={""}
-                    disabled={false}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <TextFieldFormatoMoneda
-                    disable={false}
-                    valor={0}
-                    handleSetValor={handleChange}
-                    error={!total}
-                    modo={"moneda"}
-                  />
-                </Grid>
-              </Grid>
-
-              <Grid
-                paddingTop={1}
-                container
-                spacing={2}
-                paddingLeft={2}
-                item
-                xs={12}
-                sm={12}
-                md={12}
-                lg={12}
-              >
-                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
-              </Grid>
-            </>
-          ) : (
-            ""
-          )}
-
-          {reporte?.Auxiliar == "CPH_04" ? (
-            <>
-              <Grid
-                paddingTop={1}
-                container
-                spacing={2}
-                paddingLeft={2}
-                item
-                xs={12}
-                sm={12}
-                md={12}
-                lg={12}
-              >
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFrag
-                    value={tipoExportacion}
-                    options={tipoExportacionSelect}
-                    onInputChange={handleSelectTipoExportacion}
-                    placeholder={"Seleccione el Tipo de Exportación.."}
-                    label={""}
-                    disabled={false}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  {reporte !== undefined ? (
-                    <>
-                      <Button
-                        className="guardar"
-                        color="info"
-                        onClick={() => handleGenerar()}
-                      >
-                        {"Generar"}
-                      </Button>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
-              </Grid>
-
-              <Grid
-                paddingTop={1}
-                container
-                spacing={2}
-                paddingLeft={2}
-                item
-                xs={12}
-                sm={12}
-                md={12}
-                lg={12}
-              >
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFrag
-                    value={anio}
-                    options={anios}
-                    onInputChange={handleFilterChangeAnio}
-                    placeholder={"Seleccione Año"}
-                    label={""}
-                    disabled={false}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFragMulti
-                    options={meses}
-                    onInputChange={handleSelectMes}
-                    placeholder={"Seleccione Mes"}
-                    label={""}
-                    disabled={disableMes}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFragMulti
-                    options={fondos}
-                    onInputChange={handleFilterChange2}
-                    placeholder={"Seleccione Fondo(s)"}
-                    label={""}
-                    disabled={false}
-                  />
-                </Grid>
-              </Grid>
-            </>
-          ) : (
-            ""
-          )}
-
-          {reporte?.Auxiliar == "CPH_05" ? (
-            <>
-              <Grid
-                paddingTop={1}
-                container
-                spacing={2}
-                paddingLeft={2}
-                item
-                xs={12}
-                sm={12}
-                md={12}
-                lg={12}
-              >
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFrag
-                    value={tipoExportacion}
-                    options={tipoExportacionSelect}
-                    onInputChange={handleSelectTipoExportacion}
-                    placeholder={"Seleccione el Tipo de Exportación.."}
-                    label={""}
-                    disabled={false}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  {reporte !== undefined ? (
-                    <>
-                      <Button
-                        className="guardar"
-                        color="info"
-                        onClick={() => handleGenerar()}
-                      >
-                        {"Generar"}
-                      </Button>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
-              </Grid>
-
-              <Grid
-                paddingTop={1}
-                container
-                spacing={2}
-                paddingLeft={2}
-                item
-                xs={12}
-                sm={12}
-                md={12}
-                lg={12}
-              >
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFrag
-                    value={anio}
-                    options={anios}
-                    onInputChange={handleFilterChangeAnio}
-                    placeholder={"Seleccione Año"}
-                    label={""}
-                    disabled={false}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}>
-                  <SelectFragMulti
-                    options={trimestreList}
-                    onInputChange={handleFilterChangetrimeste}
-                    placeholder={"Seleccione Trimestre"}
-                    label={""}
-                    disabled={disableTrimestre}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
-              </Grid>
-            </>
-          ) : (
-            ""
-          )}
-
-          {/* {reporte?.Auxiliar == "CPH_02" ? (
-            <Grid
-              paddingTop={3}
-              container
-              spacing={2}
-              paddingLeft={2}
-              item
-              xs={12}
-              sm={12}
-              md={12}
-              lg={12}
-            >
-              <Grid item xs={12} sm={12} md={3} lg={3}>
-                <SelectFrag
-                  value={anio}
-                  options={anios}
-                  onInputChange={handleFilterChangeAnio}
-                  placeholder={"Seleccione Año"}
-                  label={""}
-                  disabled={false}
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={12} md={3} lg={3}>
-                <SelectFrag
-                  value={idtrimestre}
-                  options={trimestreList}
-                  onInputChange={handleFilterChangetrimeste}
-                  placeholder={"Seleccione Trimestre"}
-                  label={""}
-                  disabled={false}
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
-
-              <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
-            </Grid>
-          ) : (
-            ""
-          )} */}
-
-          {/* {reporte?.Auxiliar == "CPH_03" ||
-          reporte?.Auxiliar == "CPH_04" ||
-          reporte?.Auxiliar == "CPH_08" ||
-          reporte?.Auxiliar == "CPH_13" ||
-          reporte?.Auxiliar == "CPH_14" ||
-          reporte?.Auxiliar == "CPH_15" ||
-          reporte?.Auxiliar == "CPH_07" ? (
-            <Grid
-              paddingTop={3}
-              container
-              spacing={2}
-              paddingLeft={2}
-              item
-              xs={12}
-              sm={12}
-              md={12}
-              lg={12}
-            >
-              <Grid item xs={12} sm={12} md={3} lg={3}>
-                <SelectFrag
-                  value={anio}
-                  options={anios}
-                  onInputChange={handleFilterChangeAnio}
-                  placeholder={"Seleccione Año"}
-                  label={""}
-                  disabled={false}
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={12} md={3} lg={3}>
-                <SelectFrag
-                  value={mes}
-                  options={meses}
-                  onInputChange={handleSelectMes}
-                  placeholder={"Seleccione Mes"}
-                  label={""}
-                  disabled={false}
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
-
-              <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
-            </Grid>
-          ) : (
-            ""
-          )} */}
-
-          {/* {reporte?.Auxiliar == "CPH_11" || reporte?.Auxiliar == "CPH_12" ? (
-            <Grid
-              paddingTop={1}
-              container
-              spacing={2}
-              paddingLeft={2}
-              item
-              xs={12}
-              sm={12}
-              md={12}
-              lg={12}
-            >
-              <Grid item xs={12} sm={12} md={3} lg={3}>
-                <SelectFrag
-                  value={anio}
-                  options={anios}
-                  onInputChange={handleFilterChangeAnio}
-                  placeholder={"Seleccione Año"}
-                  label={""}
-                  disabled={false}
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={12} md={3} lg={3}>
-                <TextFieldFormatoMoneda
-                  disable={false}
-                  valor={0}
-                  handleSetValor={handleChange}
-                  error={!total}
-                  modo={"moneda"}
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={12} md={3} lg={3}></Grid>
-            </Grid>
-          ) : (
-            ""
-          )} */}
-        </Grid>
+      <Grid container item xs={11} sm={11} md={11} lg={11} sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Titulo name={"Módulo de Generación de Reportes"}></Titulo>
       </Grid>
-    </div>
+
+      <Grid container item xs={11} sm={11} md={7} lg={7} sx={{ display: 'flex', justifyContent: 'flex-start', mt: ['0vh', '0vh', '15vh', '15vh'] }}>
+        <InputLabel
+          sx={{
+            // ...queries.medium_text,
+            display: "flex",
+          }}
+        >
+          Tipo de reporte:
+        </InputLabel>
+        <SelectFrag
+          value={idReport}
+          options={ListReport}
+          onInputChange={handleListReport}
+          placeholder={"Seleccione el Reporte.."}
+          label={""}
+          disabled={false}
+        />
+      </Grid>
+
+      {isVisible ?
+        <Grid
+          container
+          item
+          xs={11} sm={11} md={7} lg={7}
+          sx={{ display: 'flex', justifyContent: 'center', direction: 'column', mt: '2vh', alignContent: 'space-around', height: '40vh' }}
+        >
+
+          {reporte?.Auxiliar !== "CPH_05" ? <Grid
+            paddingTop={3}
+            item
+            xs={12}
+            sm={12}
+            md={12}
+            lg={12}
+          >
+            <InputLabel
+              sx={{
+                // ...queries.medium_text,
+                display: "flex",
+              }}
+            >
+              Fondos:
+            </InputLabel>
+            <SelectFragMulti
+              options={fondos}
+              onInputChange={handleFilterChange2}
+              placeholder={"Seleccione Fondo(s)"}
+              label={""}
+              disabled={false}
+            />
+          </Grid> : ''}
+          <Grid
+            paddingTop={3}
+            container
+            item
+            xs={12}
+            sm={12}
+            md={12}
+            lg={12}
+            sx={{ display: 'flex', justifyContent: 'space-between' }}
+          >
+            <Grid item xs={12} sm={12} md={5} lg={5}>
+              <InputLabel
+                sx={{
+                  // ...queries.medium_text,
+                  display: "flex",
+                }}
+              >
+                Tipo de Documento:
+              </InputLabel>
+              <SelectFrag
+                value={tipoExportacion}
+                options={tipoExportacionSelect}
+                onInputChange={handleSelectTipoExportacion}
+                placeholder={"Seleccione el Tipo de Exportación.."}
+                label={""}
+                disabled={false}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={5} lg={5}>
+              <InputLabel
+                sx={{
+                  // ...queries.medium_text,
+                  display: "flex",
+                }}
+              >
+                Año:
+              </InputLabel>
+              <SelectFrag
+                value={anio}
+                options={anios}
+                onInputChange={handleFilterChangeAnio}
+                placeholder={"Seleccione Año"}
+                label={""}
+                disabled={false}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid
+            paddingTop={3}
+            item
+            xs={12}
+            sm={12}
+            md={12}
+            lg={12}
+          >
+             <InputLabel
+          sx={{
+            // ...queries.medium_text,
+            display: "flex",
+          }}
+        >
+          Trimestres a considerar:
+        </InputLabel>
+            <SelectFragMulti
+              options={trimestreList}
+              onInputChange={handleFilterChangetrimeste}
+              placeholder={"Seleccione Trimestre"}
+              label={""}
+              disabled={disableTrimestre}
+            />
+          </Grid>
+
+          <Grid
+            paddingTop={3}
+            item
+            xs={12}
+            sm={12}
+            md={12}
+            lg={12}
+          >
+             <InputLabel
+          sx={{
+            // ...queries.medium_text,
+            display: "flex",
+          }}
+        >
+          Meses a considerar:
+        </InputLabel>
+            <SelectFragMulti
+              options={meses}
+              onInputChange={handleSelectMes}
+              placeholder={"Seleccione Mes"}
+              label={""}
+              disabled={disableMes}
+            />
+          </Grid>
+
+          <Grid
+            paddingTop={5}
+            container
+            item
+            xs={12}
+            sm={12}
+            md={12}
+            lg={12}
+            sx={{ display: 'flex', justifyContent: 'flex-end' }}
+          >
+
+
+
+
+            <Grid item xs={12} sm={12} md={3} lg={3}>
+              {reporte?.Auxiliar == "CPH_01" || reporte?.Auxiliar == "CPH_03" ? <FormControlLabel
+                label="Incluir Memoria de Cálculo"
+                control={
+                  <Checkbox
+                    checked={!checked}
+                    onChange={handleCheckbox}
+                    inputProps={{ "aria-label": "controlled" }}
+                  />
+                }
+              /> : ''}
+            </Grid>
+
+            <Grid item xs={12} sm={12} md={3} lg={3} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              {reporte !== undefined ? (
+                <>
+                  <Button
+                    className="guardar"
+                    color="info"
+                    onClick={() => handleGenerar()}
+                    sx={{ display: 'flex', width: '100%' }}
+                  >
+                    {"Generar"}
+                  </Button>
+                </>
+              ) : (
+                ""
+              )}
+            </Grid>
+          </Grid>
+        </Grid> : ''}
+    </Grid>
   );
 };
