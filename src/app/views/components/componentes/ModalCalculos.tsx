@@ -222,7 +222,7 @@ const ModalCalculos = ({
             >
               <Button
                 className="actualizar"
-                disabled={visibleselect == 0 && !cuerpoCorreo}
+                disabled={visibleselect == 0 && !(cuerpoCorreo ||mensaje)}
                 onClick={() =>
                   handleAccion({ 
                     mensaje: showInputs ? mensaje : "Mensaje", 
