@@ -13,7 +13,7 @@ const SelectFragMulti = ({
   disabled: boolean;
 }) => {
   return (
-    <div>
+    <>
       <Select
         isDisabled={disabled}
         onChange={(v) =>
@@ -34,7 +34,7 @@ const SelectFragMulti = ({
           },
         })}
       />
-    </div>
+    </>
   );
 };
 
