@@ -189,21 +189,21 @@ export const Reporteador = () => {
         });
         flag = false;
         setOpenSlider(false);
-      } else if (mes.length == 0) {
+      } /*else if (mes.length == 0) {
         AlertS.fire({
           title: "Es obligatorio el Mes",
           icon: "warning",
         });
         flag = false;
         setOpenSlider(false);
-      } else if (mes.length > 1) {
+      } *//*else if (mes.length > 1) {
         AlertS.fire({
           title: "Solo se Permite un Mes",
           icon: "warning",
         });
         flag = false;
         setOpenSlider(false);
-      }
+      }*/
     }
 
     if (reporte?.Auxiliar == "CPH_05") {
