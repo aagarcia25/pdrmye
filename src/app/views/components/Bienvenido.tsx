@@ -8,6 +8,10 @@ import { RESPONSESTORAGE } from "../../interfaces/user/UserInfo";
 import { Blanco } from "../../styles/imagen";
 import { FavIconAvisos } from "../../avisosPAUA/componentes/FavIconAvisos";
 
+import { Card, CardContent, Typography, Button, CardActions, Chip, Stack, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import ReactQuill from 'react-quill';
+import { ModalCorreoEditable } from "./componentes/ModalEnvioCorreoFederacion";
+
 export default function Bienvenido({ user }: { user: any }) {
   const [imagenesListas, setImagenesListas] = useState<Array<RESPONSESTORAGE>>(
     []
@@ -16,7 +20,19 @@ export default function Bienvenido({ user }: { user: any }) {
   const [data, setData] = useState<string>("");
   const [tipo, setTipo] = useState<string>("");
 
+  const [mostrarCard, setMostrarCard] = useState(false);
+  const [autoizadoEnvioCorreo, setAutoizadoEnvioCorreo] = useState(false);
+
+  const [abrirModalCorreo, setAbrirModalCorreo] = useState(false);
+
   const imagenData: any[] = [];
+
+  const handleOpen = () => {
+    setAbrirModalCorreo(true);
+  }
+  const handleClose = () => {
+    setAbrirModalCorreo(false);
+  }
 
   const GetImageCarrucel = (largo: number, ubicacion: string, name: string) => {
     AuthService.GetImagen(ubicacion, name).then((res) => {
@@ -68,8 +84,8 @@ export default function Bienvenido({ user }: { user: any }) {
                 "data:" + tipo
                   ? tipo
                   : Blanco.Tipo + ";base64," + data
-                  ? data
-                  : Blanco.Data
+                    ? data
+                    : Blanco.Data
               }
             />
           </div>
@@ -101,7 +117,97 @@ export default function Bienvenido({ user }: { user: any }) {
     </Carousel>
   );
 
+ 
+
+  const SimpleCard = () => {
+    return (
+
+      <div style={{ display: "flex", justifyContent: "flex-end", padding: "20px" }}>
+        <Card sx={{ maxWidth: 345, boxShadow: 3 }}>
+          <CardContent>
+
+            <Stack
+              direction="row"
+              sx={{
+                justifyContent: "flex-start",
+                alignItems: 'center',
+                mb: 2
+              }}
+            >
+
+              {
+                mostrarCard && (
+                  <Chip color="success" label="En curso" size="small"></Chip>
+                )
+              }
+
+              {
+                !mostrarCard && (
+                  <Chip color="error" label="Atrasado" size="small"></Chip>
+                )
+              }
+
+
+            </Stack>
+
+
+            <Typography variant="body2" color="text.secondary">
+              Envío del Reporte de Participaciones Federales de enero a la UCEF.
+            </Typography>
+          </CardContent>
+
+          {
+            autoizadoEnvioCorreo && (
+              <Stack
+                direction="row"
+                sx={{
+                  justifyContent: "flex-end",
+                  alignItems: 'center',
+                  m: 1
+                }}
+              >
+                <Button variant="contained"
+                  size="small"
+                  color="primary"
+                  sx={
+                    {
+                      "&:hover": {
+                        color: "#333333",
+                        backgroundColor: "#9e7c47",
+                      }
+                    }
+                  }
+                  onClick={handleOpen}
+                >
+                  Ver Más
+                </Button>
+              </Stack>
+
+            )
+          }
+
+
+        </Card>
+      </div>
+    );
+  }
+
+
   useEffect(() => {
+
+    const fechaActual = new Date();
+    const diaDelMes = fechaActual.getDate();
+
+    if (diaDelMes <= 5) {
+      setMostrarCard(true);
+    } else {
+      setMostrarCard(false);
+    }
+
+    if (user.Puesto === "Analista de CPH") {
+      setAutoizadoEnvioCorreo(true);
+    }
+
     consulta({
       NUMOPERACION: 5,
       CHUSER: user.Id,
@@ -112,9 +218,14 @@ export default function Bienvenido({ user }: { user: any }) {
     <Hidden smDown>
       <Grid height="85%" width="100%">
         <Grid item alignContent="center">
-          <CarouselAp />
+          {
+            //  <CarouselAp />
+          }
+          <SimpleCard />
+         
         </Grid>
       </Grid>
+      {abrirModalCorreo && <ModalCorreoEditable handleClose={handleClose}/>}
       {/* <FavIconAvisos/> */}
     </Hidden>
   );
