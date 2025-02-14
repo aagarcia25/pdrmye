@@ -532,7 +532,7 @@ export const Reporteador = () => {
 
 
             <Grid item xs={12} sm={12} md={3} lg={3}>
-              {reporte?.Auxiliar != "CPH_05" ? <FormControlLabel
+              {reporte?.Auxiliar == "CPH_01" || reporte?.Auxiliar == "CPH_02" || reporte?.Auxiliar == "CPH_03" || reporte?.Auxiliar == "CPH_04" ? <FormControlLabel
                 label="Incluir Memoria de Cálculo"
                 control={
                   <Checkbox
