@@ -55,10 +55,13 @@ const ModalNew = ({
   const [ieja, setieja] = useState<number>();
   const [derecho, setDerecho] = useState<number>();
 
+  const [montoAnual, setMontoAnual] = useState<number>();
+
   const [nameNewDoc, setNameNewDoc] = useState("");
   const [file, setFile] = useState(Object);
   const [Czero, setCzero] = useState<boolean>(false);
   const [disti, setDisti] = useState<boolean>(false);
+  const [dises, setDises] = useState<boolean>(false);
 
   const handleSelectMes = (v: SelectValues) => {
     setIdmes(String(v));
@@ -179,6 +182,7 @@ const ModalNew = ({
 
   const handleChange = (value: number) => {
     setMonto(Number(value));
+    
     if (Number(value) == 0) {
       setCzero(true);
     } else {
@@ -186,7 +190,14 @@ const ModalNew = ({
     }
   };
 
+  const handleChangeAnual = (value: number) => {
+    setMontoAnual(Number(value));
+  };
+ 
+  
+
   const handleSend = () => {
+    let data = {};
     if (
       clave == "HIDROCARBUROS" ||
       clave == "FOINMUN" ||
@@ -214,19 +225,38 @@ const ModalNew = ({
           icon: "error",
         });
       } else {
-        let data = {
-          CLAVEFONDO: clave,
-          CHUSER: user.Id,
-          IMPORTE: monto,
-          ANIO: year,
-          MES: idmes,
-          ZERO: Czero,
-          TIPOCALCULO: idTipoCalculo,
-          IEJA: ieja,
-          DERECHO: derecho,
-          IDVERSION: idVersionCalculo,
-          P_DIST: disti ? 1 : 0,
-        };
+        if(dises){
+          data = {
+            CLAVEFONDO: clave,
+            CHUSER: user.Id,
+            IMPORTE: monto,
+            IMPORTE_ANUAL: montoAnual,
+            ANIO: year,
+            MES: idmes,
+            ZERO: Czero,
+            TIPOCALCULO: idTipoCalculo,
+            IEJA: ieja,
+            DERECHO: derecho,
+            IDVERSION: idVersionCalculo,
+            P_DIST: disti ? 1 : 0,
+            P_DISES: dises ? 1 : 0,
+          };
+        }else{
+          data = {
+            CLAVEFONDO: clave,
+            CHUSER: user.Id,
+            IMPORTE: monto,
+            ANIO: year,
+            MES: idmes,
+            ZERO: Czero,
+            TIPOCALCULO: idTipoCalculo,
+            IEJA: ieja,
+            DERECHO: derecho,
+            IDVERSION: idVersionCalculo,
+            P_DIST: disti ? 1 : 0,
+          };
+        }
+        
 
         calculosServices.CalculoPrincipalindex(data).then((res) => {
           if (res.SUCCESS) {
@@ -268,6 +298,10 @@ const ModalNew = ({
 
   const handleChangedisti = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDisti(event.target.checked);
+  };
+
+  const handleChangedises = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDises(event.target.checked);
   };
 
   useEffect(() => {
@@ -536,6 +570,67 @@ const ModalNew = ({
             </Grid>
           </Grid>
         </Grid>
+        
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={12}
+          sx={{
+            justifyContent: "center",
+            display: clave == "FISM" ? "block" : "none",
+          }}
+        >
+<Grid container spacing={1} sx={{ justifyContent: "center" }}>
+            <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "right" }}>
+              <Typography sx={{ fontFamily: "MontserratMedium" }}>
+                <TooltipPersonalizado
+                  title={
+                    <React.Fragment>
+                      {/* <h3 className="h3-justify"> */}
+                      {
+                        "Si se activa esta opción, el cálculo se realizará considerando tanto el importe a distribuir en el mes como el importe anual asignado para su distribución"
+                      }
+                      {/* </h3> */}
+                    </React.Fragment>
+                  }
+                >
+                  <FormControlLabel
+                    value={dises}
+                    control={
+                      <Checkbox checked={dises} onChange={handleChangedises} />
+                    }
+                    label="Distibución Especial"
+                  />
+                </TooltipPersonalizado>
+              </Typography>
+            </Grid>
+
+            <Grid item xs={4} sm={4} md={4}></Grid>
+          </Grid>
+{
+ dises && (
+    <Grid container spacing={1} sx={{ justifyContent: "center" }}>
+            <Grid item xs={3} sm={6} md={6} sx={{ textAlign: "right" }}>
+              <Typography sx={{ fontFamily: "MontserratMedium" }}>
+                Importe Anual:
+              </Typography>
+            </Grid>
+            <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "left" }}>
+              <TextFieldFormatoMoneda
+                disable={false}
+                valor={0}
+                handleSetValor={handleChangeAnual}
+                error={!montoAnual}
+                modo={"moneda"}
+              />
+            </Grid>
+          </Grid>
+  )
+}
+
+        </Grid>
+
 
         <Grid
           item
