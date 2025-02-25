@@ -192,6 +192,12 @@ export default function Bienvenido({ user }: { user: any }) {
     );
   }
 
+  const Fnworkflow = (data:any) => {
+    
+    console.log(data.anio);
+    console.log(data.mes);
+    console.log(data.cuerpo);
+  }
 
   useEffect(() => {
 
@@ -225,7 +231,11 @@ export default function Bienvenido({ user }: { user: any }) {
          
         </Grid>
       </Grid>
-      {abrirModalCorreo && <ModalCorreoEditable handleClose={handleClose}/>}
+      {abrirModalCorreo && 
+      <ModalCorreoEditable
+      handleAccion={Fnworkflow}
+      handleClose={handleClose} />
+      }
       {/* <FavIconAvisos/> */}
     </Hidden>
   );
