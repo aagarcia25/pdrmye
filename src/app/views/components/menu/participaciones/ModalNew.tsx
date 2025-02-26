@@ -61,7 +61,7 @@ const ModalNew = ({
   const [file, setFile] = useState(Object);
   const [Czero, setCzero] = useState<boolean>(false);
   const [disti, setDisti] = useState<boolean>(false);
-  const [dises, setDises] = useState<boolean>(true);
+  const [dises, setDises] = useState<boolean>(false);
 
   const handleSelectMes = (v: SelectValues) => {
     setIdmes(String(v));
@@ -581,7 +581,7 @@ const ModalNew = ({
             display: clave == "FISM" ? "block" : "none",
           }}
         >
-{/* <Grid container spacing={1} sx={{ justifyContent: "center" }}>
+<Grid container spacing={1} sx={{ justifyContent: "center" }}>
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "right" }}>
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
                 <TooltipPersonalizado
@@ -605,7 +605,7 @@ const ModalNew = ({
             </Grid>
 
             <Grid item xs={4} sm={4} md={4}></Grid>
-          </Grid> */}
+          </Grid>
 {
  dises && (
     <Grid container spacing={1} sx={{ justifyContent: "center" }}>
