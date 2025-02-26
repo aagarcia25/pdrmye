@@ -61,7 +61,7 @@ const ModalNew = ({
   const [file, setFile] = useState(Object);
   const [Czero, setCzero] = useState<boolean>(false);
   const [disti, setDisti] = useState<boolean>(false);
-  const [dises, setDises] = useState<boolean>(false);
+  const [dises, setDises] = useState<boolean>(true);
 
   const handleSelectMes = (v: SelectValues) => {
     setIdmes(String(v));
@@ -581,17 +581,15 @@ const ModalNew = ({
             display: clave == "FISM" ? "block" : "none",
           }}
         >
-<Grid container spacing={1} sx={{ justifyContent: "center" }}>
+{/* <Grid container spacing={1} sx={{ justifyContent: "center" }}>
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "right" }}>
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
                 <TooltipPersonalizado
                   title={
                     <React.Fragment>
-                      {/* <h3 className="h3-justify"> */}
                       {
                         "Si se activa esta opción, el cálculo se realizará considerando tanto el importe a distribuir en el mes como el importe anual asignado para su distribución"
                       }
-                      {/* </h3> */}
                     </React.Fragment>
                   }
                 >
@@ -607,7 +605,7 @@ const ModalNew = ({
             </Grid>
 
             <Grid item xs={4} sm={4} md={4}></Grid>
-          </Grid>
+          </Grid> */}
 {
  dises && (
     <Grid container spacing={1} sx={{ justifyContent: "center" }}>
