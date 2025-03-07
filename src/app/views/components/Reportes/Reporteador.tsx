@@ -167,7 +167,9 @@ export const Reporteador = () => {
       } 
     }
 */
+
     if (reporte?.Auxiliar == "CPH_04") {
+      /*
       if (anio == "" || anio == "false") {
         AlertS.fire({
           title: "Es obligatorio el Año",
@@ -189,7 +191,8 @@ export const Reporteador = () => {
         });
         flag = false;
         setOpenSlider(false);
-      } /*else if (mes.length == 0) {
+      } */
+      /*else if (mes.length == 0) {
         AlertS.fire({
           title: "Es obligatorio el Mes",
           icon: "warning",
