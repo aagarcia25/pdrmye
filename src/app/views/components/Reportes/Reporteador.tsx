@@ -141,7 +141,7 @@ export const Reporteador = () => {
         setOpenSlider(false);
       }
     }
-
+/*
     if (reporte?.Auxiliar == "CPH_02") {
       if (anio == "" || anio == "false") {
         AlertS.fire({
@@ -166,7 +166,7 @@ export const Reporteador = () => {
         setOpenSlider(false);
       } 
     }
-
+*/
     if (reporte?.Auxiliar == "CPH_04") {
       if (anio == "" || anio == "false") {
         AlertS.fire({
