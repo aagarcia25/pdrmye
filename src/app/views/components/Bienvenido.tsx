@@ -192,6 +192,12 @@ export default function Bienvenido({ user }: { user: any }) {
     );
   }
 
+  const Fnworkflow = (data:any) => {
+    
+    console.log(data.anio);
+    console.log(data.mes);
+    console.log(data.cuerpo);
+  }
 
   useEffect(() => {
 

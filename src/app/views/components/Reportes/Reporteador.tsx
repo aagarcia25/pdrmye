@@ -141,7 +141,7 @@ export const Reporteador = () => {
         setOpenSlider(false);
       }
     }
-
+/*
     if (reporte?.Auxiliar == "CPH_02") {
       if (anio == "" || anio == "false") {
         AlertS.fire({
@@ -166,8 +166,10 @@ export const Reporteador = () => {
         setOpenSlider(false);
       } 
     }
+*/
 
     if (reporte?.Auxiliar == "CPH_04") {
+      /*
       if (anio == "" || anio == "false") {
         AlertS.fire({
           title: "Es obligatorio el Año",
@@ -189,7 +191,8 @@ export const Reporteador = () => {
         });
         flag = false;
         setOpenSlider(false);
-      } /*else if (mes.length == 0) {
+      } */
+      /*else if (mes.length == 0) {
         AlertS.fire({
           title: "Es obligatorio el Mes",
           icon: "warning",
@@ -329,6 +332,8 @@ export const Reporteador = () => {
         loadFilter(50, "d5c9a65b-2b0c-11ed-afdb-040300000000", "0");
       } else if (res.RESPONSE[0]?.Auxiliar == "CPH_04") {
         loadFilter(50, "e7179b31-2b0c-11ed-afdb-040300000000", "0");
+      }else if (res.RESPONSE[0]?.Auxiliar == "CPH_00") {
+        loadFilter(50, "0b2892c4-77ee-11ed-aad1-040300000000", "0");
       }
 
       setOpenSlider(false);
