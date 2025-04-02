@@ -143,7 +143,7 @@ function App() {
       : false;
       // Guardamos el estatus en localStorage
       localStorage.setItem('correoEnviado', correoEnviado ? 'true' : 'false');
-      localStorage.setItem('fechaCorreoFederacion', res.data.RESPONSE.length > 0 ? res.data.RESPONSE[0].fechaEnvio : "no");
+      localStorage.setItem('fechaCorreoFederacion', res.data.RESPONSE.length > 0 ? res.data.RESPONSE[0].fechaEnvio : null);
     }).catch((error) => {
       console.error("Error al verificar el estatus del correo:", error);
       // En caso de error, guardamos 'false' en localStorage
@@ -174,7 +174,7 @@ function App() {
   };
 
   const handleOnActive = (password: string, user: string) => {
-    estatusEnvioCorreoFederacion();
+    
     const decoded: UserLogin = jwt_decode(String(getToken()));
     const userInfo: USUARIORESPONSE = JSON.parse(String(getUser()));
     let data = {
@@ -229,6 +229,8 @@ function App() {
   });
 
   useLayoutEffect(() => {
+    
+    estatusEnvioCorreoFederacion();
     
     if (jwt && refjwt && getToken() && getRfToken()) {
 
