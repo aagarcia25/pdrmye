@@ -253,7 +253,7 @@ export default function Bienvenido({ user }: { user: any }) {
     setTimeout(() => {
       setCorreoEnviado(localStorage.getItem("correoEnviado") === "true");
       setFechaCorreoFederacion(localStorage.getItem("fechaCorreoFederacion") || "");
-    }, 1000);
+    }, 3000);
   }, [user.Id, user.Puesto, verificacionEnvioCorreo, consulta]);
 
   useEffect(() => {
