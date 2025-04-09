@@ -1,6 +1,7 @@
 import { Button, Grid } from "@mui/material";
 import ReactQuill from "react-quill";
 import ModalForm from "./ModalForm";
+import { AlertS } from "../../../helpers/AlertS";
 import { useState } from "react";
 import axios from "axios";
 import { base64ToArrayBuffer } from "../../../helpers/Files";
@@ -15,6 +16,9 @@ export const ModalCorreoEditable = (
     console.log(user);
     // Estado local del correo
     const [cuerpoCorreo, setCuerpoCorreo] = useState<string>();
+
+    // Sevicion de archivo coresponde al mes y anio actual
+    const [archivo, setArchivo] = useState<boolean>(false);
 
     // Funcion que me optine la fecha y mes actuales
     const getFechaActual = () => {
@@ -31,26 +35,50 @@ export const ModalCorreoEditable = (
     // para el envio del correo 
     const envioCorreo = async () => {
         try{
+
             const { anio, mes } = getFechaActual();
-            let obj = {
-                anio: anio, 
-                mes: mes,
-                cuerpo: cuerpoCorreo,
-                idUser: user.Id,
-                USER_NAME: user.Nombre + ' ' + user.ApellidoPaterno + ' ' + user.ApellidoMaterno
+            let flag = true;
+            if (cuerpoCorreo == undefined || cuerpoCorreo == "") {
+                AlertS.fire({
+                title: "Es obligatorio el cuerpo del correo",
+                icon: "warning",
+                });
+                flag = false;
+                
+            } else {
+                flag = true;
             }
 
-            const response = await axios.post(process.env.REACT_APP_APPLICATION_BASE_URL + 'envioCorreoFederacion', obj);
+            if (!archivo) {
+                AlertS.fire({
+                title: "Es obligatorio verificar el archivo correspondiente al mes y al año.",
+                icon: "warning",
+                });   
+            }
+        
+            if (flag && archivo) {
 
-           console.log(process.env.REACT_APP_APPLICATION_BASE_URL+"envioCorreoFederacion");
+                let obj = {
+                    anio: anio, 
+                    mes: mes,
+                    cuerpo: cuerpoCorreo,
+                    idUser: user.Id,
+                    USER_NAME: user.Nombre + ' ' + user.ApellidoPaterno + ' ' + user.ApellidoMaterno
+                }
+    
+                const response = await axios.post(process.env.REACT_APP_APPLICATION_BASE_URL + 'envioCorreoFederacion', obj);
+    
+               console.log(process.env.REACT_APP_APPLICATION_BASE_URL+"envioCorreoFederacion");
+    
+    
+               console.log('Correo enviado:', response.data);
+               // Guardamos la fecha cunado se manda el correo
+               localStorage.setItem("fechaCorreoFederacion", new Date().toISOString());
+               
+               handleClose();
+               window.location.reload();
+            }
 
-
-           console.log('Correo enviado:', response.data);
-           // Guardamos la fecha cunado se manda el correo
-           localStorage.setItem("fechaCorreoFederacion", new Date().toISOString());
-           
-           handleClose();
-           window.location.reload();
 
         }catch(error){
             console.error("Error en el envio del correo", error);
@@ -62,34 +90,35 @@ export const ModalCorreoEditable = (
         try{
             console.log("Descargar Excel");
             const { anio, mes } = getFechaActual();
-          await axios.post(
-                process.env.REACT_APP_APPLICATION_BASE_URL + 'DescargarArchivoFederacion', 
-                {
-                    anio: anio,
-                    mes: mes,
-                    export: true
-                }
-            )
-            .then( response => {
-                const reporte = response.data.RESPONSE;
-                console.log("Descargar Excel ...");
+            setArchivo(true);
+            await axios.post(
+                    process.env.REACT_APP_APPLICATION_BASE_URL + 'DescargarArchivoFederacion', 
+                    {
+                        anio: anio,
+                        mes: mes,
+                        export: true
+                    }
+                )
+                .then( response => {
+                    const reporte = response.data.RESPONSE;
+                    console.log("Descargar Excel ...");
 
-                const bufferArray = base64ToArrayBuffer(String(reporte.response64 || reporte));
-                
-                const blobStore = new Blob([bufferArray], {
-                    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                  });
+                    const bufferArray = base64ToArrayBuffer(String(reporte.response64 || reporte));
+                    
+                    const blobStore = new Blob([bufferArray], {
+                        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    });
 
-                  // Crea un enlace para descargar el archivo
-                const link = document.createElement("a");
-                link.href = window.URL.createObjectURL(blobStore);
-                link.download = "ARCHIVO_FEDERACION.xlsx"; // El nombre del archivo con la extensión
-                link.click();
-           
-            })
-            .catch(error => {
-                console.error("Error al descargar el excel", error);
-            });
+                    // Crea un enlace para descargar el archivo
+                    const link = document.createElement("a");
+                    link.href = window.URL.createObjectURL(blobStore);
+                    link.download = "ARCHIVO_FEDERACION.xlsx"; // El nombre del archivo con la extensión
+                    link.click();
+            
+                })
+                .catch(error => {
+                    console.error("Error al descargar el excel", error);
+                });
            
         }catch(error){
             console.error("Error al descargar el excel", error);
