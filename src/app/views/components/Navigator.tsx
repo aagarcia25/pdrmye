@@ -29,6 +29,7 @@ export default function Navigator(props: DrawerProps, logoFijo: any) {
 
   const reedireccion = (path: string) => {
     navigate(path);
+    props.onClose && props.onClose({}, 'backdropClick');
     localStorage.setItem("actualPath", path);
   };
 

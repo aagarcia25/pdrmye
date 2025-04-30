@@ -204,11 +204,9 @@ export default function Bienvenido({ user }: { user: any }) {
     const fechaActual = new Date();
     const diaDelMes = fechaActual.getDate();
 
-    if (diaDelMes <= 5) {
-      setMostrarCard(true);
-    } else {
+ 
       setMostrarCard(false);
-    }
+    
 
     if (user.Puesto === "Analista de CPH") {
       setAutoizadoEnvioCorreo(true);
@@ -227,15 +225,11 @@ export default function Bienvenido({ user }: { user: any }) {
           {
             //  <CarouselAp />
           }
-          <SimpleCard />
+          {/* <SimpleCard /> */}
          
         </Grid>
       </Grid>
-      {abrirModalCorreo && 
-      <ModalCorreoEditable
-      handleAccion={Fnworkflow}
-      handleClose={handleClose} />
-      }
+      {/* {abrirModalCorreo && <ModalCorreoEditable handleClose={handleClose}/>} */}
       {/* <FavIconAvisos/> */}
     </Hidden>
   );
