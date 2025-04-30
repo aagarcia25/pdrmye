@@ -37,7 +37,7 @@ const Art14m = ({
 
   const handleMontos = (v: any) => {
     setmontoaniopasado(v);
-    setMonto(importeDistri.reduce((a, b) => a + b, 0) - (v/12));
+    setMonto(importeDistri.reduce((a, b) => a + b, 0) - (v));
   };
 
   const handleclose = () => {
