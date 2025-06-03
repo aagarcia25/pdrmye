@@ -37,7 +37,7 @@ const Art14m = ({
 
   const handleMontos = (v: any) => {
     setmontoaniopasado(v);
-    setMonto(importeDistri.reduce((a, b) => a + b, 0) - (v));
+    setMonto(importeDistri.reduce((a, b) => a + b, 0) - (v)); // v/12 se usara en fism
   };
 
   const handleclose = () => {
