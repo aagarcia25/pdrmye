@@ -139,7 +139,7 @@ export const Fpg = () => {
 
   const handleGenerar = (v: any) => {
     setslideropen(true);
-    console.log(v);
+    // console.log(v);
     let data = {
       CLAVE: v.row.Clave,
       MES: v.row.nummes,
@@ -206,15 +206,15 @@ export const Fpg = () => {
         return (
           <Box>
             {String(v.row.Clave) == "FGP" ||
-            String(v.row.Clave) == "FFM70" ||
-            String(v.row.Clave) == "FFM30" ||
-            String(v.row.Clave) == "IEPS" ||
-            String(v.row.Clave) == "FOFIR" ||
-            String(v.row.Clave) == "ISAN" ||
-            String(v.row.Clave) == "COMP ISAN" ||
-            String(v.row.Clave) == "IEPSGyD" ||
-            String(v.row.Clave) == "ISR SALARIOS" ||
-            String(v.row.Clave) == "ISR INMUEBLES" ? (
+              String(v.row.Clave) == "FFM70" ||
+              String(v.row.Clave) == "FFM30" ||
+              String(v.row.Clave) == "IEPS" ||
+              String(v.row.Clave) == "FOFIR" ||
+              String(v.row.Clave) == "ISAN" ||
+              String(v.row.Clave) == "COMP ISAN" ||
+              String(v.row.Clave) == "IEPSGyD" ||
+              String(v.row.Clave) == "ISR SALARIOS" ||
+              String(v.row.Clave) == "ISR INMUEBLES" ? (
               <Tooltip title="Descargar Informe Acumulado">
                 <IconButton onClick={() => handleGenerar(v)}>
                   <AssessmentIcon />
@@ -401,7 +401,7 @@ export const Fpg = () => {
           title: "¡Consulta Exitosa!",
         });
         setdata(res.RESPONSE);
-        console.log(res.RESPONSE);
+        // console.log(res.RESPONSE);
         var sumatotal = 0;
         res.RESPONSE.map((item: FPG) => {
           sumatotal = sumatotal + Number(item.Total);
@@ -476,34 +476,50 @@ export const Fpg = () => {
     });
   };
 
-  const handleBorrar = () => {};
+  const handleBorrar = () => { };
 
   let params = useParams();
+
+const validaPermisos = () => {
+  // Reinicia los estados
+  setAgregar(false);
+  setVerTrazabilidad(false);
+  setAgregarAjuste(false);
+  setCancelar(false);
+  setcalculoAnual(false);
+
+  const menuKey = String(params.fondo).replace(/\s/g, "");
+
+  const permisosLocales = permisos.filter(
+    (item: PERMISO) => String(item.menu) === menuKey
+  );
+
+  permisosLocales.forEach((item: PERMISO) => {
+    switch (String(item.ControlInterno)) {
+      case "AGREG":
+        setAgregar(true);
+        break;
+      case "TRAZA":
+        setVerTrazabilidad(true);
+        break;
+      case "AAJUSTE":
+        setAgregarAjuste(true);
+        break;
+      case "CCALCULO":
+        setCancelar(true);
+        break;
+      case "CANUAL":
+        setcalculoAnual(true);
+        break;
+    }
+  });
+};
 
   useEffect(() => {
     setChecked(false);
     setstep(0);
     setNombreMenu(String(params.fondo));
-    permisos.map((item: PERMISO) => {
-      if (String(item.menu) == String(params.fondo).replace(/\s/g, "")) {
-        if (String(item.ControlInterno) == "AGREG") {
-          setAgregar(true);
-        }
-        if (String(item.ControlInterno) == "TRAZA") {
-          setVerTrazabilidad(true);
-        }
-        if (String(item.ControlInterno) == "AAJUSTE") {
-          setAgregarAjuste(true);
-        }
-        if (String(item.ControlInterno) == "CCALCULO") {
-          setCancelar(true);
-        }
-        if (String(item.ControlInterno) == "CANUAL") {
-          setcalculoAnual(true);
-        }
-      }
-    });
-
+    validaPermisos();
     consultafondo({ FONDO: params.fondo });
     consulta({ FONDO: params.fondo });
   }, [params.fondo, nombreMenu]);
@@ -655,7 +671,7 @@ export const Fpg = () => {
                 />
               ) : (
                 <MUIXDataGridMun
-                  columns={columns} 
+                  columns={columns}
                   rows={data}
                   modulo={nombreMenu}
                   handleBorrar={handleBorrar}
