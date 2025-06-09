@@ -1,16 +1,143 @@
 import { Button, Grid } from "@mui/material";
 import ReactQuill from "react-quill";
 import ModalForm from "./ModalForm";
+import { AlertS } from "../../../helpers/AlertS";
 import { useState } from "react";
+import axios from "axios";
+import { base64ToArrayBuffer } from "../../../helpers/Files";
+import { USUARIORESPONSE } from "../../../interfaces/user/UserInfo";
+import { getUser } from "../../../services/localStorage";
 
 export const ModalCorreoEditable = (
     {handleClose,handleAccion}:
     {handleClose:Function, handleAccion:Function}
 ) => {
+    const user: USUARIORESPONSE = JSON.parse(String(getUser()));
+    console.log(user);
+    // Estado local del correo
     const [cuerpoCorreo, setCuerpoCorreo] = useState<string>();
+
+    // Sevicion de archivo coresponde al mes y anio actual
+    const [archivo, setArchivo] = useState<boolean>(false);
+
+    // Funcion que me optine la fecha y mes actuales
+    const getFechaActual = () => {
+        const fecha = new Date();
+        let mes = fecha.getMonth() + 1;
+        mes === 1 ? mes = 12 : mes = mes - 1;
+        return {
+            anio: fecha.getFullYear(),
+            mes: mes
+        }
+    }
+    
+    // Funcio que me mandara la informacion nesesaria al endpiont 
+    // para el envio del correo 
+    const envioCorreo = async () => {
+        try{
+
+            const { anio, mes } = getFechaActual();
+            let flag = true;
+            if (cuerpoCorreo == undefined || cuerpoCorreo == "") {
+                AlertS.fire({
+                title: "Es obligatorio el cuerpo del correo",
+                icon: "warning",
+                });
+                flag = false;
+                
+            } else {
+                flag = true;
+            }
+
+            if (!archivo) {
+                AlertS.fire({
+                title: "Es obligatorio verificar el archivo correspondiente al mes y al año.",
+                icon: "warning",
+                });   
+            }
+        
+            if (flag && archivo) {
+
+                let obj = {
+                    anio: anio, 
+                    mes: mes,
+                    cuerpo: cuerpoCorreo,
+                    idUser: user.Id,
+                    USER_NAME: user.Nombre + ' ' + user.ApellidoPaterno + ' ' + user.ApellidoMaterno
+                }
+    
+                const response = await axios.post(process.env.REACT_APP_APPLICATION_BASE_URL + 'envioCorreoFederacion', obj);
+    
+               console.log(process.env.REACT_APP_APPLICATION_BASE_URL+"envioCorreoFederacion");
+    
+    
+               console.log('Correo enviado:', response.data);
+               // Guardamos la fecha cunado se manda el correo
+               localStorage.setItem("fechaCorreoFederacion", new Date().toISOString());
+               
+               handleClose();
+               window.location.reload();
+            }
+
+
+        }catch(error){
+            console.error("Error en el envio del correo", error);
+        }
+    }
+
+    // Descargar el Archivo de la Federacion correspondiente al mes
+    const descargarExcel = async () => {
+        try{
+            console.log("Descargar Excel");
+            const { anio, mes } = getFechaActual();
+            setArchivo(true);
+            await axios.post(
+                    process.env.REACT_APP_APPLICATION_BASE_URL + 'DescargarArchivoFederacion', 
+                    {
+                        anio: anio,
+                        mes: mes,
+                        export: true
+                    }
+                )
+                .then( response => {
+                    const reporte = response.data.RESPONSE;
+                    console.log("Descargar Excel ...");
+
+                    const bufferArray = base64ToArrayBuffer(String(reporte.response64 || reporte));
+                    
+                    const blobStore = new Blob([bufferArray], {
+                        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    });
+
+                    // Crea un enlace para descargar el archivo
+                    const link = document.createElement("a");
+                    link.href = window.URL.createObjectURL(blobStore);
+                    link.download = "ARCHIVO_FEDERACION.xlsx"; // El nombre del archivo con la extensión
+                    link.click();
+            
+                })
+                .catch(error => {
+                    console.error("Error al descargar el excel", error);
+                });
+           
+        }catch(error){
+            console.error("Error al descargar el excel", error);
+        }
+    }
+
     return (
         <>
-            <ModalForm title="Envio de Correo a Federación" handleClose={() => {handleClose() }}>
+            <ModalForm title="Envio de Correo a la Federación" handleClose={() => {handleClose() }}>
+                <Grid container spacing={1} direction="row" >
+        
+                    <Button
+                        className="actualizar"
+                        onClick={ descargarExcel }
+                    >
+                        Descargar Excel
+                    </Button>
+                    
+                </Grid>
                 <Grid item xs={12}>
                     <h3>Cuerpo del Correo:</h3>
                 </Grid>
@@ -32,13 +159,7 @@ export const ModalCorreoEditable = (
             <Grid container direction="row" justifyContent="center" alignItems="center">
               <Button
                 className="actualizar"
-                onClick={()=>
-                    handleAccion({
-                        anio: 2024,
-                        mes: 1,
-                        cuerpo: cuerpoCorreo
-                    })
-                }
+                onClick={ envioCorreo }
                 //disabled={visibleselect == 0 && !(cuerpoCorreo || mensaje)}
                 /*
                 onClick={() =>
@@ -56,7 +177,7 @@ export const ModalCorreoEditable = (
           </Grid>
             </ModalForm>
         </>
-        // <div style={{ textAlign: "center", marginTop: "20px" }}>
+        // <div style={{ textAlign: "center", marginTop: "20px" }}
 
 
         // </div>

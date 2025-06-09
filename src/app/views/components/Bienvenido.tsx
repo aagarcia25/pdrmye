@@ -19,8 +19,11 @@ export default function Bienvenido({ user }: { user: any }) {
 
   const [data, setData] = useState<string>("");
   const [tipo, setTipo] = useState<string>("");
+  const [fechaCorreoFederacion, setFechaCorreoFederacion] = useState<string>("");
+  const [correoEnviado, setCorreoEnviado] = useState<boolean>(false);
 
   const [mostrarCard, setMostrarCard] = useState(false);
+  const [mostrarChip, setMostrarChip] = useState(false);
   const [autoizadoEnvioCorreo, setAutoizadoEnvioCorreo] = useState(false);
 
   const [abrirModalCorreo, setAbrirModalCorreo] = useState(false);
@@ -117,9 +120,34 @@ export default function Bienvenido({ user }: { user: any }) {
     </Carousel>
   );
 
- 
+ // Funcion que me obtiene la fecha actual y me verifica si ya se mando el correo corrependiente al mes
+ const verificacionEnvioCorreo = () => {
+  
+    if(correoEnviado && fechaCorreoFederacion){
+      const ultimoEnvio = new Date(fechaCorreoFederacion);
+      const fechaActual = new Date();
+      const diferencia = fechaActual.getTime() - ultimoEnvio.getTime();
+      const dias = diferencia / (1000 * 60 * 60 * 24);
+      console.log(dias);
+      if(dias < 30){
+        setMostrarCard(false);
+      }else{
+        setMostrarCard(true);
+      }
+    } else {
+      setMostrarCard(true);
+    }
+ }
 
   const SimpleCard = () => {
+
+    const fecha = new Date();
+    const anio = fecha.getFullYear();
+    const mes = fecha.getMonth() + 1;
+    const meses = [
+      "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+      "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    ];
     return (
 
       <div style={{ display: "flex", justifyContent: "flex-end", padding: "20px" }}>
@@ -136,13 +164,13 @@ export default function Bienvenido({ user }: { user: any }) {
             >
 
               {
-                mostrarCard && (
+                mostrarChip && (
                   <Chip color="success" label="En curso" size="small"></Chip>
                 )
               }
 
               {
-                !mostrarCard && (
+                !mostrarChip && (
                   <Chip color="error" label="Atrasado" size="small"></Chip>
                 )
               }
@@ -152,7 +180,7 @@ export default function Bienvenido({ user }: { user: any }) {
 
 
             <Typography variant="body2" color="text.secondary">
-              Envío del Reporte de Participaciones Federales de enero a la UCEF.
+            Envío del reporte de distribución de fondos de las <strong>Participaciones Federales</strong> correspondiente <br/>a <strong>{meses[(mes - 1)-1]}</strong> de <strong>{anio}</strong> a la UCEF.
             </Typography>
           </CardContent>
 
@@ -201,12 +229,17 @@ export default function Bienvenido({ user }: { user: any }) {
 
   useEffect(() => {
 
+    
+    //localStorage.removeItem("fechaCorreoFederacion");
+
     const fechaActual = new Date();
     const diaDelMes = fechaActual.getDate();
 
- 
-      setMostrarCard(false);
-    
+    if (diaDelMes <= 5) {
+      setMostrarChip(true);
+    } else {
+      setMostrarChip(false);
+    }
 
     if (user.Puesto === "Analista de CPH") {
       setAutoizadoEnvioCorreo(true);
@@ -216,7 +249,16 @@ export default function Bienvenido({ user }: { user: any }) {
       NUMOPERACION: 5,
       CHUSER: user.Id,
     });
-  }, []);
+
+    setTimeout(() => {
+      setCorreoEnviado(localStorage.getItem("correoEnviado") === "true");
+      setFechaCorreoFederacion(localStorage.getItem("fechaCorreoFederacion") || "");
+    }, 3000);
+  }, [user.Id, user.Puesto, verificacionEnvioCorreo, consulta]);
+
+  useEffect(() => {
+    verificacionEnvioCorreo();
+  }, [correoEnviado, fechaCorreoFederacion]);
 
   return (
     <Hidden smDown>
@@ -225,7 +267,9 @@ export default function Bienvenido({ user }: { user: any }) {
           {
             //  <CarouselAp />
           }
-          {/* <SimpleCard /> */}
+          {
+            mostrarCard && fechaCorreoFederacion!="" && <SimpleCard />
+          }
          
         </Grid>
       </Grid>
