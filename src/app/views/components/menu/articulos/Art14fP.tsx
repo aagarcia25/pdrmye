@@ -19,6 +19,14 @@ import MUIXDataGridMun from "../../MUIXDataGridMun";
 import Slider from "../../Slider";
 import Art14m from "./Art14m";
 
+import { USUARIORESPONSE } from "../../../../interfaces/user/UserInfo";
+import { getUser } from "../../../../services/localStorage";
+
+import Swal from "sweetalert2";
+import { Toast } from "../../../../helpers/Toast";
+import { AlertS } from "../../../../helpers/AlertS";
+
+
 export const Art14fP = () => {
   const navigate = useNavigate();
   const [step, setstep] = useState(0);
@@ -27,6 +35,7 @@ export const Art14fP = () => {
   const [tipo, setTipo] = useState<Number>(0);
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [agregar, setAgregar] = useState<boolean>(false);
+
 
   const handleBack = (v: any) => {
     loaddata(tipo);
@@ -109,6 +118,56 @@ export const Art14fP = () => {
     });
   };
 
+  const alerta = () => {
+
+    const user : USUARIORESPONSE = JSON.parse(String(getUser()));
+
+    const now = new Date();
+    const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1);
+
+    const anio = lastMonth.getFullYear();
+    const mes = lastMonth.getMonth() + 1;
+
+    let data = {
+      CLAVE: tipo,
+      CHUSER: user.Id,
+      ANIO: anio,
+      MES: mes,
+    };
+
+    Swal.fire({
+      icon: "question",
+      title: "¿Deseas crear una nueva versión?",
+      text: "Se creará una nueva versión del Art. 14 Frac. I. ¿Desea continuar?",      
+      showDenyButton: false,
+      showCancelButton: true,
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar",
+      color: "rgb(175, 140, 85)",
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        ArticulosServices.generarVersion(data).then((res) => {
+          console.log(res)
+          if (res.SUCCESS) {
+            loaddata(Number(params.tipo));
+            Swal.fire({
+              icon: "success",
+              title: "Se ha creado una nueva versión.",
+            });
+            loaddata(tipo);
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: res.RESPONSE,
+            });
+          }
+         
+        });
+      }
+    });
+  }
+
   let params = useParams();
   useEffect(() => {
     setstep(0);
@@ -159,8 +218,14 @@ export const Art14fP = () => {
                 <ToggleButton
                   className="enviar-mensaje"
                   value="check"
-                  onClick={() => handleVersion()}
-                >
+                  onClick={() => {
+                    if (tipo === 1) { 
+                      alerta()
+                    }
+                    else {
+                      handleVersion()
+                    }}}
+                  >
                   <AutoModeIcon />
                 </ToggleButton>
               </Tooltip>

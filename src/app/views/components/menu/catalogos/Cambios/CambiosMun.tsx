@@ -172,10 +172,10 @@ const CambiosMun = () => {
 
   const tablas = [
     { value: "MunPobrezaExt", label: "Municipio Pobreza Extrema" },
-    { value: "MunFacturacion", label: "Municipio Facturación" },
+    { value: "MunFacturacion", label: "Municipio Facturación Predial" },
     { value: "MunPobreza", label: "Municipio Pobreza " },
     { value: "MunProyec", label: "Municipio Proyección" },
-    { value: "MunRecaudacion", label: "Municipio Recaudación" },
+    { value: "MunRecaudacion", label: "Municipio Recaudación Predial" },
     { value: "MunRefrendos", label: "Municipio Refrendos" },
     { value: "MunTerritorio", label: "Municipio Territorio" },
     { value: "UMAS", label: "UMAS" },
