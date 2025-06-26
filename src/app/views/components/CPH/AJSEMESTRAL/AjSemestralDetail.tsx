@@ -28,6 +28,14 @@ export const AjSemestralDetail = ({
       headerName: "Año",
       width: 100,
     },
+     {
+      field: "ClaveEstado",
+      headerName: "Clave Estado",
+      description: "Clave Estado",
+      align: "center",
+      width: 100,
+      
+    },
     {
       field: "nombre",
       headerName: "Municipio",

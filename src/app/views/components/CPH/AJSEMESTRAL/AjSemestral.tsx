@@ -50,9 +50,9 @@ export const AjSemestral = () => {
 
   const handleDeleted = (v: any) => {
     Swal.fire({
-      icon: "error",
+      icon: "question",
       title: "Eliminación",
-      text: "El Movimiento Seleccionado se Eliminará",
+      text: "El Registro Seleccionado se Eliminará",
       showDenyButton: false,
       showCancelButton: true,
       confirmButtonText: "Aceptar",
