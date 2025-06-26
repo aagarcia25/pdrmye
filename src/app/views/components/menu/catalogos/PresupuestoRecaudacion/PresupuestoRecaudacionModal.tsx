@@ -32,15 +32,14 @@ export const PresupuestoRecaudacionModal = (
                 icon: "error",
             });
         }else{
+            let fechaActual = new Date();
             let data = {
                 //CHID: id, 
                 CHUSER: user.Id,
-                ANIO: 2025,
-                MES: 1,
+                ANIO: fechaActual.getFullYear(),
+                MES: fechaActual.getMonth()+1,
                 PRESUPUESTO: presupuesto
             }
-            console.log("Presupuesto:", presupuesto);
-            console.log(user.Id)
             // Hacer la peticion al servico 
             CatalogosServices.presupuestoporrecaudacion(data).then(
                 (res) => {
