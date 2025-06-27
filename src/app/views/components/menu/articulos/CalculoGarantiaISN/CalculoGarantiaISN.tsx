@@ -47,7 +47,7 @@ const columns: GridColDef[] = [
 
 const CalculoGarantiaISN = () => {
 
-    const [claculoGarantiaISN, setCalculoGarantiaISN] = useState([]);
+    const [calaculoGarantiaISN, setCalculoGarantiaISN] = useState([]);
 
         useEffect(()=>{
             consulta();
@@ -151,7 +151,7 @@ const CalculoGarantiaISN = () => {
             
             <MUIXDataGridMun
             columns={columns}
-            rows={claculoGarantiaISN}
+            rows={calaculoGarantiaISN}
             handleBorrar={()=>{}}
             modulo=''
             controlInterno={"CAISN"}
