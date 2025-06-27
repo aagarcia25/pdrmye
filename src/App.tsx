@@ -122,38 +122,38 @@ function App() {
     });
   };
 
-  const estatusEnvioCorreoFederacion = () => {
-    const anio = new Date().getFullYear();
-    let mes = new Date().getMonth() + 1;
-    mes === 1 ? mes = 12 : mes = mes - 1;
-    
-    const data = {
-      anio,
-      mes
-    };
-
-    
-    estatusCorreo(data).then((res) => {
-      console.log("Estatus del envio de correo", res);
-      
-      // Aquí asumimos que 'res' indica si el correo fue enviado correctamente
-      // Por ejemplo, si 'res' es true, el correo se envió con éxito
-      const correoEnviado = res.data.RESPONSE.length > 0 
-      ? res.data.RESPONSE[0].enviado === "1"
-      : false;
-      // Guardamos el estatus en localStorage
-      localStorage.setItem('correoEnviado', correoEnviado ? 'true' : 'false');
-      localStorage.setItem('fechaCorreoFederacion', res.data.RESPONSE.length > 0 ? res.data.RESPONSE[0].fechaEnvio : null);
-    }).catch((error) => {
-      console.error("Error al verificar el estatus del correo:", error);
-      // En caso de error, guardamos 'false' en localStorage
-      localStorage.setItem('correoEnviado', 'false');
-    });
-  
-    
-   
- 
-  }
+//   const estatusEnvioCorreoFederacion = () => {
+//     const anio = new Date().getFullYear();
+//     let mes = new Date().getMonth() + 1;
+//     mes === 1 ? mes = 12 : mes = mes - 1;
+//     
+//     const data = {
+//       anio,
+//       mes
+//     };
+// 
+//     
+//     estatusCorreo(data).then((res) => {
+//       console.log("Estatus del envio de correo", res);
+//       
+//       // Aquí asumimos que 'res' indica si el correo fue enviado correctamente
+//       // Por ejemplo, si 'res' es true, el correo se envió con éxito
+//       const correoEnviado = res.data.RESPONSE.length > 0 
+//       ? res.data.RESPONSE[0].enviado === "1"
+//       : false;
+//       // Guardamos el estatus en localStorage
+//       localStorage.setItem('correoEnviado', correoEnviado ? 'true' : 'false');
+//       localStorage.setItem('fechaCorreoFederacion', res.data.RESPONSE.length > 0 ? res.data.RESPONSE[0].fechaEnvio : null);
+//     }).catch((error) => {
+//       console.error("Error al verificar el estatus del correo:", error);
+//       // En caso de error, guardamos 'false' en localStorage
+//       localStorage.setItem('correoEnviado', 'false');
+//     });
+//   
+//     
+//    
+//  
+//   }
 
   const verificatoken = (primerInicio: boolean) => {
     UserServices.verify({}).then((res) => {
@@ -230,7 +230,7 @@ function App() {
 
   useLayoutEffect(() => {
     
-    estatusEnvioCorreoFederacion();
+    // estatusEnvioCorreoFederacion();
     
     if (jwt && refjwt && getToken() && getRfToken()) {
 
