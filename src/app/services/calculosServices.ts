@@ -54,7 +54,7 @@ export class calculosServices {
   }
 
   public static async calculargarantiaisn(data: any) {
-    return await post("claculogarantiaisn", data);
+    return await post("calculogarantiaisn", data);
   }
 
   public static async setGarantiaDesdeISN(data: any) {
