@@ -60,6 +60,8 @@ import { AuthRouter } from "./AuthRouter";
 import { BandejaPorEnviar } from "../views/components/EFIRMA/BandejaPorEnviar";
 import { BandejaHistorico } from "../views/components/EFIRMA/BandejaHistorico";
 import EnviarDocumento from "../views/components/EFIRMA/EnviarDocumento";
+import PresupuestoRecaudacion  from "../views/components/menu/catalogos/PresupuestoRecaudacion/PresupuestoRecaudacion";
+import CalculoGarantiaISN from "../views/components/menu/articulos/CalculoGarantiaISN/CalculoGarantiaISN";
 
 export const AppRouter = ({ login }: { login: boolean }) => {
   const log = login;
@@ -164,6 +166,14 @@ export const AppRouter = ({ login }: { login: boolean }) => {
         <Route
           path="/inicio/catalogos/PEF"
           element={log ? <PEF /> : <AuthRouter />}
+        />
+        <Route
+          path="/inicio/articulos/presupuestoporrecaudacion"
+          element={log ? <PresupuestoRecaudacion /> : <AuthRouter />}
+        />
+        <Route
+          path="/inicio/articulos/calculogarantiaisn"
+          element={log ? <CalculoGarantiaISN/> : <AuthRouter /> }
         />
         {/* FIN SECCION DE CATALOGOS */}
 

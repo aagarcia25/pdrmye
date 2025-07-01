@@ -203,7 +203,11 @@ export class CatalogosServices {
         return await post('deleteVideoTutorial', data);
     };
 
-
-    
+    public static async obtenerpresupuestoporrecaudacion(data: any) {
+        return await post('obtenerpresupuestoporrecaudacion', data);
+    };
+    public static async presupuestoporrecaudacion(data: any) {
+        return await post('presupuestoporrecaudacion', data);
+    }
 
 }
