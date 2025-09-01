@@ -214,6 +214,7 @@ const DetalleFgp = ({
           CHUSERASIGNADO: data.usuario,
           AREA: area,
           TIPO_CALCULO: tipoCalculo,
+          CLAVE: clave,
         };
 
         calculosServices.indexCalculo(obj).then((res) => {
