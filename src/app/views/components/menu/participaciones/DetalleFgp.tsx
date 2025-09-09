@@ -476,6 +476,7 @@ const DetalleFgp = ({
       headerName: clave == "ISR SALARIOS" ? "Devoluciones" : "AjusteEstatal",
       width: 150,
       description: clave == "ISR SALARIOS" ? "Devoluciones" : "AjusteEstatal",
+      ...Moneda,
     },
 
     {
