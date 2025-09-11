@@ -230,7 +230,7 @@ function App() {
 
   useLayoutEffect(() => {
     
-    estatusEnvioCorreoFederacion();
+    //estatusEnvioCorreoFederacion();
     
     if (jwt && refjwt && getToken() && getRfToken()) {
 
