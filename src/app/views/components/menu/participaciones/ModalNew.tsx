@@ -278,7 +278,16 @@ const ModalNew = ({
   };
 
   const loadFilter = (operacion: number) => {
-    let data = { NUMOPERACION: operacion, CHID: clave };
+    const meses = [
+      "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+      "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    ];
+
+    let mesNombre = meses[new Date().getMonth()];
+    console.log("Este es el mes");
+    console.log(mesNombre);
+
+    let data = { NUMOPERACION: operacion, CHID: clave, P_MES: mesNombre };
     CatalogosServices.SelectIndex(data).then((res) => {
       if (operacion == 2) {
         setMeses(res.RESPONSE);
@@ -292,6 +301,8 @@ const ModalNew = ({
         setversionCalculo(res.RESPONSE);
         setIdVersionCalculo(res.RESPONSE[0]["value"]);
         setslideropen(false);
+      } else if(operacion == 51){
+        setTipoCalculo(res.RESPONSE)
       }
     });
   };
@@ -311,7 +322,12 @@ const ModalNew = ({
 
     parametros();
     loadFilter(2);
-    loadFilter(15);
+
+    if(clave == 'FGP' || clave == 'FFM30' || clave == 'FFM70' || clave == 'IEPS' || clave == 'FOFIR'){
+      loadFilter(51);
+    }else{
+      loadFilter(15);
+    }
 
     if (clave == "FFM30") {
       loadFilter(23);
