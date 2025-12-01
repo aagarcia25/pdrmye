@@ -7,7 +7,6 @@ import Slider from "../Slider";
 import ModalForm from "./ModalForm";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import Swal from "sweetalert2";
 
 const ModalCalculos = ({
   tipo,
@@ -66,36 +65,6 @@ const ModalCalculos = ({
     loadSelectUser();
   }, []);
 
-  useEffect(() => {
-  if (visibleselect === 0) {
-    Swal.fire({
-      title: "¿Confirmar envío?",
-      text: "Se mandará a DAMPO",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Sí, enviar",
-      cancelButtonText: "Cancelar",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        handleAccion({
-          mensaje: showInputs ? mensaje : "Mensaje",
-          usuario: chuserDestin,
-          cuerpoCorreo: cuerpoCorreo ? cuerpoCorreo : 0,
-        });
-
-        Swal.fire({
-          title: "Enviado",
-          text: "La acción fue procesada correctamente.",
-          icon: "success",
-          timer: 1500,
-          showConfirmButton: false,
-        });
-      }
-    });
-  }
-}, [visibleselect]); // se ejecuta cuando cambia visibleselect
-
-
   return (
     <div>
       <ModalForm title={tipo} handleClose={handleClose}>
@@ -133,14 +102,8 @@ const ModalCalculos = ({
         ) : (
           ""
         )}
-
-        {
-          visibleselect == 0 ? <></> : <></>
-        }
-
-
   
-        {/* {visibleselect == 0 ? (
+        {visibleselect == 0 ? (
           <Grid
             container
             spacing={1}
@@ -208,7 +171,7 @@ const ModalCalculos = ({
               </Grid>
             </Grid>
           </>
-        )} */}
+        )}
   
         <Grid
           container
