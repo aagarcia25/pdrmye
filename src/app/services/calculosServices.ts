@@ -49,6 +49,18 @@ export class calculosServices {
     return await post("CalculoGarantia", data);
   }
 
+  public static async obtenercalculogarantiaisn(data: any) {
+    return await post("obtenercalculogarantiaisn", data);
+  }
+
+  public static async calculargarantiaisn(data: any) {
+    return await post("calculogarantiaisn", data);
+  }
+
+  public static async setGarantiaDesdeISN(data: any) {
+    return await post("actualizarGarantiaDesdeISN", data);
+  }
+
   public static async BorraCalculo(data: any) {
     return await post("BorraCalculo", data);
   }

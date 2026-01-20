@@ -180,6 +180,10 @@ export class CatalogosServices {
         return await post('indexISN', data);
     };
 
+    public static async indexISNParticipacion(data : any) {
+        return await post('indexISNParticipacion', data)
+    }
+
     public static async getliga(data : any) {
         return await post('getliga', data);
     };
@@ -203,7 +207,11 @@ export class CatalogosServices {
         return await post('deleteVideoTutorial', data);
     };
 
-
-    
+    public static async obtenerpresupuestoporrecaudacion(data: any) {
+        return await post('obtenerpresupuestoporrecaudacion', data);
+    };
+    public static async presupuestoporrecaudacion(data: any) {
+        return await post('presupuestoporrecaudacion', data);
+    }
 
 }

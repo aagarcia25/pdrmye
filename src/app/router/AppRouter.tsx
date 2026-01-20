@@ -60,6 +60,9 @@ import { AuthRouter } from "./AuthRouter";
 import { BandejaPorEnviar } from "../views/components/EFIRMA/BandejaPorEnviar";
 import { BandejaHistorico } from "../views/components/EFIRMA/BandejaHistorico";
 import EnviarDocumento from "../views/components/EFIRMA/EnviarDocumento";
+import PresupuestoRecaudacion  from "../views/components/menu/catalogos/PresupuestoRecaudacion/PresupuestoRecaudacion";
+import CalculoGarantiaISN from "../views/components/menu/articulos/CalculoGarantiaISN/CalculoGarantiaISN";
+import ISNParticipacion from "../views/components/menu/articulos/IsnParticipacion/IsnParticipacion";
 
 export const AppRouter = ({ login }: { login: boolean }) => {
   const log = login;
@@ -165,6 +168,14 @@ export const AppRouter = ({ login }: { login: boolean }) => {
           path="/inicio/catalogos/PEF"
           element={log ? <PEF /> : <AuthRouter />}
         />
+        <Route
+          path="/inicio/articulos/presupuestoporrecaudacion"
+          element={log ? <PresupuestoRecaudacion /> : <AuthRouter />}
+        />
+        <Route
+          path="/inicio/articulos/calculogarantiaisn"
+          element={log ? <CalculoGarantiaISN/> : <AuthRouter /> }
+        />
         {/* FIN SECCION DE CATALOGOS */}
 
         {/* SECCION DE CALENDARIO */}
@@ -200,6 +211,7 @@ export const AppRouter = ({ login }: { login: boolean }) => {
         />
         <Route path="/inicio/articulos/isai" element={<ISAI />} />
         <Route path="/inicio/articulos/isnR" element={<IsnRecaudacion />} />
+        <Route path="/inicio/articulos/isnP" element={<ISNParticipacion/>} />
         <Route path="/inicio/articulos/AS" element={<AjSemestral />} />
         <Route path="/inicio/articulos/AA" element={<Ajanual />} />
         {/* FIN SECCION DE ARTICULOS */}

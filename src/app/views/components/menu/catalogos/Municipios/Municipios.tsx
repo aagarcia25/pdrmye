@@ -161,7 +161,7 @@ export const Municipios = () => {
     },
     {
       field: "Descentralizado",
-      headerName: "Descentralizado",
+      headerName: "Ultracrecimiento",
       description: "Descentralizado",
       width: 100,
       renderCell: (v) => {

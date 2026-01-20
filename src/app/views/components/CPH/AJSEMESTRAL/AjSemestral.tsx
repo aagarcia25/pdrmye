@@ -50,9 +50,9 @@ export const AjSemestral = () => {
 
   const handleDeleted = (v: any) => {
     Swal.fire({
-      icon: "error",
+      icon: "question",
       title: "Eliminación",
-      text: "El Movimiento Seleccionado se Eliminará",
+      text: "El Registro Seleccionado se Eliminará",
       showDenyButton: false,
       showCancelButton: true,
       confirmButtonText: "Aceptar",
@@ -62,7 +62,7 @@ export const AjSemestral = () => {
         let data = {
           NUMOPERACION: 4,
           P_IDANIO: v.row.anio,
-          P_FONDO: v.row.id,
+          P_FONDO: v.row.idFondo,
         };
 
         calculosServices.AjusteSemestralIndex(data).then((res) => {
@@ -89,6 +89,7 @@ export const AjSemestral = () => {
 
   const columnsParticipaciones = [
     { field: "id", hide: true },
+    { field: "idFondo", hide: true },
     {
       disableExport: true,
       field: "acciones",

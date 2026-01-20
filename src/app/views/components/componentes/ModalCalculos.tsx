@@ -23,8 +23,8 @@ const ModalCalculos = ({
   handleAccion: Function;
   visibleselect: Number;
 }) => {
-  const [mensaje, setMensaje] = useState<string>();
-  const [cuerpoCorreo, setCuerpoCorreo] = useState<string>();
+  const [mensaje, setMensaje] = useState<string>("");
+  const [cuerpoCorreo, setCuerpoCorreo] = useState<string>("");
   const [openSlider, setOpenSlider] = useState(false);
   const [usuarioSelect, setUsuarioSelect] = useState<SelectValues[]>([]);
   const [chuserDestin, setChuserDestin] = useState<string>("");
@@ -50,7 +50,15 @@ const ModalCalculos = ({
   };
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setShowInputs(e.target.checked);
+    const checked = e.target.checked;
+    setShowInputs(checked);
+    if (checked) {
+      // Modo "Correo por defecto": ignora/quita el cuerpo personalizado
+      setCuerpoCorreo("");
+    } else {
+      // Modo "Personalizado": ignora/quita el comentario por defecto
+      setMensaje("");
+    }
   };
 
   useEffect(() => {
@@ -112,7 +120,6 @@ const ModalCalculos = ({
               <FormControlLabel
                 control={
                   <Checkbox
-                    value={showInputs}
                     checked={showInputs}
                     onChange={handleCheckboxChange}
                   />
@@ -198,7 +205,10 @@ const ModalCalculos = ({
             <Grid container direction="row" justifyContent="center" alignItems="center">
               <Button
                 className="actualizar"
-                disabled={visibleselect == 0 && !(cuerpoCorreo || mensaje)}
+                disabled={
+                  visibleselect == 0 && 
+                  (!showInputs ? !cuerpoCorreo?.trim() : !mensaje?.trim())
+                }
                 onClick={() =>
                   handleAccion({
                     mensaje: showInputs ? mensaje : "Mensaje",

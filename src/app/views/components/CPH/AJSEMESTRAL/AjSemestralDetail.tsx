@@ -7,8 +7,8 @@ import { Toast } from "../../../../helpers/Toast";
 import { calculosServices } from "../../../../services/calculosServices";
 import ModalForm from "../../componentes/ModalForm";
 import { Moneda } from "../../menu/CustomToolbar";
-import MUIXDataGrid from "../../MUIXDataGrid";
 import Slider from "../../Slider";
+import MUIXDataGridAutoHeigth from "../../MUIXDataGridAutoHeigth";
 
 export const AjSemestralDetail = ({
   handleClose,
@@ -27,6 +27,14 @@ export const AjSemestralDetail = ({
       field: "anio",
       headerName: "Año",
       width: 100,
+    },
+     {
+      field: "ClaveEstado",
+      headerName: "Clave Estado",
+      description: "Clave Estado",
+      align: "center",
+      width: 100,
+      
     },
     {
       field: "nombre",
@@ -75,7 +83,7 @@ export const AjSemestralDetail = ({
     let data = {
       NUMOPERACION: 3,
       P_IDANIO: row.row.anio,
-      P_FONDO: row.row.id,
+      P_FONDO: row.row.idFondo,
     };
     calculosServices.AjusteSemestralIndex(data).then((res) => {
       if (res.SUCCESS) {
@@ -104,11 +112,11 @@ export const AjSemestralDetail = ({
     <>
       <ModalForm title={"Ajuste Semestral Detalle"} handleClose={handleClose}>
         <Slider open={slideropen}></Slider>
-        <div>
-          <Grid item xs={12} sm={12} md={12} lg={12}>
-            <MUIXDataGrid columns={columnsParticipaciones} rows={data} />
+        
+          <Grid item xs={12} sm={12} md={12} lg={12} sx={{ height: "90vh"}}>
+            <MUIXDataGridAutoHeigth columns={columnsParticipaciones} rows={data} />
           </Grid>
-        </div>
+       
       </ModalForm>
     </>
   );
