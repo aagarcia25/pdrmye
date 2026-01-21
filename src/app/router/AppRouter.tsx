@@ -62,6 +62,9 @@ import { BandejaHistorico } from "../views/components/EFIRMA/BandejaHistorico";
 import EnviarDocumento from "../views/components/EFIRMA/EnviarDocumento";
 import PresupuestoRecaudacion  from "../views/components/menu/catalogos/PresupuestoRecaudacion/PresupuestoRecaudacion";
 import CalculoGarantiaISN from "../views/components/menu/articulos/CalculoGarantiaISN/CalculoGarantiaISN";
+import ISNParticipacion from "../views/components/menu/articulos/IsnParticipacion/IsnParticipacion";
+import { AjISN } from "../views/components/CPH/AJISN/AjISN";
+import { AjISNDetalle } from "../views/components/CPH/AJISN/AjISNDetalle";
 
 export const AppRouter = ({ login }: { login: boolean }) => {
   const log = login;
@@ -210,8 +213,11 @@ export const AppRouter = ({ login }: { login: boolean }) => {
         />
         <Route path="/inicio/articulos/isai" element={<ISAI />} />
         <Route path="/inicio/articulos/isnR" element={<IsnRecaudacion />} />
+        <Route path="/inicio/articulos/isnP" element={<ISNParticipacion/>} />
         <Route path="/inicio/articulos/AS" element={<AjSemestral />} />
         <Route path="/inicio/articulos/AA" element={<Ajanual />} />
+        <Route path="/inicio/articulos/AISN" element={<AjISN />} />
+        <Route path="/inicio/articulos/AISN/AjISNDetalle/:anio" element={<AjISNDetalle/>}/>
         {/* FIN SECCION DE ARTICULOS */}
 
         {/* SECCION PARTICIPACIONES FEDERALES Y ESTATALES */}

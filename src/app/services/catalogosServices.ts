@@ -180,6 +180,10 @@ export class CatalogosServices {
         return await post('indexISN', data);
     };
 
+    public static async indexISNParticipacion(data : any) {
+        return await post('indexISNParticipacion', data)
+    }
+
     public static async getliga(data : any) {
         return await post('getliga', data);
     };
