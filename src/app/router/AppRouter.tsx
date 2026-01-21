@@ -63,6 +63,8 @@ import EnviarDocumento from "../views/components/EFIRMA/EnviarDocumento";
 import PresupuestoRecaudacion  from "../views/components/menu/catalogos/PresupuestoRecaudacion/PresupuestoRecaudacion";
 import CalculoGarantiaISN from "../views/components/menu/articulos/CalculoGarantiaISN/CalculoGarantiaISN";
 import ISNParticipacion from "../views/components/menu/articulos/IsnParticipacion/IsnParticipacion";
+import { AjISN } from "../views/components/CPH/AJISN/AjISN";
+import { AjISNDetalle } from "../views/components/CPH/AJISN/AjISNDetalle";
 import CalculoCoefFISM from "../views/components/menu/articulos/calculoCoefFISM/CalculoCoefFISM";
 
 export const AppRouter = ({ login }: { login: boolean }) => {
@@ -215,7 +217,6 @@ export const AppRouter = ({ login }: { login: boolean }) => {
         <Route path="/inicio/articulos/isnP" element={<ISNParticipacion/>} />
         <Route path="/inicio/articulos/AS" element={<AjSemestral />} />
         <Route path="/inicio/articulos/AA" element={<Ajanual />} />
-        <Route path="/inicio/coeficientes/fism" element={ <CalculoCoefFISM/> } />
         {/* FIN SECCION DE ARTICULOS */}
 
         {/* SECCION PARTICIPACIONES FEDERALES Y ESTATALES */}
