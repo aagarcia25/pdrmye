@@ -19,35 +19,18 @@ import Swal from "sweetalert2";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "Identificador", hide: true, width: 150, description: messages.dataTableColum.id },
-  { field: "Nombre", headerName: "Nombre", width: 200 },
-  { field: "version", headerName: "Version de Presupuesto Por Recaudación", width: 200 },
-  { field: "fecha_creacion", headerName: "Fecha de Creación", width: 180 },
+  { field: "municipio", headerName: "Municipio", width: 200 },
+  { field: "version", headerName: "Version de coeficiente del FISM", width: 200 },
+  { field: "fechaCreacion", headerName: "Fecha de Creación", width: 180 },
   { field: "creadoPor", headerName: "Creado Por", hide: true, width: 150, description: messages.dataTableColum.creadoPor },
   { field: "anio", headerName: "Año", hide: true, width: 100 },
   { field: "mes", headerName: "Mes", hide: true, width: 100 },
-  { field: "IsnAnioAnt", headerName: "ISN Año Anterior", width: 180 },
-  { field: "IsnAnioAntMasInflacion", headerName: "ISN Año Ant. + Inflación", width: 200 },
-  { field: "IsnEstimadoAnioActual", headerName: "ISN Estimado Año Actual", width: 220 },
-  { field: "DiferenciaEstimada", headerName: "Diferencia Estimada", width: 180 },
-  { field: "CoefDiferencia", headerName: "Coeficiente Diferencia", width: 200 },
-  { field: "montosAnioAntMasInflacionCrecimiento", headerName: "Monto Año Ant. + Inflación + Crecimiento", width: 280 },
-  { field: "monto_compensacion", headerName: "Monto Compensación", width: 200 },
-  { field: "monto_act_mun_superior_ant", headerName: "Monto Act. Mun. Sup. Ant.", width: 250 },
-  { field: "monto_excedente_sobre_ant", headerName: "Monto Excedente Sobre Ant.", width: 250 },
-  { field: "PORCENTAJE_COMPENSACION_EXCEDENTE_SOBRE_ANT", headerName: "% Compensación Excedente", width: 250 },
-  { field: "monto_a_disminuir_mun_crec", headerName: "Monto a Disminuir Mun. Crec.", width: 250 },
-  { field: "SUMA_MONTO_COMPENSACION", headerName: "Suma Monto Compensación", width: 220 },
-  { field: "SUMA_MONTO_EXCEDENTE_SOBRE_ANT", headerName: "Suma Excedente Sobre Ant.", width: 250 },
-  { field: "monto_a_distribuir_min_garantizado", headerName: "Monto a Distribuir Mín. Garantizado", width: 280 },
-  { field: "FACTOR1", headerName: "Factor 1", width: 120 },
-  { field: "FACTOR2", headerName: "Factor 2", width: 120 },
-  { field: "incremento_vs_ant", headerName: "Incremento vs Año Ant.", width: 200 },
   { field: "coeficiente", headerName: "Coeficiente", width: 150 },
 ];
 
 const CalculoCoefFISM = () => {
 
-    const [calculogarantiaisn, setCalculoGarantiaISN] = useState([]);
+    const [coeffism, setCoefFism] = useState([]);
 
         useEffect(()=>{
             consulta();
@@ -58,9 +41,8 @@ const CalculoCoefFISM = () => {
         calculosServices.obtenercalculogarantiaisn(dat).then(
             (res) => {
                 if(res.SUCCESS){
-                    console.log("Datos");
-                    console.log(res.RESPONSE);
-                    setCalculoGarantiaISN(res.RESPONSE);
+                    
+                    setCoefFism(res.RESPONSE);
                 }else{
                     console.error("Error al obtener datos:", res.STRMESSAGE);
                     
@@ -151,7 +133,7 @@ const CalculoCoefFISM = () => {
             
             <MUIXDataGridMun
             columns={columns}
-            rows={calculogarantiaisn}
+            rows={coeffism}
             handleBorrar={()=>{}}
             modulo=''
             controlInterno={"CAISN"}

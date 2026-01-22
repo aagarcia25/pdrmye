@@ -218,7 +218,7 @@ export const AppRouter = ({ login }: { login: boolean }) => {
         <Route path="/inicio/articulos/AS" element={<AjSemestral />} />
         <Route path="/inicio/articulos/AA" element={<Ajanual />} />
         {/* FIN SECCION DE ARTICULOS */}
-
+        <Route path="/inicio/coeficientes/fism" element={ <CalculoCoefFISM/> } />
         {/* SECCION PARTICIPACIONES FEDERALES Y ESTATALES */}
         <Route
           path="/inicio/participaciones/:fondo"
