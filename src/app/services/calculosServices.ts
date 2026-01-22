@@ -97,6 +97,10 @@ export class calculosServices {
     return await post("AjusteISN", data);
   }
 
+  public static async IsnParticipacion(data:any){
+    return await post("indexISNParticipacion",data);
+  }
+
   public static async aprovarcalculoanual(data: any) {
     return await post("aprovarcalculoanual", data);
   }
