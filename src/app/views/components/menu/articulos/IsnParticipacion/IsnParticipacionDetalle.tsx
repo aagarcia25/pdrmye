@@ -61,6 +61,14 @@ const IsnParticipacionDetalle = () => {
     navigate("/inicio/articulos/isnP");
   };
 
+
+  const cell = (value: any, align: "center" | "right" | "left" = "center") => (
+  <Box sx={{ py: 1, width: "100%", textAlign: align }}>
+    {value ?? ""}
+  </Box>
+);
+
+
 const columnsISNParticipacionDetalle = [
   {
     field: "id",
@@ -72,6 +80,7 @@ const columnsISNParticipacionDetalle = [
     field: "anio",
     headerName: "Año",
     width: 120,
+    renderCell: (p:any) => cell(p.value, "center")
   },
   {
     field: "fechaCreacion",
@@ -147,30 +156,30 @@ const columnsISNParticipacionDetalle = [
 
 
         <Grid container spacing={2} sx={{ mb: 3 }}>
-  <Grid item xs={12} md={4}>
-    <StatCard
-      title="Total Municipalidades"
-      value={totalMunicipios}
-    />
-  </Grid>
+          <Grid item xs={12} md={4}>
+            <StatCard
+              title="Total Municipalidades"
+              value={totalMunicipios}
+            />
+          </Grid>
 
-  <Grid item xs={12} md={4}>
-    <StatCard
-      title="Monto Total"
-      value={montoTotal.toLocaleString("es-MX", {
-        style: "currency",
-        currency: "MXN",
-      })}
-    />
-  </Grid>
+          <Grid item xs={12} md={4}>
+            <StatCard
+              title="Monto Total"
+              value={montoTotal.toLocaleString("es-MX", {
+                style: "currency",
+                currency: "MXN",
+              })}
+            />
+          </Grid>
 
-  <Grid item xs={12} md={4}>
-    <StatCard
-      title="Año"
-      value={data?.[0]?.anio ?? "—"}
-    />
-  </Grid>
-</Grid>
+          <Grid item xs={12} md={4}>
+            <StatCard
+              title="Año"
+              value={data?.[0]?.anio ?? "—"}
+            />
+          </Grid>
+        </Grid>
 
 
         <div style={{ height: 600, width: "100%" }}>
