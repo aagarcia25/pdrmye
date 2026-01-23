@@ -58,7 +58,7 @@ export class calculosServices {
   }
 
   public static async coefFISM(data: any) {
-    return await post("coefFISM", data);
+    return await post("CoefFISM", data);
   }
 
   public static async setGarantiaDesdeISN(data: any) {
