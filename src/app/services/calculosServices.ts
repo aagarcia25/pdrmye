@@ -57,6 +57,10 @@ export class calculosServices {
     return await post("calculogarantiaisn", data);
   }
 
+  public static async coefFISM(data: any) {
+    return await post("CoefFISM", data);
+  }
+
   public static async setGarantiaDesdeISN(data: any) {
     return await post("actualizarGarantiaDesdeISN", data);
   }
