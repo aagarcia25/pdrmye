@@ -2,13 +2,17 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
   Box,
   Grid,
-  ToggleButton,
-  ToggleButtonGroup,
+  IconButton,
   Tooltip,
   Typography,
+  Card,
+  CardContent,
+  Divider,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { GridColDef } from "@mui/x-data-grid";
+import { messages } from "../../../styles";
 
 import Slider from "../../Slider";
 import MUIXDataGrid from "../../MUIXDataGrid";
@@ -18,44 +22,110 @@ export const AjISNDetalle = () => {
   const navigate = useNavigate();
   const { anio } = useParams();
 
-  const [slideropen, setslideropen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState<any[]>([]);
 
-  const handleBack = () => {
-    navigate("/inicio/articulos/AISN");
-  };
+  const handleBack = () => navigate("/inicio/articulos/AISN");
 
-  const columnsAjISNDetalle = [
-    { field: "id", headerName: "ID", width: 150, hide: true },
-    { field: "idMun", headerName: "ID Municipio", width: 150, hide: true },
-    { field: "idPresupuestoPorRecaudacion", headerName: "ID Presupuesto", width: 150, hide: true },
-    { field: "deleted", headerName: "Eliminado", width: 100, hide: true },
-    { field: "fecha_creacion", headerName: "Fecha Creación", width: 180 },
-    { field: "creadoPor", headerName: "Creado Por", hide: true, width: 150 },
-    { field: "anio", headerName: "Año", width: 120 },
-    { field: "mes", headerName: "Mes", width: 100 },
-    { field: "IsnAnioAnt", headerName: "ISN Año Anterior", width: 180 },
-    { field: "IsnAnioAntMasInflacion", headerName: "ISN Año Ant + Inflación", width: 200 },
-    { field: "IsnEstimadoAnioActual", headerName: "ISN Estimado Año Actual", width: 200 },
-    { field: "DiferenciaEstimada", headerName: "Diferencia Estimada", width: 180 },
-    { field: "CoefDiferencia", headerName: "Coef. Diferencia", width: 160 },
-    { field: "montosAnioAntMasInflacionCrecimiento", headerName: "Montos Año Ant + Inflación Crec.", width: 250 },
-    { field: "monto_compensacion", headerName: "Monto Compensación", width: 180 },
-    { field: "monto_act_mun_superior_ant", headerName: "Monto Act Mun Superior Ant", width: 220 },
-    { field: "monto_excedente_sobre_ant", headerName: "Monto Excedente Sobre Ant", width: 220 },
-    { field: "PORCENTAJE_COMPENSACION_EXCEDENTE_SOBRE_ANT", headerName: "% Comp. Excedente Sobre Ant", width: 240 },
-    { field: "monto_a_disminuir_mun_crec", headerName: "Monto a Disminuir Mun Crec", width: 220 },
-    { field: "SUMA_MONTO_COMPENSACION", headerName: "Suma Monto Compensación", width: 200 },
-    { field: "SUMA_MONTO_EXCEDENTE_SOBRE_ANT", headerName: "Suma Monto Excedente Sobre Ant", width: 250 },
-    { field: "monto_a_distribuir_min_garantizado", headerName: "Monto Dist. Min Garantizado", width: 230 },
-    { field: "FACTOR1", headerName: "Factor 1", width: 130 },
-    { field: "FACTOR2", headerName: "Factor 2", width: 130 },
-    { field: "incremento_vs_ant", headerName: "Incremento vs Ant", width: 180 },
-    { field: "coeficiente", headerName: "Coeficiente", width: 150 },
+  const moneda = (value: any) =>
+    Number(value || 0).toLocaleString("es-MX", {
+      style: "currency",
+      currency: "MXN",
+    });
+
+  const columnsAjISNDetalle: GridColDef[] = [
+    { field: "id", hide: true },
+    {
+      field: "Nombre",
+      headerName: "Municipio",
+      minWidth: 180,
+    },
+
+    
+
+    {
+      field: "participaciones_pagadas_anio_anterior_def",
+      headerName: "Participaciones Año Anterior",
+      minWidth: 220,
+      type: "number",
+      align: "right",
+      headerAlign: "right",
+      valueFormatter: ({ value }) => moneda(value),
+    },
+
+    {
+      field: "participaciones_anio_anterior_inflacion",
+      headerName: "Año Anterior + Inflación",
+      minWidth: 220,
+      align: "right",
+      headerAlign: "right",
+      valueFormatter: ({ value }) => moneda(value),
+    },
+
+    {
+      field: "participaciones_anio_actual_isn",
+      headerName: "Participaciones ISN",
+      minWidth: 200,
+      align: "right",
+      headerAlign: "right",
+      valueFormatter: ({ value }) => moneda(value),
+    },
+    {
+      field: "estima_recibir_menos_anio_anterior",
+      headerName: "¿Recibe menos que el año anterior?",
+      minWidth: 180,
+    },
+    {
+      field: "compensacion",
+      headerName: "Compensación",
+      minWidth: 160,
+      align: "right",
+      headerAlign: "right",
+      valueFormatter: ({ value }) => moneda(value),
+    },
+
+    {
+      field: "excedente",
+      headerName: "Excedente",
+      minWidth: 160,
+      align: "right",
+      headerAlign: "right",
+      valueFormatter: ({ value }) => moneda(value),
+    },
+
+    {
+      field: "disminucion_excedente",
+      headerName: "Disminución Excedente",
+      minWidth: 200,
+      align: "right",
+      headerAlign: "right",
+      valueFormatter: ({ value }) => moneda(value),
+    },
+
+    {
+      field: "monto_distribuir_post_garantia",
+      headerName: "Monto a Distribuir",
+      minWidth: 200,
+      align: "right",
+      headerAlign: "right",
+      valueFormatter: ({ value }) => moneda(value),
+    },
+
+    {
+      field: "porcentaje",
+      headerName: "%",
+      width: 120,
+    },
+
+    {
+      field: "coeficiente",
+      headerName: "Coeficiente",
+      width: 140,
+    },
   ];
 
   useEffect(() => {
-    setslideropen(true);
+    setLoading(true);
 
     calculosServices
       .AjusteISNIndex({
@@ -64,39 +134,51 @@ export const AjISNDetalle = () => {
         P_FONDO: "",
       })
       .then((res) => {
-        if (res.SUCCESS) {
-          setData(res.RESPONSE);
-        }
-        setslideropen(false);
-      });
+        if (res.SUCCESS) setData(res.RESPONSE || []);
+      })
+      .finally(() => setLoading(false));
   }, [anio]);
 
   return (
-    <Box>
-      <Slider open={slideropen} />
+    <Box p={2}>
+      <Slider open={loading} />
 
-      <Grid container spacing={2}>
-        <Grid item xs={12} textAlign="center">
-          <Typography variant="h4">
-            Detalle Ajuste ISN – Año {anio}
+      {/* Header */}
+      <Grid container alignItems="center" spacing={2}>
+        <Grid item>
+          <Tooltip title="Regresar">
+            <IconButton onClick={handleBack}>
+              <ArrowBackIcon />
+            </IconButton>
+          </Tooltip>
+        </Grid>
+
+        <Grid item>
+          <Typography variant="h5" fontWeight={600}>
+            Ajuste ISN
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Detalle del año {anio}
           </Typography>
         </Grid>
       </Grid>
 
-      <Box sx={{ mb: 1 }}>
-        <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
-          <Tooltip title="Regresar">
-            <ToggleButton value="check" onClick={() => handleBack()}>
-              <ArrowBackIcon />
-            </ToggleButton>
-          </Tooltip>
-        </ToggleButtonGroup>
-      </Box>
+      <Divider sx={{ my: 2 }} />
 
-      <div style={{ height: 600, width: "100%" }}>
-        <MUIXDataGrid columns={columnsAjISNDetalle} rows={data} />
-      </div>
+      {/* Tabla */}
+      <Card>
+        <CardContent>
+          <Box sx={{ height: 620 }}>
+            <MUIXDataGrid
+              columns={columnsAjISNDetalle}
+              rows={data}
+              localeText={{
+                noRowsLabel: "No hay información para mostrar",
+              }}
+            />
+          </Box>
+        </CardContent>
+      </Card>
     </Box>
   );
 };
-

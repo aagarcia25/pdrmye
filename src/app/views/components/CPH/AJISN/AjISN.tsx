@@ -20,13 +20,21 @@ import { getPermisos } from "../../../../services/localStorage";
 import { Moneda } from "../../menu/CustomToolbar";
 import MUIXDataGrid from "../../MUIXDataGrid";
 import Slider from "../../Slider";
+import { USUARIORESPONSE } from "../../../../interfaces/user/UserInfo";
+import { getUser } from "../../../../services/localStorage";
 import { AjSemestralDetail } from "../AJSEMESTRAL/AjSemestralDetail";
 import { AjISNModal } from "../AJISN/AjISNModal";
+
+import { GridColDef } from "@mui/x-data-grid";
 import { messages } from "../../../styles";
+
 import { CleaningServices } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 export const AjISN = () => {
+  
+  const user: USUARIORESPONSE = JSON.parse(String(getUser()));
+
   const [slideropen, setslideropen] = useState(false);
   //MODAL
   //Constantes para las columnas
@@ -43,7 +51,7 @@ export const AjISN = () => {
   const navigate = useNavigate();
 
 
-  const handleclose = (data: any) => {
+  const handleclose = () => {
     handleClick();
     setOpenModal(false);
     setOpenDetail(false);
@@ -54,7 +62,7 @@ export const AjISN = () => {
     navigate(`/inicio/articulos/AISN/AjISNDetalle/${row.anio}`);
   };
 
-  const columnsParticipaciones = [
+  const columnsParticipaciones: GridColDef[] = [
     { field: "id", headerName: "ID", width: 150, hide: true },
     {
       disableExport: true,
@@ -77,7 +85,7 @@ export const AjISN = () => {
       },
     },
     { field: "fecha_creacion", headerName: "Fecha Creación", width: 180 },
-    { field: "creadoPor", headerName: "Creado Por", hide: true, width: 150, description: messages.dataTableColum.creadoPor,},
+    { field: "creadoPor", headerName: "Creado Por",  width: 250, description: messages.dataTableColum.creadoPor,},
     { field: "anio", headerName: "Año", width: 120 },
     
   ];
@@ -90,6 +98,7 @@ export const AjISN = () => {
     setslideropen(true);
     let data = {
       NUMOPERACION: 2,
+      
     };
     calculosServices.AjusteISNIndex(data).then((res) => {
       if (res.SUCCESS) {

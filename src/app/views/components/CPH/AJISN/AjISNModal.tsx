@@ -1,5 +1,6 @@
 import {
-  Box,
+  Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -8,101 +9,152 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AlertS } from "../../../../helpers/AlertS";
 import { Toast } from "../../../../helpers/Toast";
-import SelectValues from "../../../../interfaces/Select/SelectValues";
 import { USUARIORESPONSE } from "../../../../interfaces/user/UserInfo";
 import { calculosServices } from "../../../../services/calculosServices";
-import { CatalogosServices } from "../../../../services/catalogosServices";
 import { getUser } from "../../../../services/localStorage";
-import SelectFrag from "../../Fragmentos/SelectFrag";
 
 export const AjISNModal = ({
   handleClose,
 }: {
-  handleClose: Function;
+  handleClose: () => void;
 }) => {
 
   const [anio, setAnio] = useState("");
-  const [listaFondos, setlistaFondos] = useState<SelectValues[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const user: USUARIORESPONSE = JSON.parse(String(getUser()));
+  const currentYear = new Date().getFullYear();
 
+  const validarAnio = (valor: string): boolean => {
+    if (valor === "") {
+      setError("El año es obligatorio");
+      return false;
+    }
 
-  const validacion = () => {
-    if (anio == "") {
+    const anioNum = parseInt(valor);
+
+    if (isNaN(anioNum) || anioNum < 1900 || anioNum > currentYear + 1) {
+      setError(`Ingresa un año válido entre 1900 y ${currentYear + 1}`);
+      return false;
+    }
+
+    setError("");
+    return true;
+  };
+
+  const handleAnioChange = (value: string) => {
+    setAnio(value);
+    if (value !== "") validarAnio(value);
+    else setError("");
+  };
+
+  const validacion = async () => {
+    if (!validarAnio(anio)) {
       AlertS.fire({
         title: "¡Error!",
-        text: "Favor de llenar los Campos*",
+        text: error || "Favor de ingresar un año válido",
         icon: "error",
       });
-    } else {
-      let data = {
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const mesCreacion = new Date().getMonth() + 1;
+
+      const data = {
         NUMOPERACION: 1,
-        P_ANIO: anio,
+        P_ANIO: parseInt(anio),
         P_USUARIO: user.Id,
+        P_MES: mesCreacion,
       };
-      calculosServices.AjusteISNIndex(data).then((res) => {
-        if (res.SUCCESS) {
-          Toast.fire({
-            icon: "success",
-            title: "¡Consulta Exitosa!",
-          });
-          handleClose();
-        } else {
-          AlertS.fire({
-            title: "¡Error!",
-            text: res.STRMESSAGE,
-            icon: "error",
-          });
-        }
+
+      const res = await calculosServices.AjusteISNIndex(data);
+
+      if (res.SUCCESS) {
+        Toast.fire({
+          icon: "success",
+          title: "¡Generación exitosa!",
+        });
+        handleClose();
+      } else {
+        AlertS.fire({
+          title: "¡Error!",
+          text: res.STRMESSAGE,
+          icon: "error",
+        });
+      }
+    } catch {
+      AlertS.fire({
+        title: "¡Error!",
+        text: "Error de conexión. Intenta nuevamente.",
+        icon: "error",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
-  
-
-  useEffect(() => {
-    
-  }, []);
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !loading) validacion();
+  };
 
   return (
-    <div>
-      <Box>
-        <Dialog open={true} fullScreen>
-          <DialogTitle>Generación de Ajuste Semestral</DialogTitle>
-          <DialogContent dividers={true}>
-            <Grid container spacing={1}>
-              <Grid item xs={12}>
-                <Typography sx={{ fontFamily: "sans-serif" }}>Año:</Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  margin="dense"
-                  id="anio"
-                  value={anio}
-                  type="number"
-                  fullWidth
-                  variant="standard"
-                  onChange={(v) => setAnio(v.target.value)}
-                  error={anio == "" ? true : false}
-                />
-              </Grid>
-            </Grid>
+    <Dialog open fullScreen onClose={() => !loading && handleClose()}>
+      <DialogTitle>Generación de Ajuste ISN</DialogTitle>
 
-          </DialogContent>
+      <DialogContent dividers>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography sx={{ fontWeight: 500 }}>
+              Año *
+            </Typography>
 
-          <DialogActions>
-            <button className="guardar" onClick={() => validacion()}>
-              Generar
-            </button>
-            <button className="salir" onClick={() => handleClose()}>
-              Salir
-            </button>
-          </DialogActions>
-        </Dialog>
-      </Box>
-    </div>
+            <TextField
+              fullWidth
+              type="number"
+              value={anio}
+              variant="outlined"
+              placeholder={`Ejemplo: ${currentYear}`}
+              onChange={(e) => handleAnioChange(e.target.value)}
+              onKeyPress={handleKeyPress}
+              error={!!error}
+              helperText={error || `Rango permitido: 1900 - ${currentYear + 1}`}
+              disabled={loading}
+              inputProps={{
+                min: 1900,
+                max: currentYear + 1,
+                step: 1,
+              }}
+              autoFocus
+            />
+          </Grid>
+        </Grid>
+      </DialogContent>
+
+      <DialogActions sx={{ p: 2, gap: 1 }}>
+        <Button
+          variant="contained"
+          disabled={loading || !!error || anio === ""}
+          onClick={validacion}
+          startIcon={loading && <CircularProgress size={20} />}
+        >
+          {loading ? "Generando..." : "Generar"}
+        </Button>
+
+        <Button
+          variant="outlined"
+          disabled={loading}
+          onClick={handleClose}
+        >
+          Salir
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
