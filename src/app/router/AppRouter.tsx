@@ -219,6 +219,9 @@ export const AppRouter = ({ login }: { login: boolean }) => {
         <Route path="/inicio/articulos/isnP/isnpDetalle/:id" element={ <IsnParticipacionDetalle/>}/>
         <Route path="/inicio/articulos/AS" element={<AjSemestral />} />
         <Route path="/inicio/articulos/AA" element={<Ajanual />} />
+        <Route path="/inicio/articulos/AISN" element={<AjISN />} />
+        <Route path="/inicio/articulos/AISN/AjISNDetalle/:anio" element={<AjISNDetalle />} />
+
         {/* FIN SECCION DE ARTICULOS */}
         <Route path="/inicio/coeficientes/fism" element={ <CalculoCoefFISM/> } />
         {/* SECCION PARTICIPACIONES FEDERALES Y ESTATALES */}
