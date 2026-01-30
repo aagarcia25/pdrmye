@@ -1,3 +1,4 @@
+import AutoModeIcon from "@mui/icons-material/AutoMode";
 import { useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { CatalogosServices } from "../../../../../services/catalogosServices";
@@ -15,6 +16,10 @@ import {
   ToggleButtonGroup,
   Tooltip,
 } from "@mui/material";
+import { IsnParticipacionModal } from "./IsnParticipacionModal";
+import { Toast } from "../../../../../helpers/Toast";
+import { AlertS } from "../../../../../helpers/AlertS";
+import { useNavigate } from "react-router-dom";
 
 const ISNParticipacion = () => {
 
@@ -24,6 +29,10 @@ const ISNParticipacion = () => {
 
   const [id, setid] = useState(0);
   const [modo, setModo] = useState(0);
+
+  const [openModal, setOpenModal] = useState(false);
+
+   const navigate = useNavigate();
 
 
   const consultaISNParticipacion = ( NUMOPERACION: number) => {
@@ -47,7 +56,11 @@ const ISNParticipacion = () => {
     // ISN Participación solo consulta (por ahora)
   };
 
-  
+  const handleclose = () => {
+    setOpenModal(false);
+    handleClick();
+  };
+
   const handleView = (v: any) => {
     consultaISNParticipacion(2)
     setModo(1);
@@ -59,6 +72,36 @@ const ISNParticipacion = () => {
     consultaISNParticipacion(1);
   }
 
+
+  const handleClick = () => {
+     
+      let data =  {
+      NUMOPERACION: 1,
+      IDISNP: id,
+      CHUSER: user.Id,
+    };
+      CatalogosServices.indexISNParticipacion(data).then((res: any) => {
+        if (res.SUCCESS) {
+          Toast.fire({
+            icon: "success",
+            title: "¡Consulta Exitosa!",
+          });
+          setData(res.RESPONSE);
+        } else {
+          AlertS.fire({
+            title: "¡Error!",
+            text: res.STRMESSAGE,
+            icon: "error",
+          });
+        }
+      });
+    };
+
+
+  const handleDetalle = (params: any) => {
+    const row = params.row;
+    navigate(`/inicio/articulos/isnP/isnpDetalle/${row.id}`);
+  };
 
   useEffect(() => {
     consultaISNParticipacion(1);
@@ -77,7 +120,7 @@ const ISNParticipacion = () => {
         return (
           <Box>
             <Tooltip title={"Ver Detalle"}>
-              <IconButton onClick={() => handleView(v)}>
+              <IconButton onClick={() => handleDetalle(v)}>
                 <RemoveRedEyeIcon />
               </IconButton>
             </Tooltip>
@@ -103,10 +146,28 @@ const ISNParticipacion = () => {
   ];
 
   return (
+    
 
     
     <div style={{ height: 600, width: "100%" }}>
       <h1>ISN Participación</h1>
+      {openModal ? <IsnParticipacionModal handleClose={handleclose} /> : ""}
+
+     
+     
+      
+
+        <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
+          <Tooltip title="Generar">
+            <ToggleButton
+              className="enviar-mensaje"
+              value="check"
+              onClick={() => setOpenModal(true)}
+              >
+                <AutoModeIcon />
+            </ToggleButton>
+          </Tooltip>
+        </ToggleButtonGroup>
 
         <div
           style={{
