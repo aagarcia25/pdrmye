@@ -168,7 +168,7 @@ const ModalNew = ({
 
     buildFormData("RefrendosICV");
     if (!formData) return;
-
+    console.log("FormData preparada para ICV:", formData);
     CatalogosServices.migraData(formData).then((res) => {
       if (res.SUCCESS) {
         Toast.fire({ icon: "success", title: "Carga Exitosa!" });
