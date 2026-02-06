@@ -84,13 +84,35 @@ export const postReporte = async function (url: string, body: any , name:string)
 };
 
 
+// export const postDoc = async function (url: string, body: any) {
+//     let header = await getHeaderInfo();
+//     try {
+//         let resp = await axios.post(process.env.REACT_APP_APPLICATION_BASE_URL + url, body, header)
+//     return handleResponseDoc(resp);
+//     } catch (err: any) {
+//         return handleResponseDoc(err.response)
+//     }
+// };
 export const postDoc = async function (url: string, body: any) {
-    let header = await getHeaderInfo();
+    // 1. Obtenemos la config (la tratamos como any para poder manipularla)
+    let config: any = await getHeaderInfo();
+
+    if (body instanceof FormData) {
+        // 2. Ahora TypeScript no se quejará porque 'config' es 'any'
+        if (config.headers && config.headers['Content-Type']) {
+            delete config.headers['Content-Type'];
+        }
+    }
+
     try {
-        let resp = await axios.post(process.env.REACT_APP_APPLICATION_BASE_URL + url, body, header)
-    return handleResponseDoc(resp);
+        let resp = await axios.post(
+            process.env.REACT_APP_APPLICATION_BASE_URL + url, 
+            body, 
+            config
+        );
+        return handleResponseDoc(resp);
     } catch (err: any) {
-        return handleResponseDoc(err.response)
+        return handleResponseDoc(err.response);
     }
 };
 
