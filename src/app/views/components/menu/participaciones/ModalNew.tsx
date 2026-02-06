@@ -154,7 +154,19 @@ const ModalNew = ({
   };
 
   const icv = () => {
-    const formData = buildFormData("RefrendosICV");
+    const formData =new FormData();
+    // Importante: manda el file real y su nombre real
+    if (file) formData.append("inputfile", file, file.name);
+    formData.append("tipo", "RefrendosICV");
+    formData.append("CHUSER", String(user.Id));
+    formData.append("ANIO", String(year));
+    formData.append("MES", String(idmes));
+    formData.append("CLAVE", String(clave));
+    formData.append("TIPOCALCULO", String(idTipoCalculo));
+    formData.append("DIST", disti ? "1" : "0");
+    formData.append("IDVERSION", String(idVersionCalculo));
+
+    buildFormData("RefrendosICV");
     if (!formData) return;
 
     CatalogosServices.migraData(formData).then((res) => {
