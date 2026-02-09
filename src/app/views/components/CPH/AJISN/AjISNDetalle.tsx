@@ -122,6 +122,11 @@ export const AjISNDetalle = () => {
       headerName: "Coeficiente",
       width: 140,
     },
+    {
+      field: "ajuste",
+      headerName: "Ajuste",
+      width: 140,
+    },
   ];
 
   useEffect(() => {
