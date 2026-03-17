@@ -57,6 +57,10 @@ export class calculosServices {
     return await post("calculogarantiaisn", data);
   }
 
+  public static async coefFISM(data: any) {
+    return await post("CoefFISM", data);
+  }
+
   public static async setGarantiaDesdeISN(data: any) {
     return await post("actualizarGarantiaDesdeISN", data);
   }
@@ -91,6 +95,14 @@ export class calculosServices {
 
   public static async AjusteAnualIndex(data: any) {
     return await post("AjusteAnualIndex", data);
+  }
+
+  public static async AjusteISNIndex(data: any){
+    return await post("AjusteISN", data);
+  }
+
+  public static async IsnParticipacion(data:any){
+    return await post("indexISNParticipacion",data);
   }
 
   public static async aprovarcalculoanual(data: any) {

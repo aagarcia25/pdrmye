@@ -117,9 +117,15 @@ const ISAI = () => {
   const handleUpload = (data: any) => {
     var event: React.ChangeEvent<HTMLInputElement> = data.data;
     setslideropen(true);
-    let file = event.target?.files?.[0] || "";
+    const file = event.target?.files?.[0];
+
+    if (!file) {
+      console.error("No se seleccionó archivo");
+      return;
+    }
+    
     const formData = new FormData();
-    formData.append("inputfile", file, "inputfile.xlxs");
+    formData.append("inputfile", file, "inputfile.xlsx");
     formData.append("NUMOPERACION", "1");
     formData.append("CHUSER", user.Id);
     CatalogosServices.MUNISAI(formData).then((res) => {

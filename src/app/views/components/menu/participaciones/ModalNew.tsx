@@ -39,26 +39,30 @@ const ModalNew = ({
   resetSelect: string;
 }) => {
   const user: USUARIORESPONSE = JSON.parse(String(getUser()));
+
   const [year, setyear] = useState<number>();
   const [slideropen, setslideropen] = useState(true);
-  //LLENADO DE FILTRO
+
+  // LLENADO DE FILTRO
   const [mes, setMeses] = useState<SelectValues[]>([]);
   const [tipoCalculo, setTipoCalculo] = useState<SelectValues[]>([]);
   const [versionCalculo, setversionCalculo] = useState<SelectValues[]>([]);
 
-  //SETEO DE VALORES DE FILTRO
+  // SETEO DE VALORES DE FILTRO
   const [idmes, setIdmes] = useState("");
   const [idTipoCalculo, setIdTipoCalculo] = useState("");
   const [idVersionCalculo, setIdVersionCalculo] = useState("");
+
   // VARIABLES
   const [monto, setMonto] = useState<number>();
   const [ieja, setieja] = useState<number>();
   const [derecho, setDerecho] = useState<number>();
-
   const [montoAnual, setMontoAnual] = useState<number>();
 
+  // ARCHIVO
   const [nameNewDoc, setNameNewDoc] = useState("");
-  const [file, setFile] = useState(Object);
+  const [file, setFile] = useState<File | null>(null);
+
   const [Czero, setCzero] = useState<boolean>(false);
   const [disti, setDisti] = useState<boolean>(false);
   const [dises, setDises] = useState<boolean>(false);
@@ -75,234 +79,259 @@ const ModalNew = ({
     setIdVersionCalculo(String(v));
   };
 
-  const handleNewFile = (event: any) => {
-    setFile(event?.target?.files?.[0] || "");
-    if (event.target.files.length == 0) {
-    } else {
-      setNameNewDoc(event.target!.files[0]!.name);
-    }
+  const handleNewFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const f = event.target.files?.[0] ?? null;
+    setFile(f);
+    setNameNewDoc(f?.name ?? "");
   };
 
   const parametros = () => {
-    let data = {
+    const data = {
       NUMOPERACION: 5,
       NOMBRE: "ANIO_OPERACION",
     };
+
     ParametroServices.ParametroGeneralesIndex(data).then((res) => {
       setyear(Number(res.RESPONSE.Valor));
     });
   };
 
-  const icv2 = () => {
+  const buildFormData = (tipo: string) => {
+    if (!file) {
+      AlertS.fire({
+        title: "¡Error!",
+        text: "Favor de cargar un archivo.",
+        icon: "error",
+      });
+      return null;
+    }
+
+    if (!year) {
+      AlertS.fire({
+        title: "¡Error!",
+        text: "Aún no se ha cargado el año de operación. Intenta de nuevo.",
+        icon: "error",
+      });
+      return null;
+    }
+
+    if (!idmes || idmes === "false" || !idTipoCalculo || idTipoCalculo === "false") {
+      AlertS.fire({
+        title: "¡Error!",
+        text: "Favor de completar los campos (Mes y Tipo de Cálculo).",
+        icon: "error",
+      });
+      return null;
+    }
+
     const formData = new FormData();
-    formData.append("inputfile", file, "inputfile.xlsx");
-    formData.append("tipo", "ICV");
-    formData.append("CHUSER", user.Id);
+    // Importante: manda el file real y su nombre real
+    formData.append("inputfile", file, file.name);
+    formData.append("tipo", tipo);
+    formData.append("CHUSER", String(user.Id));
     formData.append("ANIO", String(year));
-    formData.append("MES", idmes);
-    formData.append("CLAVE", clave);
-    formData.append("TIPOCALCULO", idTipoCalculo);
+    formData.append("MES", String(idmes));
+    formData.append("CLAVE", String(clave));
+    formData.append("TIPOCALCULO", String(idTipoCalculo));
     formData.append("DIST", disti ? "1" : "0");
-    formData.append("IDVERSION", idVersionCalculo);
+    formData.append("IDVERSION", String(idVersionCalculo));
+
+    return formData;
+  };
+
+  const icv2 = () => {
+    const formData = buildFormData("ICV");
+    if (!formData) return;
+
     CatalogosServices.migraData(formData).then((res) => {
       if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Carga Exitosa!",
-        });
-
+        Toast.fire({ icon: "success", title: "Carga Exitosa!" });
         onClickBack();
       } else {
-        AlertS.fire({
-          title: "¡Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
+        AlertS.fire({ title: "¡Error!", text: res.STRMESSAGE, icon: "error" });
       }
     });
   };
 
   const icv = () => {
-    const formData = new FormData();
-    formData.append("inputfile", file, "inputfile.xlsx");
+    const formData =new FormData();
+    // Importante: manda el file real y su nombre real
+    if (file) formData.append("inputfile", file, file.name);
     formData.append("tipo", "RefrendosICV");
-    formData.append("CHUSER", user.Id);
+    formData.append("CHUSER", String(user.Id));
     formData.append("ANIO", String(year));
-    formData.append("MES", idmes);
-    formData.append("CLAVE", clave);
-    formData.append("TIPOCALCULO", idTipoCalculo);
+    formData.append("MES", String(idmes));
+    formData.append("CLAVE", String(clave));
+    formData.append("TIPOCALCULO", String(idTipoCalculo));
     formData.append("DIST", disti ? "1" : "0");
-    formData.append("IDVERSION", idVersionCalculo);
+    formData.append("IDVERSION", String(idVersionCalculo));
+
+    buildFormData("RefrendosICV");
+    if (!formData) return;
+    console.log("FormData preparada para ICV:", formData);
     CatalogosServices.migraData(formData).then((res) => {
       if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Carga Exitosa!",
-        });
-
+        Toast.fire({ icon: "success", title: "Carga Exitosa!" });
         onClickBack();
       } else {
-        AlertS.fire({
-          title: "¡Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
+        AlertS.fire({ title: "¡Error!", text: res.STRMESSAGE, icon: "error" });
       }
     });
   };
 
   const isrnomina = () => {
-    const formData = new FormData();
-    formData.append("inputfile", file, "inputfile.xlsx");
-    formData.append("tipo", "ISRNOMINA");
-    formData.append("CHUSER", user.Id);
-    formData.append("ANIO", String(year));
-    formData.append("MES", idmes);
+    // ISR Nómina trae IMPORTE=0 en tu lógica original
+    const formData = buildFormData("ISRNOMINA");
+    if (!formData) return;
+
     formData.append("IMPORTE", "0");
-    formData.append("TIPOCALCULO", idTipoCalculo);
-    formData.append("DIST", disti ? "1" : "0");
-    formData.append("IDVERSION", idVersionCalculo);
+
     CatalogosServices.migraData(formData).then((res) => {
       if (res.SUCCESS) {
-        Toast.fire({
-          icon: "success",
-          title: "Carga Exitosa!",
-        });
-
+        Toast.fire({ icon: "success", title: "Carga Exitosa!" });
         onClickBack();
       } else {
-        AlertS.fire({
-          title: "¡Error!",
-          text: res.STRMESSAGE,
-          icon: "error",
-        });
+        AlertS.fire({ title: "¡Error!", text: res.STRMESSAGE, icon: "error" });
       }
     });
   };
 
   const handleChange = (value: number) => {
     setMonto(Number(value));
-    
-    if (Number(value) == 0) {
-      setCzero(true);
-    } else {
-      setCzero(false);
-    }
+    setCzero(Number(value) === 0);
   };
 
   const handleChangeAnual = (value: number) => {
     setMontoAnual(Number(value));
   };
- 
-  
 
   const handleSend = () => {
-    let data = {};
+    // RUTAS CON ARCHIVO
     if (
-      clave == "HIDROCARBUROS" ||
-      clave == "FOINMUN" ||
-      clave == "ISN100" ||
-      clave == "PREDIAL"
+      clave === "HIDROCARBUROS" ||
+      clave === "FOINMUN" ||
+      clave === "ISN100" ||
+      clave === "PREDIAL"
     ) {
       icv();
-    } else if (clave == "ISR SALARIOS") {
-      isrnomina();
-    } else if (clave == "ICV") {
-      icv2();
-    } else {
-      if (
-        monto == null ||
-        //   ieja == null ||
-        idmes == null ||
-        idTipoCalculo == null ||
-        idmes == "false" ||
-        idTipoCalculo == "false"
-        //      derecho == null
-      ) {
-        AlertS.fire({
-          title: "¡Error!",
-          text: "Favor de Completar los Campos",
-          icon: "error",
-        });
-      } else {
-        if(dises){
-          data = {
-            CLAVEFONDO: clave,
-            CHUSER: user.Id,
-            IMPORTE: monto,
-            IMPORTE_ANUAL: montoAnual,
-            ANIO: year,
-            MES: idmes,
-            ZERO: Czero,
-            TIPOCALCULO: idTipoCalculo,
-            IEJA: ieja,
-            DERECHO: derecho,
-            IDVERSION: idVersionCalculo,
-            P_DIST: disti ? 1 : 0,
-            P_DISES: dises ? 1 : 0,
-          };
-        }else{
-          data = {
-            CLAVEFONDO: clave,
-            CHUSER: user.Id,
-            IMPORTE: monto,
-            ANIO: year,
-            MES: idmes,
-            ZERO: Czero,
-            TIPOCALCULO: idTipoCalculo,
-            IEJA: ieja,
-            DERECHO: derecho,
-            IDVERSION: idVersionCalculo,
-            P_DIST: disti ? 1 : 0,
-          };
-        }
-        
-
-        calculosServices.CalculoPrincipalindex(data).then((res) => {
-          if (res.SUCCESS) {
-            Toast.fire({
-              icon: "success",
-              title: "¡Registro Agregado!",
-            });
-            onClickBack();
-          } else {
-            AlertS.fire({
-              title: "¡Error!",
-              text: res.STRMESSAGE,
-              icon: "error",
-            });
-          }
-        });
-      }
+      return;
     }
+
+    if (clave === "ISR SALARIOS") {
+      isrnomina();
+      return;
+    }
+
+    if (clave === "ICV") {
+      icv2();
+      return;
+    }
+
+    // RUTAS SIN ARCHIVO (CÁLCULO NORMAL)
+    if (!year) {
+      AlertS.fire({
+        title: "¡Error!",
+        text: "Aún no se ha cargado el año de operación. Intenta de nuevo.",
+        icon: "error",
+      });
+      return;
+    }
+
+    if (
+      monto == null ||
+      idmes == null ||
+      idTipoCalculo == null ||
+      idmes === "false" ||
+      idTipoCalculo === "false" ||
+      idmes === "" ||
+      idTipoCalculo === ""
+    ) {
+      AlertS.fire({
+        title: "¡Error!",
+        text: "Favor de Completar los Campos",
+        icon: "error",
+      });
+      return;
+    }
+
+    let data: any = {};
+
+    if (dises) {
+      data = {
+        CLAVEFONDO: clave,
+        CHUSER: user.Id,
+        IMPORTE: monto,
+        IMPORTE_ANUAL: montoAnual,
+        ANIO: year,
+        MES: idmes,
+        ZERO: Czero,
+        TIPOCALCULO: idTipoCalculo,
+        IEJA: ieja,
+        DERECHO: derecho,
+        IDVERSION: idVersionCalculo,
+        P_DIST: disti ? 1 : 0,
+        P_DISES: dises ? 1 : 0,
+      };
+    } else {
+      data = {
+        CLAVEFONDO: clave,
+        CHUSER: user.Id,
+        IMPORTE: monto,
+        ANIO: year,
+        MES: idmes,
+        ZERO: Czero,
+        TIPOCALCULO: idTipoCalculo,
+        IEJA: ieja,
+        DERECHO: derecho,
+        IDVERSION: idVersionCalculo,
+        P_DIST: disti ? 1 : 0,
+      };
+    }
+
+    calculosServices.CalculoPrincipalindex(data).then((res) => {
+      if (res.SUCCESS) {
+        Toast.fire({ icon: "success", title: "¡Registro Agregado!" });
+        onClickBack();
+      } else {
+        AlertS.fire({ title: "¡Error!", text: res.STRMESSAGE, icon: "error" });
+      }
+    });
   };
 
   const loadFilter = (operacion: number) => {
     const meses = [
-      "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-      "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "Abril",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Agosto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre",
     ];
 
-    let mesNombre = meses[new Date().getMonth()];
-    console.log("Este es el mes");
-    console.log(mesNombre);
+    const mesNombre = meses[new Date().getMonth()];
+    const data = { NUMOPERACION: operacion, CHID: clave, P_MES: mesNombre };
 
-    let data = { NUMOPERACION: operacion, CHID: clave, P_MES: mesNombre };
     CatalogosServices.SelectIndex(data).then((res) => {
-      if (operacion == 2) {
+      if (operacion === 2) {
         setMeses(res.RESPONSE);
-      } else if (operacion == 15) {
+      } else if (operacion === 15) {
         setTipoCalculo(res.RESPONSE);
-      } else if (operacion == 23) {
+      } else if (operacion === 23) {
         setversionCalculo(res.RESPONSE);
-        setIdVersionCalculo(res.RESPONSE[0]["value"]);
+        setIdVersionCalculo(res.RESPONSE?.[0]?.["value"] ?? "");
         setslideropen(false);
-      } else if (operacion == 35) {
+      } else if (operacion === 35) {
         setversionCalculo(res.RESPONSE);
-        setIdVersionCalculo(res.RESPONSE[0]["value"]);
+        setIdVersionCalculo(res.RESPONSE?.[0]?.["value"] ?? "");
         setslideropen(false);
-      } else if(operacion == 51){
-        setTipoCalculo(res.RESPONSE)
+      } else if (operacion === 51) {
+        setTipoCalculo(res.RESPONSE);
       }
     });
   };
@@ -323,23 +352,38 @@ const ModalNew = ({
     parametros();
     loadFilter(2);
 
-    if(clave == 'FGP' || clave == 'FFM30' || clave == 'FFM70' || clave == 'IEPS' || clave == 'FOFIR'){
+    if (
+      clave === "FGP" ||
+      clave === "FFM30" ||
+      clave === "FFM70" ||
+      clave === "IEPS" ||
+      clave === "FOFIR"
+    ) {
       loadFilter(51);
-    }else{
+    } else {
       loadFilter(15);
     }
 
-    if (clave == "FFM30") {
+    if (clave === "FFM30") {
       loadFilter(23);
     } else {
       loadFilter(35);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const disableCalcular =
+    !year ||
+    idmes === "false" ||
+    idmes === "" ||
+    idTipoCalculo === "false" ||
+    idTipoCalculo === "";
 
   return (
     <div>
       <Slider open={slideropen}></Slider>
-      <Grid container spacing={1} sx={{}}>
+
+      <Grid container spacing={1}>
         <Grid item xs={3} md={2.1} lg={2.5}>
           <BtnRegresar onClick={onClickBack} />
         </Grid>
@@ -347,22 +391,16 @@ const ModalNew = ({
 
       <Grid container spacing={1} sx={{ justifyContent: "center" }}>
         <Grid item xs={12} sm={12} md={12} sx={{ textAlign: "center" }}>
-          <Typography sx={{ fontFamily: "MontserratMedium" }}>
-            {titulo}
-          </Typography>
+          <Typography sx={{ fontFamily: "MontserratMedium" }}>{titulo}</Typography>
         </Grid>
 
         <Grid item xs={12} sm={12} md={12}>
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
             <Grid item xs={3} sm={6} md={6} sx={{ textAlign: "right" }}>
-              <Typography sx={{ fontFamily: "MontserratMedium" }}>
-                Año:
-              </Typography>
+              <Typography sx={{ fontFamily: "MontserratMedium" }}>Año:</Typography>
             </Grid>
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "left" }}>
-              <Typography sx={{ fontFamily: "MontserratMedium" }}>
-                {year}
-              </Typography>
+              <Typography sx={{ fontFamily: "MontserratMedium" }}>{year}</Typography>
             </Grid>
           </Grid>
         </Grid>
@@ -370,9 +408,7 @@ const ModalNew = ({
         <Grid item xs={12} sm={12} md={12}>
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
             <Grid item xs={3} sm={6} md={6} sx={{ textAlign: "right" }}>
-              <Typography sx={{ fontFamily: "MontserratMedium" }}>
-                Mes:
-              </Typography>
+              <Typography sx={{ fontFamily: "MontserratMedium" }}>Mes:</Typography>
             </Grid>
 
             <Grid item xs={6} sm={2} md={2} sx={{ textAlign: "left" }}>
@@ -383,7 +419,7 @@ const ModalNew = ({
                 placeholder={"Seleccione el Mes"}
                 label={""}
                 disabled={false}
-              ></SelectFrag>
+              />
             </Grid>
             <Grid item xs={4} sm={4} md={4}></Grid>
           </Grid>
@@ -404,32 +440,28 @@ const ModalNew = ({
                 placeholder={"Seleccione el Tipo de Cálculo"}
                 label={""}
                 disabled={false}
-              ></SelectFrag>
+              />
             </Grid>
             <Grid item xs={4} sm={4} md={4}></Grid>
           </Grid>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={12}>
+        <Grid item xs={12} sm={12} md={12} sx={{ justifyContent: "center" }}>
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "right" }}>
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
                 <TooltipPersonalizado
                   title={
                     <React.Fragment>
-                      {/* <h3 className="h3-justify"> */}
                       {
                         "Si se activa esta opción el cálculo se realizará tomando la proporción de garantía del fondo"
                       }
-                      {/* </h3> */}
                     </React.Fragment>
                   }
                 >
                   <FormControlLabel
                     value={disti}
-                    control={
-                      <Checkbox checked={disti} onChange={handleChangedisti} />
-                    }
+                    control={<Checkbox checked={disti} onChange={handleChangedisti} />}
                     label="Distribuir por Garantía"
                   />
                 </TooltipPersonalizado>
@@ -447,7 +479,7 @@ const ModalNew = ({
           md={12}
           sx={{
             justifyContent: "center",
-            display: clave == "FFM30" || clave == "FGP" ? "block" : "none",
+            display: clave === "FFM30" || clave === "FGP" ? "block" : "none",
           }}
         >
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
@@ -464,7 +496,7 @@ const ModalNew = ({
                 placeholder={"Seleccione la versión"}
                 label={""}
                 disabled={false}
-              ></SelectFrag>
+              />
             </Grid>
             <Grid item xs={4} sm={4} md={4}></Grid>
           </Grid>
@@ -493,9 +525,7 @@ const ModalNew = ({
         >
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
             <Grid item xs={3} sm={6} md={6} sx={{ textAlign: "right" }}>
-              <Typography sx={{ fontFamily: "MontserratMedium" }}>
-                Importe:
-              </Typography>
+              <Typography sx={{ fontFamily: "MontserratMedium" }}>Importe:</Typography>
             </Grid>
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "left" }}>
               <TextFieldFormatoMoneda
@@ -516,7 +546,7 @@ const ModalNew = ({
           md={12}
           sx={{
             justifyContent: "center",
-            display: clave == "FOSEGMUN" ? "block" : "none",
+            display: clave === "FOSEGMUN" ? "block" : "none",
           }}
         >
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
@@ -531,18 +561,15 @@ const ModalNew = ({
                 required
                 placeholder="1500000*"
                 id="ieja"
-                onChange={(v) => {
-                  setieja(Number(v.target.value));
-                }}
-                onPaste={(e) => e.preventDefault()} // Prevenir la acción de pegar
+                onChange={(v) => setieja(Number(v.target.value))}
+                onPaste={(e) => e.preventDefault()}
                 error={ieja ? false : true}
                 type="number"
-                startAdornment={
-                  <InputAdornment position="start">$</InputAdornment>
-                }
-              ></Input>
+                startAdornment={<InputAdornment position="start">$</InputAdornment>}
+              />
             </Grid>
           </Grid>
+
           <Grid container spacing={1} sx={{ justifyContent: "center" }}>
             <Grid
               item
@@ -553,17 +580,10 @@ const ModalNew = ({
               justifyContent="flex-end"
               sx={{ textAlign: "right", alignContent: "right" }}
             >
-              <Grid
-                item
-                xs={12}
-                sm={12}
-                md={11}
-                lg={6}
-                sx={{ textAlign: "right" }}
-              >
+              <Grid item xs={12} sm={12} md={11} lg={6} sx={{ textAlign: "right" }}>
                 <Typography sx={{ fontFamily: "MontserratMedium" }}>
-                  Derechos por los servicios de Supervisión, Control y
-                  Expedición de Constancias de Ingreso:
+                  Derechos por los servicios de Supervisión, Control y Expedición de
+                  Constancias de Ingreso:
                 </Typography>
               </Grid>
             </Grid>
@@ -572,21 +592,17 @@ const ModalNew = ({
                 sx={{ paddingTop: 2, fontWeight: "MontserratMedium" }}
                 required
                 placeholder="1500000*"
-                id="ieja"
-                onChange={(v) => {
-                  setDerecho(Number(v.target.value));
-                }}
-                onPaste={(e) => e.preventDefault()} // Prevenir la acción de pegar
+                id="derecho"
+                onChange={(v) => setDerecho(Number(v.target.value))}
+                onPaste={(e) => e.preventDefault()}
                 error={derecho ? false : true}
                 type="number"
-                startAdornment={
-                  <InputAdornment position="start">$</InputAdornment>
-                }
-              ></Input>
+                startAdornment={<InputAdornment position="start">$</InputAdornment>}
+              />
             </Grid>
           </Grid>
         </Grid>
-        
+
         <Grid
           item
           xs={12}
@@ -594,10 +610,10 @@ const ModalNew = ({
           md={12}
           sx={{
             justifyContent: "center",
-            display: clave == "FISM" ? "block" : "none",
+            display: clave === "FISM" ? "block" : "none",
           }}
         >
-<Grid container spacing={1} sx={{ justifyContent: "center" }}>
+          <Grid container spacing={1} sx={{ justifyContent: "center" }}>
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "right" }}>
               <Typography sx={{ fontFamily: "MontserratMedium" }}>
                 <TooltipPersonalizado
@@ -611,40 +627,34 @@ const ModalNew = ({
                 >
                   <FormControlLabel
                     value={dises}
-                    control={
-                      <Checkbox checked={dises} onChange={handleChangedises} />
-                    }
+                    control={<Checkbox checked={dises} onChange={handleChangedises} />}
                     label="Distibución Especial"
                   />
                 </TooltipPersonalizado>
               </Typography>
             </Grid>
-
             <Grid item xs={4} sm={4} md={4}></Grid>
           </Grid>
-{
- dises && (
-    <Grid container spacing={1} sx={{ justifyContent: "center" }}>
-            <Grid item xs={3} sm={6} md={6} sx={{ textAlign: "right" }}>
-              <Typography sx={{ fontFamily: "MontserratMedium" }}>
-                Importe Anual:
-              </Typography>
-            </Grid>
-            <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "left" }}>
-              <TextFieldFormatoMoneda
-                disable={false}
-                valor={0}
-                handleSetValor={handleChangeAnual}
-                error={!montoAnual}
-                modo={"moneda"}
-              />
-            </Grid>
-          </Grid>
-  )
-}
 
+          {dises && (
+            <Grid container spacing={1} sx={{ justifyContent: "center" }}>
+              <Grid item xs={3} sm={6} md={6} sx={{ textAlign: "right" }}>
+                <Typography sx={{ fontFamily: "MontserratMedium" }}>
+                  Importe Anual:
+                </Typography>
+              </Grid>
+              <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "left" }}>
+                <TextFieldFormatoMoneda
+                  disable={false}
+                  valor={0}
+                  handleSetValor={handleChangeAnual}
+                  error={!montoAnual}
+                  modo={"moneda"}
+                />
+              </Grid>
+            </Grid>
+          )}
         </Grid>
-
 
         <Grid
           item
@@ -654,12 +664,12 @@ const ModalNew = ({
           sx={{
             justifyContent: "center",
             display:
-              clave == "ICV" ||
-              clave == "ISN100" ||
-              clave == "PREDIAL" ||
-              clave == "HIDROCARBUROS" ||
-              clave == "FOINMUN" ||
-              clave == "ISR SALARIOS"
+              clave === "ICV" ||
+              clave === "ISN100" ||
+              clave === "PREDIAL" ||
+              clave === "HIDROCARBUROS" ||
+              clave === "FOINMUN" ||
+              clave === "ISR SALARIOS"
                 ? "block"
                 : "none",
           }}
@@ -680,21 +690,10 @@ const ModalNew = ({
                 Cargar Archivo:
               </Typography>
             </Grid>
+
             <Grid item xs={6} sm={6} md={6} sx={{ textAlign: "left" }}>
-              <IconButton
-                aria-label="upload picture"
-                component="label"
-                size="large"
-              >
-                <input
-                  id="ICV"
-                  required
-                  type="file"
-                  hidden
-                  onChange={(event) => {
-                    handleNewFile(event);
-                  }}
-                />
+              <IconButton aria-label="upload picture" component="label" size="large">
+                <input id="ICV" required type="file" hidden onChange={handleNewFile} />
                 <UploadFileIcon />
               </IconButton>
 
@@ -708,18 +707,12 @@ const ModalNew = ({
         <Grid item xs={9} sm={9} md={1} sx={{ textAlign: "center" }}>
           <Button
             className="enviar-mensaje"
-            disabled={
-              idmes == "false" ||
-              idmes == "" ||
-              idTipoCalculo == "false" ||
-              idTipoCalculo == ""
-            }
-            onClick={() => handleSend()}
+            disabled={disableCalcular}
+            onClick={handleSend}
             fullWidth
             variant="contained"
           >
-            {" "}
-            <Typography color="white"> Calcular </Typography>
+            <Typography color="white">Calcular</Typography>
           </Button>
         </Grid>
       </Grid>
