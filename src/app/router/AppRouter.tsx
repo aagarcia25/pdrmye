@@ -21,6 +21,7 @@ import { ListNotification } from "../views/components/ListNotification";
 import AgregarContactoMunicipio from "../views/components/Municipios/AgregarContactoMunicipio";
 import ContactoMunicipios from "../views/components/Municipios/ContactoMunicipios";
 import { Reporteador } from "../views/components/Reportes/Reporteador";
+import { Concentrado } from "../views/components/Reportes/Concentrado";
 import { Art14f } from "../views/components/menu/articulos/Art14f";
 import Art14fP from "../views/components/menu/articulos/Art14fP";
 import { CalculoGarantiaComponente } from "../views/components/menu/articulos/CalculoGarantia/CalculoGarantiaComponente";
@@ -308,6 +309,10 @@ export const AppRouter = ({ login }: { login: boolean }) => {
         <Route
           path="/estadisticas/reportes"
           element={log ? <Reporteador /> : <AuthRouter />}
+        />
+        <Route
+          path="/estadisticas/concentrado"
+          element={log ? <Concentrado/> : <AuthRouter/>}
         />
         {/* /// herramientas */}
       </Routes>

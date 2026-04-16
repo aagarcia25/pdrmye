@@ -15,6 +15,10 @@ export class ReportesServices {
         return await postReporte('handleReport', data,name);
     }
 
+    public static async handleReportConcentrado(data: any,name: string) {
+        return await postReporte('handleReportConcentrado', data,name);
+    }
+
     public static async handleTipoExportacion(data: any) {
         return await post('handleTipoExportacion', data);
     }
