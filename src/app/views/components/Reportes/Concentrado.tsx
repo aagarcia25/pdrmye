@@ -18,9 +18,21 @@ export const Concentrado = () => {
   const [anio, setAnio] = useState<string>("");
   const [reporte, setReporte] = useState<IReportes>();
 
+  const [tipoReporte, setTipoReporte] = useState<string>("");
+
+  const tiposReporte: SelectValues[] = [
+  { label: "Distribución", value: "distribucion" },
+  { label: "Montos ingresados", value: "montos" }
+];
+
   const handleFilterChangeAnio = (v: string) => {
     setAnio(v);
+    
   };
+
+  const handleTipoReporteChange = (v: string) => {
+  setTipoReporte(v);
+};
 
   const loadFilter = (tipo: number) => {
     const data = {
@@ -56,6 +68,7 @@ export const Concentrado = () => {
       CHID: reporte?.id,
       AUXILIAR: reporte?.Auxiliar,
       P_ANIO: anio,
+      P_TIPO_REPORTE: tipoReporte
     };
 
     axios
@@ -86,6 +99,8 @@ export const Concentrado = () => {
         document.body.removeChild(link);
         window.URL.revokeObjectURL(link.href);
         setOpenSlider(false);
+
+        
     })
       .catch((error) => {
         console.error(error);
@@ -113,6 +128,19 @@ export const Concentrado = () => {
       >
 
          <Titulo name={"Reporte de Concentrado Anual"}></Titulo>
+
+        {/* Tipo de reporte */}
+        <Box>
+          <InputLabel sx={{ mb: 0.5 }}>Tipo de reporte:</InputLabel>
+          <SelectFrag
+            value={tipoReporte}
+            options={tiposReporte}
+            onInputChange={handleTipoReporteChange}
+            placeholder={"Seleccione tipo de reporte"}
+            label={""}
+            disabled={false}
+          />
+        </Box>
 
         {/* Año */}
         <Box>
