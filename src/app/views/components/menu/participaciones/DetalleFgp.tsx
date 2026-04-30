@@ -88,6 +88,7 @@ const DetalleFgp = ({
   const [visibleselect, setvisibleselect] = useState<Number>(0);
   const [importemensual, setimportemensual] = useState<Number>();
   const [showDecimal, setshowDecimal] = useState<boolean>(false);
+  
 
   const handleClick = () => {
     setshowDecimal(!showDecimal);
@@ -410,7 +411,8 @@ const DetalleFgp = ({
         setData(res.RESPONSE);
         var sumatotal = 0;
         res.RESPONSE.map((item: FPGDetalle) => {
-          sumatotal = sumatotal + Number(item.total);
+          const valor = clave === "ISR SALARIOS" ? Number((item as any).Total)  : Number(item.total);
+          sumatotal = sumatotal + valor;
           setSumaTotal(sumatotal);
         });
       } else {
@@ -513,6 +515,95 @@ const DetalleFgp = ({
       },
     },
   ];
+
+  const columnsISNSALARIOS = [
+    {
+      field: "id",
+      headerName: "Identificador",
+      width: 150,
+      hide: true,
+      hideable: false,
+    },
+    {
+      field: "ClaveEstado",
+      headerName: "Clave Estado",
+      width: 150,
+      description: "Identificador del Municipio",
+    },
+    {
+      field: "Nombre",
+      headerName: "Municipio",
+      width: 250,
+      description: "Nombre del Municipio",
+    },
+    {
+      field: "Mensual",
+      headerName: "Mensual",
+      width: 180,
+      description: "Monto mensual",
+      ...Moneda,
+    },
+    {
+      field: "Liberados",
+      headerName: "Liberados",
+      width: 180,
+      description: "Montos liberados",
+      ...Moneda,
+    },
+    {
+      field: "Suspendidos",
+      headerName: "Suspendidos",
+      width: 180,
+      description: "Montos suspendidos",
+      ...Moneda,
+    },
+    {
+      field: "Devoluciones",
+      headerName: "Devoluciones",
+      width: 180,
+      description: "Devoluciones",
+      ...Moneda,
+    },
+    {
+      field: "Total",
+      headerName: "Total",
+      width: 220,
+      description: "Total",
+      ...Moneda,
+      renderHeader: () => (
+        <>{"Total: " + currencyFormatter.format(Number(sumaTotal))}</>
+      ),
+    },
+    {
+      disableExport: true,
+      field: "acciones",
+      headerName: "Acciones",
+      description: "Acciones",
+      sortable: false,
+      width: 150,
+      renderCell: (v: any) => {
+        return (
+          <Box>
+            {ajustar ? (
+              <Tooltip title="Ajustar Cifra">
+                <IconButton onClick={() => handleAjustar(v)}>
+                  <MonetizationOnIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
+          </Box>
+        );
+      },
+    },
+  ];
+
+  let column = 
+  clave === "ISR SALARIOS"
+    ? columnsISNSALARIOS
+    : columns
+  
 
   const columnssinde = [
     {
@@ -650,7 +741,7 @@ const DetalleFgp = ({
     EstatusCalculo();
     getResponsable();
     init({ P_ID: idDetalle });
-    consulta({ IDCALCULOTOTAL: idDetalle });
+    consulta({ IDCALCULOTOTAL: idDetalle, CLAVE:clave });
   }, []);
 
   return (
@@ -898,7 +989,7 @@ const DetalleFgp = ({
             </Box>
 
             <MUIXDataGrid
-              columns={columns}
+              columns={column}
               rows={data}
               modulo={nombreFondo + " " + tipoCalculo + "-" + mes + "-" + anio}
             />
