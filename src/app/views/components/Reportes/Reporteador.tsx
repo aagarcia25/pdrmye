@@ -21,6 +21,7 @@ export const Reporteador = () => {
   const [openSlider, setOpenSlider] = useState(true);
   const [disableMes, setdisableMes] = useState(false);
   const [disableTrimestre, setdisableTrimestre] = useState(false);
+  const [disableSemestre, setdisableSemestre] = useState(false);
   const [checked, setChecked] = useState(true);
 
   const user: USUARIORESPONSE = JSON.parse(String(getUser()));
@@ -46,6 +47,10 @@ export const Reporteador = () => {
   // trimestre multi
   const [trimestreList, setTrimestreList] = useState<[]>([]);
   const [idtrimestre, setIdtrimestre] = useState<SelectValues[]>([]);
+
+  // semestral multi
+  const [semestralList, setSemestralList] = useState<[]>([]);
+  const [idSemestral, setIdSemestral] = useState<SelectValues[]>([]);
 
   // mes multifiltro
   const [meses, setMeses] = useState<[]>([]);
@@ -313,6 +318,9 @@ export const Reporteador = () => {
         setListReport(res.RESPONSE);
       } else if (tipo == 50) {
         setFondos(res.RESPONSE);
+      } else if (tipo == 52){
+        setSemestralList(res.RESPONSE);
+        setOpenSlider(false);
       }
     });
   };
@@ -334,8 +342,9 @@ export const Reporteador = () => {
         loadFilter(50, "e7179b31-2b0c-11ed-afdb-040300000000", "0");
       }else if (res.RESPONSE[0]?.Auxiliar == "CPH_00") {
         loadFilter(50, "0b2892c4-77ee-11ed-aad1-040300000000", "0");
+      }else if (res.RESPONSE[0]?.Auxiliar == "CPH_06") {
+        loadFilter(52,res.RESPONSE[0]?.id , "0");
       }
-
       setOpenSlider(false);
     });
   };
@@ -400,7 +409,8 @@ export const Reporteador = () => {
           sx={{ display: 'flex', justifyContent: 'center', direction: 'column', mt: '2vh', alignContent: 'space-around', height: '40vh' }}
         >
 
-          {reporte?.Auxiliar !== "CPH_05" ? <Grid
+          {reporte?.Auxiliar !== "CPH_05" &&
+           reporte?.Auxiliar !== "CPH_06" ? <Grid
             paddingTop={3}
             item
             xs={12}
@@ -471,8 +481,9 @@ export const Reporteador = () => {
               />
             </Grid>
           </Grid>
-
-          <Grid
+          {
+            reporte?.Auxiliar !== "CPH_06" ?
+                      <Grid
             paddingTop={3}
             item
             xs={12}
@@ -495,9 +506,43 @@ export const Reporteador = () => {
               label={""}
               disabled={disableTrimestre}
             />
-          </Grid>
+          </Grid> :
+          ''
+          }
 
-          <Grid
+          {
+            
+            reporte?.Auxiliar == "CPH_06" ?
+                      <Grid
+            paddingTop={3}
+            item
+            xs={12}
+            sm={12}
+            md={12}
+            lg={12}
+          >
+             <InputLabel
+          sx={{
+            // ...queries.medium_text,
+            display: "flex",
+          }}
+        >
+          Semestre a considerar:
+        </InputLabel>
+            <SelectFragMulti
+              options={semestralList}
+              onInputChange={handleFilterChangetrimeste}
+              placeholder={"Seleccione Semestre"}
+              label={""}
+              disabled={disableSemestre}
+            />
+          </Grid> :
+          ''
+          }
+
+          {
+            reporte?.Auxiliar !== "CPH_06" ?
+                      <Grid
             paddingTop={3}
             item
             xs={12}
@@ -521,6 +566,9 @@ export const Reporteador = () => {
               disabled={disableMes}
             />
           </Grid>
+            :''
+          }
+
 
           <Grid
             paddingTop={5}
