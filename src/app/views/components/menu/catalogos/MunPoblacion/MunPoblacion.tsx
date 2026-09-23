@@ -27,7 +27,6 @@ export const MunPoblacion = () => {
   const [tipoOperacion, setTipoOperacion] = useState(0);
   const [data, setData] = useState({});
   const [Poblacion, setPoblacion] = useState([]);
-  const [plantilla, setPlantilla] = useState("");
   const [slideropen, setslideropen] = useState(false);
   const [anios, setAnios] = useState<SelectValues[]>([]);
   const [eliminar, setEliminar] = useState<boolean>(false);
@@ -167,16 +166,46 @@ export const MunPoblacion = () => {
     });
   };
 
-  const handleUpload = (data: any) => {
+  const handleUpload = async (data: any) => {
     if (data.tipo == 1) {
+      const file: File | undefined = data.data?.target?.files?.[0];
+      if (!file || slideropen) return;
+      if (!filterAnio) {
+        AlertS.fire({ icon: "warning", title: "Seleccione el año", text: "Seleccione el año de los nuevos registros antes de cargar el Excel." });
+        return;
+      }
+      if (!/\.(xlsx|xls)$/i.test(file.name) || file.size > 10 * 1024 * 1024) {
+        AlertS.fire({ icon: "warning", title: "Archivo no válido", text: "Seleccione un archivo Excel (.xlsx o .xls) de hasta 10 MB." });
+        return;
+      }
+      const anioCarga = filterAnio;
       setslideropen(true);
-      let file = data.data?.target?.files?.[0] || "";
       const formData = new FormData();
-      formData.append("inputfile", file, "inputfile.xlxs");
+      formData.append("inputfile", file, file.name);
       formData.append("tipo", "MunPoblacion");
-      CatalogosServices.migraData(formData).then((res) => {
+      formData.append("ANIO", anioCarga);
+      formData.append("CHUSER", String(user.Id));
+      try {
+        const res = await CatalogosServices.migraData(formData);
+        if (!res?.SUCCESS) {
+          AlertS.fire({ icon: "error", title: "No se pudo cargar el archivo", text: res?.STRMESSAGE || "No fue posible completar la carga." });
+          return;
+        }
+        setSelectionModel([]);
+        Toast.fire({ icon: "success", title: `${res.RESPONSE.insertados} registros cargados para ${anioCarga}.` });
+        try {
+          const listado = await CatalogosServices.munpoblacion({ NUMOPERACION: 4, ANIO: anioCarga });
+          if (!listado?.SUCCESS) throw new Error("consulta");
+          setFilterAnio(anioCarga);
+          setPoblacion(listado.RESPONSE);
+        } catch {
+          AlertS.fire({ icon: "warning", title: "La carga se completó", text: "No se pudo actualizar la tabla. Vuelva a consultar el año seleccionado." });
+        }
+      } catch {
+        AlertS.fire({ icon: "error", title: "No se pudo confirmar la carga", text: "Revise su conexión y consulte los registros antes de volver a cargar el archivo." });
+      } finally {
         setslideropen(false);
-      });
+      }
     } else if (data.tipo == 2) {
       if (selectionModel.length !== 0) {
         Swal.fire({
@@ -228,11 +257,6 @@ export const MunPoblacion = () => {
     }
   };
 
-  const handleAgregar = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setslideropen(true);
-    let file = event?.target?.files?.[0] || "";
-  };
-
   const consulta = (data: any) => {
     CatalogosServices.munpoblacion(data).then((res) => {
       setPoblacion(res.RESPONSE);
@@ -255,18 +279,7 @@ export const MunPoblacion = () => {
     }
   };
 
-  const downloadplantilla = () => {
-    let data = {
-      NUMOPERACION: "MUNICIPIO_POBLACION",
-    };
-
-    CatalogosServices.descargaplantilla(data).then((res) => {
-      setPlantilla(res.RESPONSE);
-    });
-  };
-
   useEffect(() => {
-    downloadplantilla();
     setAnios(fanios());
 
     permisos.map((item: PERMISO) => {
@@ -294,17 +307,26 @@ export const MunPoblacion = () => {
       <NombreCatalogo controlInterno={"MUNPO"} />
 
       <ButtonsMunicipio
-        url={plantilla}
+        url={""}
+        mostrarDescarga={false}
+        mostrarAgregar={false}
+        mostrarCargaVisible
+        requerirPermisoCarga={false}
         handleUpload={handleUpload}
         controlInterno={"MUNPO"}
         options={anios}
         onInputChange={handleFilterChange}
         placeholder={"Seleccione Año"}
         label={""}
-        disabled={false}
+        disabled={slideropen}
         value={filterAnio}
         handleOpen={handleOpen}
       />
+      <p>
+        Seleccione el año y cargue un Excel con los encabezados clave, municipio y poblacion
+        en la primera fila de la primera hoja. Use la clave de estado y población entera, sin separadores de miles.
+        Al completar la carga, todos los registros anteriores de todos los años quedarán inactivos.
+      </p>
       <MUIXDataGridMun
         columns={columns}
         rows={Poblacion}

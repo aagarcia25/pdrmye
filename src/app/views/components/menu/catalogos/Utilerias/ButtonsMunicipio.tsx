@@ -6,6 +6,8 @@ import {
   Grid,
   FormControl,
   IconButton,
+  Button,
+  Alert,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import Select from "react-select";
@@ -29,6 +31,10 @@ const ButtonsMunicipio = ({
   label,
   disabled,
   handleOpen,
+  mostrarDescarga = true,
+  mostrarAgregar = true,
+  mostrarCargaVisible = false,
+  requerirPermisoCarga = true,
 }: {
   controlInterno: string;
   url: string;
@@ -40,12 +46,17 @@ const ButtonsMunicipio = ({
   label: string;
   disabled: boolean;
   handleOpen: Function;
+  mostrarDescarga?: boolean;
+  mostrarAgregar?: boolean;
+  mostrarCargaVisible?: boolean;
+  requerirPermisoCarga?: boolean;
 }) => {
   const permisos: PERMISO[] = JSON.parse(String(getPermisos()));
   const [cargarPlantilla, setCargarPlantilla] = useState<boolean>(false);
   const [descargarPlantilla, setDescargarPlantilla] = useState<boolean>(false);
   const [elimasiva, setelimasiva] = useState<boolean>(false);
   const [agregar, setAgregar] = useState<boolean>(false);
+  const puedeCargar = !requerirPermisoCarga || cargarPlantilla;
 
   const downloadplantilla = () => {
     let name = url;
@@ -89,7 +100,7 @@ const ButtonsMunicipio = ({
       >
         <Grid item xs={12} sm={6} md={6} lg={3}>
           <ToggleButtonGroup color="primary" exclusive aria-label="Platform">
-            {agregar ? (
+            {agregar && mostrarAgregar ? (
               <Tooltip title="Agregar">
                 <ToggleButton
                   className="enviar-mensaje"
@@ -103,7 +114,7 @@ const ButtonsMunicipio = ({
             ) : (
               ""
             )}
-            {descargarPlantilla ? (
+            {descargarPlantilla && mostrarDescarga ? (
               <Tooltip title={"Descargar Plantilla"}>
                 <ToggleButton
                   className="enviar-mensaje"
@@ -117,7 +128,7 @@ const ButtonsMunicipio = ({
             ) : (
               ""
             )}
-            {cargarPlantilla ? (
+            {puedeCargar && !mostrarCargaVisible ? (
               <Tooltip title="Cargar Plantilla">
                 <ToggleButton className="enviar-mensaje" value="check">
                   <IconButton
@@ -153,6 +164,25 @@ const ButtonsMunicipio = ({
               ""
             )}
           </ToggleButtonGroup>
+          {mostrarCargaVisible && (
+            <Button
+              component="label"
+              variant="contained"
+              startIcon={<DriveFolderUploadIcon />}
+              disabled={!puedeCargar || disabled}
+              sx={{ ml: 1 }}
+            >
+              Cargar Excel
+              <input
+                hidden
+                accept=".xlsx,.xls"
+                type="file"
+                value=""
+                disabled={!puedeCargar || disabled}
+                onChange={(v) => handleUpload({ tipo: 1, data: v })}
+              />
+            </Button>
+          )}
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
           {value == "na" ? (
@@ -193,6 +223,12 @@ const ButtonsMunicipio = ({
           )}
         </Grid>
       </Grid>
+      {mostrarCargaVisible && !puedeCargar && (
+        <Alert severity="info" sx={{ mt: 1 }}>
+          Su usuario no tiene habilitado el permiso Cargar Plantilla para Municipio Población.
+          Solicite que se habilite este permiso y vuelva a iniciar sesión para cargar el Excel.
+        </Alert>
+      )}
     </Box>
   );
 };
