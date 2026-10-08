@@ -154,30 +154,40 @@ export const MunTerritorio = () => {
     });
   };
 
-  const handleUpload = (data: any) => {
+  const handleUpload = async (data: any) => {
     if (data.tipo == 1) {
+      const file: File | undefined = data.data?.target?.files?.[0];
+      if (!file || slideropen) return;
+      if (!/\.(xlsx|xls)$/i.test(file.name) || file.size > 10 * 1024 * 1024) {
+        AlertS.fire({ icon: "warning", title: "Archivo no válido", text: "Seleccione un Excel (.xlsx o .xls) de hasta 10 MB." });
+        return;
+      }
       setslideropen(true);
-      let file = data.data?.target?.files?.[0] || "";
       const formData = new FormData();
-      formData.append("inputfile", file, "inputfile.xlsx");
+      formData.append("inputfile", file, file.name);
       formData.append("tipo", "MunTerritorio");
-      setslideropen(false);
-      CatalogosServices.migraData(formData).then((res) => {
-        setslideropen(false);
-        if (res.SUCCESS) {
-          Toast.fire({
-            icon: "success",
-            title: "Carga Exitosa!",
-          });
-          consulta();
-        } else {
-          AlertS.fire({
-            title: "¡Error!",
-            text: res.STRMESSAGE,
-            icon: "error",
-          });
+      formData.append("CHUSER", String(user.Id));
+      try {
+        const res = await CatalogosServices.migraData(formData);
+        if (!res?.SUCCESS) {
+          AlertS.fire({ icon: "error", title: "No se pudo cargar el archivo", text: res?.STRMESSAGE || "No fue posible completar la carga." });
+          return;
         }
-      });
+        setSelectionModel([]);
+
+        Toast.fire({ icon: "success", title: `${res.RESPONSE.insertados} registros cargados.` });
+        try {
+          const listado = await CatalogosServices.munterritorio({ NUMOPERACION: 4 });
+          if (!listado?.SUCCESS) throw new Error("consulta");
+          setTerritorio(listado.RESPONSE);
+        } catch {
+          AlertS.fire({ icon: "warning", title: "La carga se completó", text: "No se pudo actualizar la tabla. Vuelva a consultar los registros." });
+        }
+      } catch {
+        AlertS.fire({ icon: "error", title: "No se pudo confirmar la carga", text: "Revise su conexión y consulte los registros antes de volver a cargar el archivo." });
+      } finally {
+        setslideropen(false);
+      }
     } else if (data.tipo == 2) {
       if (selectionModel.length !== 0) {
         Swal.fire({
@@ -272,15 +282,25 @@ export const MunTerritorio = () => {
         url={"MUNICIPIO_TERRITORIO.xlsx"}
         handleUpload={handleUpload}
         controlInterno={"MUNTERR"}
+        mostrarCargaVisible
+        requerirPermisoCarga={false}
+        mostrarAgregar={false}
+        mostrarDescarga={false}
         value={"na"}
         options={[]}
         onInputChange={handleUpload}
         placeholder={""}
         label={""}
-        disabled={true}
+        disabled={slideropen}
         handleOpen={handleOpen}
       />
 
+      <p>
+        Cargue un Excel con clave y kilometros en la segunda fila. clave corresponde a ClaveEstado;
+        kilometros es la superficie en km², con hasta dos decimales. Puede incluir municipio u otras
+        columnas adicionales. Al completar la carga, los registros anteriores quedarán inactivos
+        y la tabla mostrará únicamente los nuevos registros activos.
+      </p>
       <MUIXDataGridMun
         columns={columns}
         rows={territorio}

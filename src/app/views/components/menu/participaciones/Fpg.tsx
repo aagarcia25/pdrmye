@@ -4,6 +4,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import InsightsIcon from "@mui/icons-material/Insights";
 import {
   Box,
+  Button,
   Checkbox,
   FormControlLabel,
   Grid,
@@ -42,6 +43,9 @@ import AssessmentIcon from "@mui/icons-material/Assessment";
 import axios from "axios";
 import { base64ToArrayBuffer } from "../../../../helpers/Files";
 export const Fpg = () => {
+  const location = useLocation();
+  const [regresandoCHP, setRegresandoCHP] = useState(false);
+  const regresoEnCurso = React.useRef(false);
   const [slideropen, setslideropen] = useState(false);
   const [data, setdata] = useState([]);
   const [dataanual, setdataanual] = useState([]);
@@ -66,6 +70,41 @@ export const Fpg = () => {
   const [nombreMenu, setNombreMenu] = useState("");
   const [sumaTotal, setSumaTotal] = useState<Number>();
   const user: USUARIORESPONSE = JSON.parse(String(getUser()));
+  const puedeRegresarCHP = location.pathname.startsWith('/inicio/participaciones/') &&
+    (user?.Id === '74f8e43f-7266-11ed-a880-040300000000'||user?.Id==="30adc962-7109-11ed-a880-040300000000");
+
+  const regresarCHP = async (registro: any) => {
+    if (!puedeRegresarCHP || regresoEnCurso.current) return;
+    regresoEnCurso.current = true;
+    setRegresandoCHP(true);
+    try {
+      const confirmacion = await Swal.fire({
+        icon: 'warning', title: 'Regresar a CHP',
+        text: `Se eliminarán PA y PADetalle relacionados con ${registro.Descripcion || registro.Clave}, ${registro.Mes || ''} ${registro.Anio}. El cálculo regresará a fase 3.`,
+        showCancelButton: true, confirmButtonText: 'Regresar a CHP', cancelButtonText: 'Cancelar',
+      });
+      if (!confirmacion.isConfirmed) return;
+      const res = await calculosServices.regresarFondoCHP({ IDCALCULO: registro.id, CHUSER: user.Id });
+      if (!res?.SUCCESS) {
+        await AlertS.fire({ icon: 'error', title: 'No se pudo regresar a CHP', text: res?.STRMESSAGE || 'No se completó la operación.' });
+        return;
+      }
+      Toast.fire({ icon: 'success', title: 'El cálculo regresó a CHP.' });
+      try {
+        const listado = await calculosServices.calculosInfo({ FONDO: registro.Clave });
+        if (!listado?.SUCCESS) throw new Error('consulta');
+        setdata(listado.RESPONSE);
+        setSumaTotal(listado.RESPONSE.reduce((total: number, fila: FPG) => total + Number(fila.Total), 0));
+      } catch {
+        await AlertS.fire({ icon: 'warning', title: 'El cálculo regresó a CHP', text: 'No se pudo actualizar la tabla. Recargue la pantalla.' });
+      }
+    } catch {
+      await AlertS.fire({ icon: 'error', title: 'No se pudo confirmar el resultado', text: 'Consulte el estado del cálculo antes de volver a intentarlo.' });
+    } finally {
+      regresoEnCurso.current = false;
+      setRegresandoCHP(false);
+    }
+  };
   const [checked, setChecked] = useState(false);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
@@ -201,10 +240,16 @@ export const Fpg = () => {
       headerName: "Acciones",
       description: "Acciones",
       sortable: false,
-      width: 150,
+      width: puedeRegresarCHP ? 370 : 150,
       renderCell: (v) => {
         return (
           <Box>
+            {puedeRegresarCHP && (
+              <Button size="small" variant="outlined" disabled={regresandoCHP}
+                onClick={() => regresarCHP(v.row)}>
+                Regresar a CHP
+              </Button>
+            )}
             {String(v.row.Clave) == "FGP" ||
               String(v.row.Clave) == "FFM70" ||
               String(v.row.Clave) == "FFM30" ||

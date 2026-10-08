@@ -167,16 +167,40 @@ export const MunPobreza = () => {
     setSelectionModel(v);
   };
 
-  const handleUpload = (data: any) => {
+  const handleUpload = async (data: any) => {
     if (data.tipo == 1) {
+      const file: File | undefined = data.data?.target?.files?.[0];
+      if (!file || slideropen) return;
+      if (!/\.(xlsx|xls)$/i.test(file.name) || file.size > 10 * 1024 * 1024) {
+        AlertS.fire({ icon: "warning", title: "Archivo no válido", text: "Seleccione un Excel (.xlsx o .xls) de hasta 10 MB." });
+        return;
+      }
       setslideropen(true);
-      let file = data.data?.target?.files?.[0] || "";
       const formData = new FormData();
-      formData.append("inputfile", file, "inputfile.xlxs");
+      formData.append("inputfile", file, file.name);
       formData.append("tipo", "MunPobreza");
-      CatalogosServices.migraData(formData).then((res) => {
+      formData.append("CHUSER", String(user.Id));
+      try {
+        const res = await CatalogosServices.migraData(formData);
+        if (!res?.SUCCESS) {
+          AlertS.fire({ icon: "error", title: "No se pudo cargar el archivo", text: res?.STRMESSAGE || "No fue posible completar la carga." });
+          return;
+        }
+        setSelectionModel([]);
+        setFilterAnio("");
+        Toast.fire({ icon: "success", title: `${res.RESPONSE.insertados} registros cargados.` });
+        try {
+          const listado = await CatalogosServices.munpobreza({ NUMOPERACION: 4, ANIO: "" });
+          if (!listado?.SUCCESS) throw new Error("consulta");
+          setDataMunPobreza(listado.RESPONSE);
+        } catch {
+          AlertS.fire({ icon: "warning", title: "La carga se completó", text: "No se pudo actualizar la tabla. Vuelva a consultar los registros." });
+        }
+      } catch {
+        AlertS.fire({ icon: "error", title: "No se pudo confirmar la carga", text: "Revise su conexión y consulte los registros antes de volver a cargar el archivo." });
+      } finally {
         setslideropen(false);
-      });
+      }
     } else if (data.tipo == 2) {
       if (selectionModel.length !== 0) {
         Swal.fire({
@@ -279,14 +303,23 @@ export const MunPobreza = () => {
         url={"MUNICIPIO_POBREZA.xlsx"}
         handleUpload={handleUpload}
         controlInterno={"MUNPOBREZA"}
+        mostrarCargaVisible
+        requerirPermisoCarga={false}
         options={anios}
         onInputChange={handleFilterChange}
         placeholder={"Seleccione Año"}
         label={""}
-        disabled={false}
-        value={""}
+        disabled={slideropen}
+        value={filterAnio}
         handleOpen={handleOpen}
       />
+
+      <p>
+        Cargue un Excel con clave, anio, total y carencia_promedio en la segunda fila.
+        clave corresponde a ClaveEstado; puede incluir columnas adicionales como municipio, que se ignorarán.
+        El año se toma del archivo. El selector solo filtra la tabla.
+        Los nuevos registros se agregarán y los registros anteriores permanecerán activos.
+      </p>
 
       <MUIXDataGridMun
         columns={columns}

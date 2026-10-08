@@ -1,6 +1,9 @@
 import { post } from "./apiService";
 
 export class calculosServices {
+  public static async regresarFondoCHP(data: any) {
+    return await post("regresarFondoCHP", data);
+  }
   public static async calculosInfo(data: any) {
     return await post("calculosInfo", data);
   }
